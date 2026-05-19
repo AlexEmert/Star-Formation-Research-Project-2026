@@ -1,0 +1,70 @@
+---
+title: "Cat Boost Shenanigans"
+execute:
+ jupyter: math4025
+ cache: true
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+from plotnine import *
+from pyhere import here
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from catboost import CatBoostRegressor
+from sklearn.metrics import root_mean_squared_error, r2_score
+```
+
+```{python}
+meta = pd.read_csv(here("data", "MIRION_meta_all_1.csv"), encoding='utf-8-sig')
+
+meta=meta.set_index("YB")
+
+spec_raw = pd.read_csv(here("data", "MIRION_spec_1.csv"), index_col=0, encoding='utf-8-sig')
+
+spec = spec_raw.T.copy()
+spec.index.name = "YB"
+spec.columns = ["F8", "F12", "F24", "F70", "F160", "F250", "F350", "F500", "F870", "F1100"]
+spec.index = pd.to_numeric(spec.index)
+
+mirion = meta.join(spec, how="inner")
+mirion.head()
+density_only_fluxes = mirion.copy().drop(columns=['T_BOL', 'LRATIO', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM'])
+density_only_fluxes_X = density_only_fluxes.drop(columns=['SURF_DENS'])
+density_only_fluxes_y = density_only_fluxes['SURF_DENS']
+```
+
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(
+    density_only_fluxes_X,
+    density_only_fluxes_y,
+    test_size = .25,
+    random_state=4025
+)
+```
+
+```{python}
+cat_model = CatBoostRegressor(
+    iterations=500, 
+    learning_rate=0.1, 
+    depth=6,
+    task_type="GPU"
+)
+cat_model.fit(X_train, y_train)
+```
+
+```{python}
+y_preds = cat_model.predict(X_test)
+cat_model_rmse = root_mean_squared_error(y_test, y_preds)
+cat_model_r2 = r2_score(y_test, y_preds)
+print(cat_model_rmse, cat_model_r2)
+```
+
+```{python}
+(
+    ggplot(density_only_fluxes, aes(x='SURF_DENS')) +
+    geom_histogram()
+)
+print(density_only_fluxes['SURF_DENS'].mean())
+```

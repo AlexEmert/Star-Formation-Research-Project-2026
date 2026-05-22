@@ -1,0 +1,52 @@
+---
+title: EDA
+execute:
+ jupyter: math4025
+---
+
+ ```{python}
+import pandas as pd
+import numpy as np
+from plotnine import *
+from pyhere import here
+from sklearn.base import BaseEstimator, TransformerMixin
+import itertools
+```
+
+```{python}
+## Contains response data
+meta = pd.read_csv(here("data", "MIRION_meta_all_1.csv"), encoding='utf-8-sig')
+
+meta=meta.set_index("YB")
+
+## Contains flux data
+spec_raw = pd.read_csv(here("data", "MIRION_spec_1.csv"), index_col=0, encoding='utf-8-sig')
+
+spec = spec_raw.T.copy()
+spec.index.name = "YB"
+spec.columns = ["F8", "F12", "F24", "F70", "F160", "F250", "F350", "F500", "F870", "F1100"]
+spec.index = pd.to_numeric(spec.index)
+
+mirion = meta.join(spec, how="inner")
+mirion.head()
+```
+
+```{python}
+for top, bottom in itertools.permutations(["F8", "F12", "F24", "F70", "F160", "F250", "F350", "F500", "F870", "F1100"], 2):
+    new_col_name = f"{top}_over_{bottom}"
+    mirion[new_col_name] = mirion[top] / mirion[bottom]
+mirion.head()
+```
+
+```{python}
+print(mirion.columns.to_list())
+```
+
+
+```{python}
+(
+    ggplot(mirion, aes(x='F160_over_F24', y='TEMP')) +
+    geom_point()
+    # scale_x_log10()
+)
+```

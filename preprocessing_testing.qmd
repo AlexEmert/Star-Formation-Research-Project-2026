@@ -19,6 +19,7 @@ from sklearn.impute import SimpleImputer
 from ratios import RatioGenerator
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, KFold, train_test_split, RepeatedKFold
 from sklearn.base import BaseEstimator, TransformerMixin
+from xgboost import XGBRegressor
 ```
 
 
@@ -54,29 +55,36 @@ big_flux_cols = ["F160", "F250", "F350", "F500", "F870", "F1100"]
 dens_all_fluxes = mirion.copy().drop(columns=['T_BOL', 'LRATIO', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM'])
 dens_small_fluxes = mirion.copy().drop(columns=['T_BOL', 'LRATIO', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM']+big_flux_cols)
 
+print(dens_small_fluxes.head())
+
     ## Bolometric Temp
 tbol_all_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS'])
 tbol_small_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS']+big_flux_cols)
 
+
     ## Luminosity Ratio (bolometric luminosity/submillimeter luminosity)
-lm_all_fluxes = mirion.copy().drop(columns=[ 'T_BOL', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS'])
-lm_small_fluxes = mirion.copy().drop(columns=[ 'T_BOL', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS']+big_flux_cols)  
+lm_all_fluxes = mirion.copy().drop(columns=[ 'T_BOL', 'TEMP', 'LRATIO', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS'])
+lm_small_fluxes = mirion.copy().drop(columns=[ 'T_BOL', 'TEMP', 'LRATIO', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS']+big_flux_cols)  
 
     ## Temp
 temp_all_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS'])
 temp_small_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS']+big_flux_cols) 
 
+
     ## Bolometric Luminosity
 lbol_all_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'T_BOL', 'MASS', 'DIAM', 'SURF_DENS'])
 lbol_small_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'T_BOL', 'MASS', 'DIAM', 'SURF_DENS']+big_flux_cols) 
+
 
     ## Diameter
 diam_all_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'T_BOL', 'L_BOL', 'MASS', 'SURF_DENS'])
 diam_small_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'T_BOL', 'L_BOL', 'MASS', 'SURF_DENS']+big_flux_cols) 
 
+
     ## Mass
 mass_all_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'T_BOL', 'L_BOL', 'DIAM', 'SURF_DENS'])
 mass_small_fluxes = mirion.copy().drop(columns=[ 'LRATIO', 'TEMP', 'LM', 'T_BOL', 'L_BOL', 'DIAM', 'SURF_DENS']+big_flux_cols) 
+
 ```
 
 Fluxes with negative values: 
@@ -88,27 +96,34 @@ Fluxes with negative values:
 # Next, we'll make some pipelines
 
 ```{python}
-simple_preproc_small_fluxes = ColumnTransformer([
-    ('neg_to_nan', FunctionTransformer(func=lambda x: x.mask(x < 0)), small_flux_cols),
-    ('impute', SimpleImputer(strategy='median', missing_values=np.nan), make_column_selector()),
-    ('ratio', RatioGenerator, small_flux_cols)
-], remainder = 'passthrough')
+# simple_preproc_small_fluxes = ColumnTransformer([
+#     ('neg_to_nan', FunctionTransformer(func=lambda x: x.mask(x < 0)), small_flux_cols),
+#     ('impute', SimpleImputer(strategy='median', missing_values=np.nan), make_column_selector()),
+#     ('ratio', RatioGenerator, small_flux_cols)
+# ], remainder = 'passthrough')
 
-simple_preproc_all_fluxes = ColumnTransformer([
-    ('neg_to_nan', FunctionTransformer(func=lambda x: x.mask(x < 0)), small_flux_cols),
-    ('impute', SimpleImputer(strategy='median', missing_values=np.nan)),
-    ('ratio', RatioGenerator, flux_cols)
-], remainder = 'passthrough')
+# simple_preproc_all_fluxes = ColumnTransformer([
+#     ('neg_to_nan', FunctionTransformer(func=lambda x: x.mask(x < 0)), small_flux_cols),
+#     ('impute', SimpleImputer(strategy='median', missing_values=np.nan)),
+#     ('ratio', RatioGenerator, flux_cols)
+# ], remainder = 'passthrough')
 
-cv = RepeatedKFold(n_repeats=10, n_splits=5, random_state=4025)
+native_missing_pipe = Pipeline([
+    ('ratio', RatioGenerator(cols=small_flux_cols)),
+    ('flux', ColumnTransformer([
+        ('scale', StandardScaler(), small_flux_cols)
+    ], remainder = 'passthrough'))
+])
+
+cv = RepeatedKFold(n_repeats=1, n_splits=5, random_state=4025)
 ```
 
 # Testing some models
 
 First we'll try surface density
 ```{python}
-X_dens = dens_all_fluxes.drop(columns=['SURF_DENS'])
-y_dens = dens_all_fluxes['SURF_DENS']
+X_dens = dens_small_fluxes.drop(columns=['SURF_DENS'])
+y_dens = dens_small_fluxes['SURF_DENS']
 X_train_surf, X_test_surf, y_train_surf, y_test_surf = train_test_split(
     X_dens, y_dens,
     test_size = .25,
@@ -117,20 +132,20 @@ X_train_surf, X_test_surf, y_train_surf, y_test_surf = train_test_split(
 ```
 
 ```{python}
-rf_pipe = Pipeline([
-    ('preproc', simple_preproc_all_fluxes),
-    ('model', RandomForestRegressor(random_state=4025))
+xg_pipe = Pipeline([
+    ('preproc', native_missing_pipe),
+    ('model', XGBRegressor(random_state=4025))
 ])
 
-rf_grid = {
+xg_grid = {
     'model__max_features': [1, 5, 10, 'sqrt', 'log2', None],
     'model__n_estimators': [100, 300, 500],
     'model__max_depth': [None, 10, 50]
 }
 
-rf_search = GridSearchCV(
-    rf_pipe,
-    rf_grid,
+xg_search = GridSearchCV(
+    xg_pipe,
+    xg_grid,
     scoring = 'neg_mean_squared_error',
     n_jobs = -1,
     cv = cv
@@ -138,5 +153,9 @@ rf_search = GridSearchCV(
 ```
 
 ```{python}
-rf_search.fit(X_train_surf, y_train_surf)
+xg_search.fit(X_train_surf, y_train_surf)
+```
+
+```{python}
+print(xg_search.best_score_)
 ```

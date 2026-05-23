@@ -45,8 +45,9 @@ print(mirion.columns.to_list())
 
 ```{python}
 (
-    ggplot(mirion, aes(x='F160_over_F24', y='TEMP')) +
+    ggplot(mirion, aes(x='F70_over_F160', y='TEMP')) +
     geom_point()
-    # scale_x_log10()
+    + scale_x_continuous(limits=(0, 10))
+    # + scale_x_log10()
 )
 ```

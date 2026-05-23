@@ -1,0 +1,80 @@
+---
+title: Data Cleaning
+execute:
+ jupyter: math4025
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+from pyhere import here
+```
+
+```{python}
+phot_colspecs = [
+    (0, 4),    # YB
+    (5, 14),   # GLON
+    (15, 23),  # GLAT
+    (24, 31),  # MWPR
+    (60, 68),  # F8
+    (69, 77),  # e_F8
+    (78, 85),  # F12
+    (86, 94),  # e_F12
+    (95, 102), # F24
+    (103, 110),# e_F24
+    (111, 120),# F70
+    (121, 130),# e_F70
+    (131, 133),# N8
+    (134, 136),# N12
+    (137, 139),# N24
+    (140, 141),# N70
+    (142, 146),# f_SAT
+    (147, 148),# f_MULTI
+    (149, 153),# f_NOSRC
+    (154, 158),# f_PCONF
+    (159, 160),# f_CEXT
+]
+phot_colnames = [
+    "YB", "GLON", "GLAT", "MWPR",
+    "F8", "e_F8", "F12", "e_F12", "F24", "e_F24", "F70", "e_F70",
+    "N8", "N12", "N24", "N70",
+    "f_SAT", "f_MULTI", "f_NOSRC", "f_PCONF", "f_CEXT"
+]
+phot = pd.read_fwf(
+    here("data", "MRT-phot.txt"),
+    colspecs=phot_colspecs,
+    names=phot_colnames,
+    skiprows=38,
+    encoding='utf-8-sig',
+    dtype={'f_SAT': str, 'f_PCONF': str, 'f_NOSRC': str},
+    na_values=[999.0000]
+)
+phot.head()
+```
+
+```{python}
+phot['f_SAT_F8'] = phot['f_SAT'].str[0]
+phot['f_SAT_F12'] = phot['f_SAT'].str[1]
+phot['f_SAT_F24'] = phot['f_SAT'].str[2]
+phot['f_SAT_F70'] = phot['f_SAT'].str[3]
+phot['f_NOSRC_F8'] = phot['f_NOSRC'].str[0]
+phot['f_NOSRC_F12'] = phot['f_NOSRC'].str[1]
+phot['f_NOSRC_F24'] = phot['f_NOSRC'].str[2]
+phot['f_NOSRC_F70'] = phot['f_NOSRC'].str[3]
+phot['f_PCONF_F8'] = phot['f_PCONF'].str[0]
+phot['f_PCONF_F12'] = phot['f_PCONF'].str[1]
+phot['f_PCONF_F24'] = phot['f_PCONF'].str[2]
+phot['f_PCONF_F70'] = phot['f_PCONF'].str[3]
+phot.head()
+```
+
+```{python}
+phot['F70'].isna().sum()
+```
+
+```{python}
+for row in phot:
+    if row['f_SAT_F70'] is '1':
+        row['F70'] = np.nan
+phot['F70'].isna().sum()
+```

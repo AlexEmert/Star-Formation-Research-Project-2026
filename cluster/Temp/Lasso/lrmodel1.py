@@ -95,16 +95,15 @@ lr_no_poly = Pipeline([
 ])
 
 lr_no_poly_score = cross_val_score(
-    lr_no_poly, 
-    X_train, 
-    y_train, 
+    estimator=lr_no_poly, 
+    X=X_train, 
+    y=y_train, 
     cv=5, 
-    scoring='neg_mean_squared_error',
-    error_score='raise'
+    scoring='neg_mean_squared_error'
 )
 
-lr_no_poly_rmse = np.sqrt(-lr_no_poly_score).mean()
-print(lr_no_poly_rmse)
+# lr_no_poly_rmse = np.sqrt(-lr_no_poly_score).mean()
+# print(lr_no_poly_rmse)
 
 
 ## Linear Regression with polynomial term

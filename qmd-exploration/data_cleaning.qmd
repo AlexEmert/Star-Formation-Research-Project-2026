@@ -117,7 +117,7 @@ print(phot.columns.tolist())
 ```
 
 ```{python}
-phot.to_csv('../data/MIRION_phot_cleaned.csv', index=False)
+phot.to_csv('../data/cleaned/MIRION_phot_cleaned.csv', index=False)
 ```
 
 ```{python}
@@ -140,5 +140,5 @@ print(phot_extra_cleaned.columns.tolist())
 ```
 
 ```{python}
-phot_extra_cleaned.to_csv('../data/MIRION_phot_fluxes.csv', index=False)
+phot_extra_cleaned.to_csv('../data/cleaned/MIRION_phot_fluxes.csv', index=False)
 ```

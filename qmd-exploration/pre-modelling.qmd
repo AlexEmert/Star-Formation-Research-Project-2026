@@ -1,0 +1,60 @@
+---
+title: Organizing Data
+execute:
+ jupyter: math4025
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+from plotnine import *
+from pyhere import here
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, FunctionTransformer
+from sklearn.compose import ColumnTransformer, make_column_selector
+from sklearn.impute import SimpleImputer
+from ratios import RatioGenerator
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, KFold, train_test_split, RepeatedKFold
+from sklearn.base import BaseEstimator, TransformerMixin
+from xgboost import XGBRegressor
+```
+
+```{python}
+meta = pd.read_csv(here("data", "MIRION_meta_all_1.csv"), encoding='utf-8-sig')
+
+meta=meta.set_index("YB")
+
+phot = pd.read_csv(here("data/cleaned", "MIRION_phot_fluxes.csv"))
+phot = phot.set_index("YB")
+
+mirion_small = meta.join(phot, how="inner")
+```
+
+```{python}
+## Contains flux data
+spec_raw = pd.read_csv(here("data", "MIRION_spec_1.csv"), index_col=0, encoding='utf-8-sig')
+
+spec = spec_raw.T.copy()
+spec.index.name = "YB"
+spec.columns = ["F8", "F12", "F24", "F70", "F160", "F250", "F350", "F500", "F870", "F1100"]
+spec.index = pd.to_numeric(spec.index)
+spec = spec.drop(columns = ["F8", "F12", "F24", "F70"])
+
+mirion_big = mirion_small.join(spec, how="inner")
+```
+
+```{python}
+print(len(mirion_big))
+print(len(mirion_small))
+```
+
+```{python}
+# print(mirion_big.head())
+print(mirion_small.head())
+```
+
+```{python}
+mirion_big.to_csv('../data/cleaned/MIRION_cleaned_all_fluxes.csv')
+mirion_small.to_csv('../data/cleaned/MIRION_cleaned_low_fluxes.csv')
+````

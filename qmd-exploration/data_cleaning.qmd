@@ -53,28 +53,92 @@ phot.head()
 ```
 
 ```{python}
-phot['f_SAT_F8'] = phot['f_SAT'].str[0]
-phot['f_SAT_F12'] = phot['f_SAT'].str[1]
-phot['f_SAT_F24'] = phot['f_SAT'].str[2]
-phot['f_SAT_F70'] = phot['f_SAT'].str[3]
-phot['f_NOSRC_F8'] = phot['f_NOSRC'].str[0]
-phot['f_NOSRC_F12'] = phot['f_NOSRC'].str[1]
-phot['f_NOSRC_F24'] = phot['f_NOSRC'].str[2]
-phot['f_NOSRC_F70'] = phot['f_NOSRC'].str[3]
-phot['f_PCONF_F8'] = phot['f_PCONF'].str[0]
-phot['f_PCONF_F12'] = phot['f_PCONF'].str[1]
-phot['f_PCONF_F24'] = phot['f_PCONF'].str[2]
-phot['f_PCONF_F70'] = phot['f_PCONF'].str[3]
+phot['f_SAT_F8'] = phot['f_SAT'].str[0].astype(int)
+phot['f_SAT_F12'] = phot['f_SAT'].str[1].astype(int)
+phot['f_SAT_F24'] = phot['f_SAT'].str[2].astype(int)
+phot['f_SAT_F70'] = phot['f_SAT'].str[3].astype(int)
+phot['f_NOSRC_F8'] = phot['f_NOSRC'].str[0].astype(int)
+phot['f_NOSRC_F12'] = phot['f_NOSRC'].str[1].astype(int)
+phot['f_NOSRC_F24'] = phot['f_NOSRC'].str[2].astype(int)
+phot['f_NOSRC_F70'] = phot['f_NOSRC'].str[3].astype(int)
+phot['f_PCONF_F8'] = phot['f_PCONF'].str[0].astype(int)
+phot['f_PCONF_F12'] = phot['f_PCONF'].str[1].astype(int)
+phot['f_PCONF_F24'] = phot['f_PCONF'].str[2].astype(int)
+phot['f_PCONF_F70'] = phot['f_PCONF'].str[3].astype(int)
 phot.head()
 ```
 
 ```{python}
-phot['F70'].isna().sum()
+phot['F8'].describe()
 ```
 
 ```{python}
-for row in phot:
-    if row['f_SAT_F70'] is '1':
-        row['F70'] = np.nan
-phot['F70'].isna().sum()
+phot.loc[phot['f_SAT_F8'] == 1, 'F8'] = np.nan
+phot.loc[phot['f_SAT_F12'] == 1, 'F12'] = np.nan
+phot.loc[phot['f_SAT_F24'] == 1, 'F24'] = np.nan
+phot.loc[phot['f_SAT_F70'] == 1, 'F70'] = np.nan
+phot.loc[phot['f_NOSRC_F8'] == 1, 'F8'] = np.nan
+phot.loc[phot['f_NOSRC_F12'] == 1, 'F12'] = np.nan
+phot.loc[phot['f_NOSRC_F24'] == 1, 'F24'] = np.nan
+phot.loc[phot['f_NOSRC_F70'] == 1, 'F70'] = np.nan
+phot.loc[phot['f_PCONF_F8'] == 1, 'F8'] = np.nan
+phot.loc[phot['f_PCONF_F12'] == 1, 'F12'] = np.nan
+phot.loc[phot['f_PCONF_F24'] == 1, 'F24'] = np.nan
+phot.loc[phot['f_PCONF_F70'] == 1, 'F70'] = np.nan
+phot.loc[559, 'F12'] = np.nan
+phot.loc[2318, 'F12'] = np.nan
+
+phot['F12'].describe()
+```
+
+```{python}
+phot = phot.drop(columns=[
+    'f_SAT_F8',
+    'f_SAT_F12',
+    'f_SAT_F24',
+    'f_SAT_F70',
+    'f_NOSRC_F8',
+    'f_NOSRC_F12',
+    'f_NOSRC_F24',
+    'f_NOSRC_F70',
+    'f_PCONF_F8',
+    'f_PCONF_F12',
+    'f_PCONF_F24',
+    'f_PCONF_F70',
+    'GLON',
+    'GLAT',
+    'MWPR'
+    ]
+)
+```
+
+```{python}
+print(phot.columns.tolist())
+```
+
+```{python}
+phot.to_csv('../data/MIRION_phot_cleaned.csv', index=False)
+```
+
+```{python}
+phot_extra_cleaned = phot.drop(columns = [
+    'e_F8',
+    'e_F12',
+    'e_F24',
+    'e_F70',
+    'N8', 
+    'N12', 
+    'N24', 
+    'N70', 
+    'f_SAT', 
+    'f_MULTI', 
+    'f_NOSRC', 
+    'f_PCONF', 
+    'f_CEXT'
+])
+print(phot_extra_cleaned.columns.tolist())
+```
+
+```{python}
+phot_extra_cleaned.to_csv('../data/MIRION_phot_fluxes.csv', index=False)
 ```

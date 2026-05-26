@@ -1,3 +1,4 @@
+Temp:
 Simple Linear Regression RMSE: 4.446760488481426
 Linear Regression with polynomials RMSE: 4.0836451805387135
 LASSO best rmse: 4.078375999069775

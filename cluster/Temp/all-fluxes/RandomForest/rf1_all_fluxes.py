@@ -1,20 +1,18 @@
+from sklearn.ensemble import RandomForestRegressor
 import pandas as pd
 import numpy as np
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, PolynomialFeatures, FunctionTransformer
+from sklearn.preprocessing import StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
 import itertools
 from pyhere import here
-from sklearn.linear_model import LinearRegression, LassoCV
-from sklearn.model_selection import cross_val_score
 from sklearn import set_config
 
 # Force all scikit-learn transformers to output pandas DataFrames
 set_config(transform_output="pandas")
-
 
 class RatioGenerator(BaseEstimator, TransformerMixin):
     '''
@@ -38,7 +36,7 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         
         for top, bottom in itertools.permutations(self.cols, 2):
             new_col_name = f"{top}_over_{bottom}"
-            X_out[new_col_name] = X_out[top] / X_out[bottom]
+            X_out[new_col_name] = X_out[top] / (X_out[bottom] + 1e-8 ) #add epsilon to reduce division by 0 errors
             
         return X_out
 
@@ -63,7 +61,7 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         return np.array(input_features + ratio_features, dtype=object)
 
 
-phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_low_fluxes.csv"))
+phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_all_fluxes.csv"))
 phot = phot.drop(columns=['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB'])
 
 phot_X = phot.drop(columns=['TEMP'])
@@ -76,7 +74,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=2026
 )
 
-flux_cols = ['F8', 'F12', 'F24', 'F70']
+flux_cols = ['F8', 'F12', 'F24', 'F70', 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100']
 
 preproc1 = Pipeline([
     ('impute', SimpleImputer(strategy='median')),
@@ -86,56 +84,18 @@ preproc1 = Pipeline([
 ])
 
 preproc2 = Pipeline([
-    ('impute', SimpleImputer(strategy='median')),
+    ('impute', SimpleImputer(strategy='median', add_indicator=True)),
     ('ratio', RatioGenerator(cols=flux_cols)),
-    ('impute_check', SimpleImputer(strategy='median')),
-    ('polynomials', ColumnTransformer([('polynomial', PolynomialFeatures(degree=2), flux_cols)])),
-    ('scale', StandardScaler())
+    ('impute_check', SimpleImputer(strategy='median'))
 ])
 
-## setting up combinations of linear regression, lasso, and preprocessing
-
-lr_no_poly = Pipeline([
+rf_pipe_no_indicator = Pipeline([
     ('preproc', preproc1),
-    ('model', LinearRegression())
+    ('model', RandomForestRegressor(random_state=2026))
 ])
 
-lr_no_poly_score = cross_val_score(
-    estimator=lr_no_poly, 
-    X=X_train, 
-    y=y_train, 
-    cv=5,
-    scoring='neg_mean_squared_error'
-)
-
-lr_no_poly_rmse = np.sqrt(-lr_no_poly_score).mean()
-
-# Linear Regression with polynomial term
-lr_with_poly = Pipeline([
+rf_pipe_indicator = Pipeline([
     ('preproc', preproc2),
-    ('model', LinearRegression())
+    ('model', RandomForestRegressor(random_state=2026))
 ])
 
-lr_with_poly_score = cross_val_score(lr_with_poly, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
-lr_with_poly_rmse = np.sqrt(-lr_with_poly_score).mean()
-
-
-# Lasso pipeline to use with LassoCV
-lasso_pipe = Pipeline([
-    ('preproc', preproc2),
-    ('model', LassoCV(cv=5, n_jobs=-1))
-])
-
-lasso_pipe.fit(X_train, y_train)
-best_mse = lasso_pipe.named_steps['model'].mse_path_[lasso_pipe.named_steps['model'].alphas_ == lasso_pipe.named_steps['model'].alpha_].mean()
-lasso_best_rmse = np.sqrt(best_mse)
-
-feature_names = lasso_pipe.named_steps['preproc'].get_feature_names_out()
-coef_df = pd.DataFrame({'feature': feature_names, 'coef': lasso_pipe.named_steps['model'].coef_})
-selected = coef_df[coef_df['coef'] != 0]
-
-
-print(f"Simple Linear Regression RMSE: {lr_no_poly_rmse}")
-print(f"Linear Regression with polynomials RMSE: {lr_with_poly_rmse}")
-print(f"LASSO best rmse: {lasso_best_rmse}")
-print(selected.head(10))

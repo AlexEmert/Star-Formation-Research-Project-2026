@@ -1,0 +1,14 @@
+Simple Linear Regression RMSE: 4.446760488481426
+Linear Regression with polynomials RMSE: 4.0836451805387135
+LASSO best rmse: 4.078375999069775
+                feature      coef
+1        polynomial__F8  0.927094
+2       polynomial__F12  1.303708
+3       polynomial__F24  1.306307
+4       polynomial__F70  2.688129
+5      polynomial__F8^2 -0.312540
+6    polynomial__F8 F12 -0.633918
+7    polynomial__F8 F24 -0.270939
+8    polynomial__F8 F70 -0.311236
+9     polynomial__F12^2 -0.516976
+10  polynomial__F12 F24 -0.698301

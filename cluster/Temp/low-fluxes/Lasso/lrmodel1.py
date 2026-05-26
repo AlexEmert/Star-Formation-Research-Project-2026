@@ -10,6 +10,10 @@ import itertools
 from pyhere import here
 from sklearn.linear_model import LinearRegression, LassoCV
 from sklearn.model_selection import cross_val_score
+from sklearn import set_config
+
+# Force all scikit-learn transformers to output pandas DataFrames
+set_config(transform_output="pandas")
 
 
 class RatioGenerator(BaseEstimator, TransformerMixin):
@@ -26,6 +30,9 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        if not isinstance(X, pd.DataFrame):
+            raise TypeError("Input X must be a pandas DataFrame")
+        
         # Create a copy to avoid SettingWithCopy warnings or mutating the original
         X_out = X.copy()
         
@@ -49,7 +56,7 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         # Generate ratio feature names
         ratio_features = [
             f"{top}_over_{bottom}"
-            for top, bottom in itertools.combinations(self.cols, 2)
+            for top, bottom in itertools.permutations(self.cols, 2)
         ]
 
         # IMPORTANT: include ALL original input features
@@ -66,11 +73,10 @@ X_train, X_test, y_train, y_test = train_test_split(
     phot_X, 
     phot_y,
     train_size=0.8,
-    random_state=4025
+    random_state=2026
 )
 
 flux_cols = ['F8', 'F12', 'F24', 'F70']
-
 
 preproc1 = Pipeline([
     ('impute', SimpleImputer(strategy='median')),
@@ -79,13 +85,13 @@ preproc1 = Pipeline([
     ('scale', StandardScaler())
 ])
 
-# preproc2 = Pipeline([
-#     ('impute', SimpleImputer(strategy='median')),
-#     ('ratio', RatioGenerator(cols=flux_cols)),
-#     ('impute_check', SimpleImputer(strategy='median')),
-#     ('polynomials', ColumnTransformer([('polynomial', PolynomialFeatures(degree=2), flux_cols)])),
-#     ('scale', StandardScaler())
-# ])
+preproc2 = Pipeline([
+    ('impute', SimpleImputer(strategy='median')),
+    ('ratio', RatioGenerator(cols=flux_cols)),
+    ('impute_check', SimpleImputer(strategy='median')),
+    ('polynomials', ColumnTransformer([('polynomial', PolynomialFeatures(degree=2), flux_cols)])),
+    ('scale', StandardScaler())
+])
 
 ## setting up combinations of linear regression, lasso, and preprocessing
 
@@ -98,40 +104,38 @@ lr_no_poly_score = cross_val_score(
     estimator=lr_no_poly, 
     X=X_train, 
     y=y_train, 
-    cv=5, 
+    cv=5,
     scoring='neg_mean_squared_error'
 )
 
-# lr_no_poly_rmse = np.sqrt(-lr_no_poly_score).mean()
-# print(lr_no_poly_rmse)
+lr_no_poly_rmse = np.sqrt(-lr_no_poly_score).mean()
+
+# Linear Regression with polynomial term
+lr_with_poly = Pipeline([
+    ('preproc', preproc2),
+    ('model', LinearRegression())
+])
+
+lr_with_poly_score = cross_val_score(lr_with_poly, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
+lr_with_poly_rmse = np.sqrt(-lr_with_poly_score).mean()
 
 
-## Linear Regression with polynomial term
-# lr_with_poly = Pipeline([
-#     ('preproc', preproc2),
-#     ('model', LinearRegression())
-# ])
+# Lasso pipeline to use with LassoCV
+lasso_pipe = Pipeline([
+    ('preproc', preproc2),
+    ('model', LassoCV(cv=5, n_jobs=-1))
+])
 
-# lr_with_poly_score = cross_val_score(lr_with_poly, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
-# lr_with_poly_rmse = np.sqrt(-lr_with_poly_score).mean()
+lasso_pipe.fit(X_train, y_train)
+best_mse = lasso_pipe.mse_path_[lasso_pipe.alphas_ == lasso_pipe.alpha_].mean()
+lasso_best_rmse = np.sqrt(best_mse)
 
-
-## Lasso pipeline to use with LassoCV
-# lasso_pipe = Pipeline([
-#     ('preproc', preproc2),
-#     ('model', LassoCV(cv=5, n_jobs=-1))
-# ])
-
-# lasso_pipe.fit(X_train, y_train)
-# best_mse = lasso_pipe.mse_path_[lasso_pipe.alphas_ == lasso_pipe.alpha_].mean()
-# lasso_best_rmse = np.sqrt(best_mse)
-
-# feature_names = lasso_pipe.named_steps['preproc'].get_feature_names_out()
-# coef_df = pd.DataFrame({'feature': feature_names, 'coef': lasso_pipe.named_steps['model'].coef_})
-# selected = coef_df[coef_df['coef'] != 0]
+feature_names = lasso_pipe.named_steps['preproc'].get_feature_names_out()
+coef_df = pd.DataFrame({'feature': feature_names, 'coef': lasso_pipe.named_steps['model'].coef_})
+selected = coef_df[coef_df['coef'] != 0]
 
 
-# print(f"Simple Linear Regression RMSE: {lr_no_poly_rmse}")
-# print(f"Linear Regression with polynomials RMSE: {lr_with_poly_rmse}")
-# print(f"LASSO best rmse: {lasso_best_rmse}")
-# print(selected.head(10))
+print(f"Simple Linear Regression RMSE: {lr_no_poly_rmse}")
+print(f"Linear Regression with polynomials RMSE: {lr_with_poly_rmse}")
+print(f"LASSO best rmse: {lasso_best_rmse}")
+print(selected.head(10))

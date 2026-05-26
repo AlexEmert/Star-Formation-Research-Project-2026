@@ -21,7 +21,7 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         # Create a copy to avoid SettingWithCopy warnings or mutating the original
         X_out = X.copy()
         
-        for top, bottom in itertools.permutations(self.cols, 2):
+        for top, bottom in itertools.combinations(self.cols, 2):
             new_col_name = f"{top}_over_{bottom}"
             X_out[new_col_name] = X_out[top] / X_out[bottom]
             

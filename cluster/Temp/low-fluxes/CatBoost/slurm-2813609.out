@@ -1,0 +1,6 @@
+Best score for catboost with impute, without indicator: 0.34991998405358177
+Best score for catboost with impute and indicator: 0.3511369746464612
+Best score for catboost with only ratio and scale: 0.3481082969751411
+Best parameters for catboost with impute, without indicator: {'model__depth': 4, 'model__iterations': 100, 'model__learning_rate': 0.1}
+Best parameters for catboost with impute and indicator: {'model__depth': 4, 'model__iterations': 100, 'model__learning_rate': 0.1}
+Best parameters for catboost with only ratio and scale: {'model__depth': 4, 'model__iterations': 100, 'model__learning_rate': 0.1}

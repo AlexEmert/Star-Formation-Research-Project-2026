@@ -115,7 +115,8 @@ rf_search_no_indicator = BayesSearchCV(
     n_iter=40,
     cv=5,
     random_state=2026,
-    n_jobs=-1
+    n_jobs=-1,
+    scoring='neg_mean_squared_error'
 )
 
 rf_search_with_indicator = BayesSearchCV(
@@ -124,11 +125,16 @@ rf_search_with_indicator = BayesSearchCV(
     n_iter=40,
     cv=5,
     random_state=2026,
-    n_jobs=-1
+    n_jobs=-1,
+    scoring='neg_mean_squared_error'
 )
 
 rf_search_no_indicator.fit(X_train, y_train)
 rf_search_with_indicator.fit(X_train, y_train)
 
-print("Surface Density: Best score for random forest without indicator:", rf_search_no_indicator.best_score_)
-print("Surface Density: Best score for random forest with indicator:", rf_search_with_indicator.best_score_)
+rf_no_indicator_best_rmse = np.sqrt(-rf_search_no_indicator.best_score_)
+rf_with_indicator_best_rmse = np.sqrt(-rf_search_with_indicator.best_score_)
+
+
+print("Surface Density: Best score for random forest without indicator:", rf_no_indicator_best_rmse)
+print("Surface Density: Best score for random forest with indicator:", rf_with_indicator_best_rmse)

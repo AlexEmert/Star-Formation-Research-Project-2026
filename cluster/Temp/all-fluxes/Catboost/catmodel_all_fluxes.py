@@ -11,6 +11,7 @@ import itertools
 from pyhere import here
 from sklearn import set_config
 from skopt import BayesSearchCV
+from skopt.space import Real, Integer, Categorical
 
 # Force all scikit-learn transformers to output pandas DataFrames
 set_config(transform_output="pandas")

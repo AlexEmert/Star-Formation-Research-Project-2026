@@ -11,6 +11,7 @@ import itertools
 from pyhere import here
 from sklearn import set_config
 from skopt import BayesSearchCV
+from skopt.space import Real, Integer, Categorical
 
 # Force all scikit-learn transformers to output pandas DataFrames
 set_config(transform_output="pandas")
@@ -101,11 +102,11 @@ rf_pipe_indicator = Pipeline([
 ])
 
 search_space = {
-    'model__n_estimators': (100, 500),
-    'model__max_depth': (5,50),
-    'model__min_samples_split': (2,10),
-    'model__min_samples_leaf': (1,5),
-    'model__max_features': (1,20)
+    'model__n_estimators': Integer(100, 500),
+    'model__max_depth': Integer(5,50),
+    'model__min_samples_split': Integer(2,10),
+    'model__min_samples_leaf': Integer(1,5),
+    'model__max_features': Integer(1,20)
 }
 
 rf_search_no_indicator = BayesSearchCV(

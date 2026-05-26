@@ -10,6 +10,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 import itertools
 from pyhere import here
 from sklearn import set_config
+from skopt import BayesSearchCV
 
 # Force all scikit-learn transformers to output pandas DataFrames
 set_config(transform_output="pandas")
@@ -99,3 +100,34 @@ rf_pipe_indicator = Pipeline([
     ('model', RandomForestRegressor(random_state=2026))
 ])
 
+search_space = {
+    'model__n_estimators': (100, 500),
+    'model__max_depth': (5,50),
+    'model__min_samples_split': (2,10),
+    'model__min_samples_leaf': (1,5),
+    'model__max_features': (1,20)
+}
+
+rf_search_no_indicator = BayesSearchCV(
+    estimator=rf_pipe_no_indicator,
+    search_spaces=search_space,
+    n_iter=40,
+    cv=5,
+    random_state=2026,
+    n_jobs=-1
+)
+
+rf_search_with_indicator = BayesSearchCV(
+    estimator=rf_pipe_indicator,
+    search_spaces=search_space,
+    n_iter=40,
+    cv=5,
+    random_state=2026,
+    n_jobs=-1
+)
+
+rf_search_no_indicator.fit(X_train, y_train)
+rf_search_with_indicator.fit(X_train, y_train)
+
+print("Best score for random forest without indicator:", rf_search_no_indicator.best_score_)
+print("Best score for random forest with indicator:", rf_search_with_indicator.best_score_)

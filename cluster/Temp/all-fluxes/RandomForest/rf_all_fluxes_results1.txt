@@ -1,0 +1,4 @@
+Best score for random forest without indicator: 0.9058387991572843
+Best score for random forest with indicator: 0.9063574917517692
+
+** this is in R^2 by the way

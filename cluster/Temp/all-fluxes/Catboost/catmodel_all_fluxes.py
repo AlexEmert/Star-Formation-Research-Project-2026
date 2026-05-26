@@ -12,6 +12,7 @@ from pyhere import here
 from sklearn import set_config
 from skopt import BayesSearchCV
 from skopt.space import Real, Integer, Categorical
+from sklearn.metrics import root_mean_squared_error, r2_score
 
 # Force all scikit-learn transformers to output pandas DataFrames
 set_config(transform_output="pandas")
@@ -85,7 +86,7 @@ preproc = Pipeline([
 
 catboost_pipe = Pipeline([
     ('preproc', preproc),
-    ('model', CatBoostRegressor(random_state=2026))
+    ('model', CatBoostRegressor(random_state=2026, verbose=False))
 ])
 
 search_spaces = {
@@ -104,9 +105,18 @@ catboost_search = BayesSearchCV(
     n_jobs = -1,
     cv = 5,
     random_state = 2026,
-    scoring='neg_root_mean_squared_error'
+    scoring='neg_mean_squared_error'
 )
 
 catboost_search.fit(X_train, y_train)
 
-print(f"Temp: Best catboost score with all fluxes, ratio and scale only: {-catboost_search.best_score_}")
+catboost_best_rmse = np.sqrt(-catboost_search.best_score_)
+
+best_catboost_model = catboost_search.best_estimator_
+best_catboost_model.fit(X_train, y_train)
+y_pred = best_catboost_model.predict(X_test)
+catboost_test_rmse = root_mean_squared_error(y_test, y_pred)
+catboost_test_r2 = r2_score(y_test, y_pred)
+
+print("Temp: Best catboost rmse with all flux, ratio and scale: " + str(catboost_test_rmse))
+print("Temp: best catboost r2 with all flux, ratio and scale: " + str(catboost_test_r2))

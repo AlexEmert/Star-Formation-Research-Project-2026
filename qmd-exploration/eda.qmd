@@ -51,3 +51,16 @@ print(mirion.columns.to_list())
     # + scale_x_log10()
 )
 ```
+
+```{python}
+phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_all_fluxes.csv"))
+phot['1overF70overF160'] = 1/ (phot['F70'] / phot['F160'])
+
+(
+    ggplot(phot, aes(x='1overF70overF160', y='TEMP')) +
+    geom_point() +
+    scale_x_continuous(limits=(0,50)) +
+    # scale_y_log10() +
+    scale_x_log10()
+)
+```

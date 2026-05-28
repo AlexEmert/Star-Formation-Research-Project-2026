@@ -92,8 +92,21 @@ pipe = Pipeline([
 
 search_space = [
     {
-    'impute': [None, SimpleImputer(strategy='median')],
-    'scale': [None, StandardScaler()],
+    'impute': [SimpleImputer(strategy='median')],
+    'scale': [StandardScaler()],
+    'model': [XGBRegressor(random_state=2026, verbose=0)],
+    'model__n_estimators': Integer(100, 800),
+    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+    'model__max_depth': Integer(3, 9),
+    'model__min_child_weight': Integer(1, 7),
+    'model__subsample': Real(0.6, 1.0),
+    'model__colsample_bytree': Real(0.6, 1.0),
+    'model__gamma': Real(0.0, 5.0),
+    'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
+    'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+    },
+    {
+    'scale': [StandardScaler()],
     'model': [XGBRegressor(random_state=2026, verbose=0)],
     'model__n_estimators': Integer(100, 800),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
@@ -107,7 +120,7 @@ search_space = [
     },
     {
     'impute': [SimpleImputer(strategy='median')],
-    'scale': [None, StandardScaler()],
+    'scale': [StandardScaler()],
     'model': [RandomForestRegressor(random_state=2026, verbose=0)],
     'model__n_estimators': Integer(100, 800),
     'model__max_depth': Integer(5, 50),
@@ -117,8 +130,18 @@ search_space = [
     'model__bootstrap': Categorical([True, False])
     },
     {
-    'impute': [None, SimpleImputer(strategy='median')],
-    'scale': [None, StandardScaler()],
+    'impute': [SimpleImputer(strategy='median')],
+    'scale': [StandardScaler()],
+    'model': [CatBoostRegressor(random_state=2026, verbose=0)],
+    'model__iterations': Integer(100, 1000),
+    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+    'model__depth': Integer(4, 10),
+    'model__l2_leaf_reg': Real(1, 10, prior='uniform'),
+    'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
+    'model__bagging_temperature': Real(0.0, 1.0)
+    },
+    {
+    'scale': [StandardScaler()],
     'model': [CatBoostRegressor(random_state=2026, verbose=0)],
     'model__iterations': Integer(100, 1000),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),

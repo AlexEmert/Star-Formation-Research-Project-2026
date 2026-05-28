@@ -87,7 +87,7 @@ pipe = Pipeline([
     ('impute', 'passthrough'),
     ('ratio', RatioGenerator(cols=flux_cols)),
     ('scale', 'passthrough'),
-    ('model', XGBRegressor())
+    ('model', None)
 ])
 
 # search_space = [
@@ -111,7 +111,7 @@ pipe = Pipeline([
 search_space = {
     'impute': [SimpleImputer(strategy='median')],
     'scale': [StandardScaler()],
-    'model': RandomForestRegressor(random_state=2026),
+    'model': Categorical([RandomForestRegressor(random_state=2026)]),
     'model__n_estimators': Integer(100, 800),
     'model__max_depth': Integer(3, 20),
     'model__min_samples_split': Integer(2, 10),

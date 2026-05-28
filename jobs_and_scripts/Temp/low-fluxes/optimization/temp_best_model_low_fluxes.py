@@ -127,3 +127,6 @@ opt = BayesSearchCV(
     random_state=2026,
     n_jobs=-1
 )
+
+opt.fit(X_train, y_train)
+print("Best RMSE for temp low fluxes random forest optimization trial 1: ", -opt.best_score_)

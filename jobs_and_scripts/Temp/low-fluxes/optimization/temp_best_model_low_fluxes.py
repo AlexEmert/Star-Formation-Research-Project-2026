@@ -2,6 +2,7 @@ from catboost import CatBoostRegressor
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.dummy import DummyRegressor
 from sklearn.svm import SVR
 import pandas as pd
 import numpy as np
@@ -84,16 +85,15 @@ X_train, X_test, y_train, y_test = train_test_split(
 flux_cols = ['F8', 'F12', 'F24', 'F70']
 
 pipe = Pipeline([
-    ('impute', 'passthrough'),
+    ('impute', SimpleImputer(strategy='median')),
     ('ratio', RatioGenerator(cols=flux_cols)),
-    ('scale', 'passthrough'),
-    ('model', None)
+    ('scale', StandardScaler()),
+    ('model', DummyRegressor())
 ])
 
 search_space = [
     {
-    'impute': [SimpleImputer(strategy='median')],
-    'scale': [StandardScaler()],
+    'impute': ['passthrough'],
     'model': [XGBRegressor(random_state=2026, verbose=0)],
     'model__n_estimators': Integer(100, 800),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
@@ -106,7 +106,6 @@ search_space = [
     'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
     },
     {
-    'scale': [StandardScaler()],
     'model': [XGBRegressor(random_state=2026, verbose=0)],
     'model__n_estimators': Integer(100, 800),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
@@ -119,8 +118,6 @@ search_space = [
     'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
     },
     {
-    'impute': [SimpleImputer(strategy='median')],
-    'scale': [StandardScaler()],
     'model': [RandomForestRegressor(random_state=2026, verbose=0)],
     'model__n_estimators': Integer(100, 800),
     'model__max_depth': Integer(5, 50),
@@ -130,8 +127,7 @@ search_space = [
     'model__bootstrap': Categorical([True, False])
     },
     {
-    'impute': [SimpleImputer(strategy='median')],
-    'scale': [StandardScaler()],
+    'impute': ['passthrough'],
     'model': [CatBoostRegressor(random_state=2026, verbose=0)],
     'model__iterations': Integer(100, 1000),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
@@ -141,7 +137,6 @@ search_space = [
     'model__bagging_temperature': Real(0.0, 1.0)
     },
     {
-    'scale': [StandardScaler()],
     'model': [CatBoostRegressor(random_state=2026, verbose=0)],
     'model__iterations': Integer(100, 1000),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),

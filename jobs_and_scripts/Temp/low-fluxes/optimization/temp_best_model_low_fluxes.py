@@ -92,9 +92,9 @@ pipe = Pipeline([
 
 search_space = [
     {
-    'impute': Categorical([None, SimpleImputer(strategy='median')]),
-    'scale': Categorical([None, StandardScaler()]),
-    'model': Categorical([XGBRegressor(random_state=2026, verbose=0)]),
+    'impute': [None, SimpleImputer(strategy='median')],
+    'scale': [None, StandardScaler()],
+    'model': [XGBRegressor(random_state=2026, verbose=0)],
     'model__n_estimators': Integer(100, 800),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
     'model__max_depth': Integer(3, 9),
@@ -107,8 +107,8 @@ search_space = [
     },
     {
     'impute': [SimpleImputer(strategy='median')],
-    'scale': Categorical([None, StandardScaler()]),
-    'model': Categorical([RandomForestRegressor(random_state=2026, verbose=0)]),
+    'scale': [None, StandardScaler()],
+    'model': [RandomForestRegressor(random_state=2026, verbose=0)],
     'model__n_estimators': Integer(100, 800),
     'model__max_depth': Integer(5, 50),
     'model__min_samples_split': Integer(2, 20),
@@ -117,9 +117,9 @@ search_space = [
     'model__bootstrap': Categorical([True, False])
     },
     {
-    'impute': Categorical([None, SimpleImputer(strategy='median')]),
-    'scale': Categorical([None, StandardScaler()]),
-    'model': Categorical([CatBoostRegressor(random_state=2026, verbose=0)]),
+    'impute': [None, SimpleImputer(strategy='median')],
+    'scale': [None, StandardScaler()],
+    'model': [CatBoostRegressor(random_state=2026, verbose=0)],
     'model__iterations': Integer(100, 1000),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
     'model__depth': Integer(4, 10),

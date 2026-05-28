@@ -90,43 +90,94 @@ pipe = Pipeline([
     ('model', None)
 ])
 
-# search_space = [
-#     {
+search_space = [
+    {
+    'impute': Categorical([None, SimpleImputer(strategy='median')]),
+    'scale': Categorical([None, StandardScaler()]),
+    'model': Categorical([XGBRegressor(random_state=2026, verbose=0)]),
+    'model__n_estimators': Integer(100, 800),
+    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+    'model__max_depth': Integer(3, 9),
+    'model__min_child_weight': Integer(1, 7),
+    'model__subsample': Real(0.6, 1.0),
+    'model__colsample_bytree': Real(0.6, 1.0),
+    'model__gamma': Real(0.0, 5.0),
+    'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
+    'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+    },
+    {
+    'impute': [SimpleImputer(strategy='median')],
+    'scale': Categorical([None, StandardScaler()]),
+    'model': Categorical([RandomForestRegressor(random_state=2026, verbose=0)]),
+    'model__n_estimators': Integer(100, 800),
+    'model__max_depth': Integer(5, 50),
+    'model__min_samples_split': Integer(2, 20),
+    'model__min_samples_leaf': Integer(1, 20),
+    'model__max_features': Categorical(['sqrt', 'log2', None]), 
+    'model__bootstrap': Categorical([True, False])
+    },
+    {
+    'impute': Categorical([None, SimpleImputer(strategy='median')]),
+    'scale': Categorical([None, StandardScaler()]),
+    'model': Categorical([CatBoostRegressor(random_state=2026, verbose=0)]),
+    'model__iterations': Integer(100, 1000),
+    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+    'model__depth': Integer(4, 10),
+    'model__l2_leaf_reg': Real(1, 10, prior='uniform'),
+    'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
+    'model__bagging_temperature': Real(0.0, 1.0)
+    }
+]
+
+# search_space = {
 #     'impute': [SimpleImputer(strategy='median')],
 #     'scale': [StandardScaler()],
-#     'model': XGBRegressor(random_state=2026),
+#     'model': Categorical([RandomForestRegressor(random_state=2026)]),
 #     'model__n_estimators': Integer(100, 800),
-#     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-#     'model__max_depth': Integer(3, 9),
-#     'model__min_child_weight': Integer(1, 7),
-#     'model__subsample': Real(0.6, 1.0),
-#     'model__colsample_bytree': Real(0.6, 1.0),
-#     'model__gamma': Real(0.0, 5.0),
-#     'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
-#     'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
-#     },
-#     {}
-# ]
-
-search_space = {
-    'impute': [SimpleImputer(strategy='median')],
-    'scale': [StandardScaler()],
-    'model': Categorical([RandomForestRegressor(random_state=2026)]),
-    'model__n_estimators': Integer(100, 800),
-    'model__max_depth': Integer(3, 20),
-    'model__min_samples_split': Integer(2, 10),
-    'model__max_features': Categorical(['sqrt', 'log2', None])
-}
+#     'model__max_depth': Integer(3, 20),
+#     'model__min_samples_split': Integer(2, 10),
+#     'model__max_features': Categorical(['sqrt', 'log2', None])
+# }
 
 opt = BayesSearchCV(
     pipe, 
     search_space,
-    n_iter=30,
     cv=5,
     scoring='neg_root_mean_squared_error',
     random_state=2026,
-    n_jobs=-1
+    n_jobs=-1,
+    verbose=0
 )
 
 opt.fit(X_train, y_train)
 print("Best RMSE for temp low fluxes random forest optimization trial 1: ", -opt.best_score_)
+print("Best hyperparameters: ", opt.best_params_)
+
+
+## Try again, but logging the response variable to see what happens
+
+phot = phot.drop(columns=['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB'])
+
+phot_X = phot.drop(columns=['TEMP'])
+log_phot_y = np.log1p(phot['TEMP'])
+
+new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
+    phot_X, 
+    log_phot_y,
+    train_size=0.8,
+    random_state=2026
+)
+
+log_opt = BayesSearchCV(
+    pipe, 
+    search_space,
+    cv=5,
+    scoring='neg_root_mean_squared_error',
+    random_state=2026,
+    n_jobs=-1,
+    verbose=0
+)
+
+log_opt.fit(new_X_train, new_y_train)
+print("Best RMSE for log(temp) low fluxes random forest optimization trial 1: ", -log_opt.best_score_)
+print("Best hyperparameters: ", log_opt.best_params_)

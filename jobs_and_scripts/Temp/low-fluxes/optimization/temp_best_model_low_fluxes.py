@@ -93,7 +93,7 @@ pipe = Pipeline([
 
 search_space = [
     {
-    'impute': ['passthrough'],
+    'impute': Categorical(['passthrough']),
     'model': Categorical([XGBRegressor(random_state=2026, verbose=0)]),
     'model__n_estimators': Integer(100, 800),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
@@ -127,7 +127,7 @@ search_space = [
     'model__bootstrap': Categorical([True, False])
     },
     {
-    'impute': ['passthrough'],
+    'impute': Categorical(['passthrough']),
     'model': Categorical([CatBoostRegressor(random_state=2026, verbose=0)]),
     'model__iterations': Integer(100, 1000),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),

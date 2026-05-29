@@ -10,7 +10,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn.base import BaseEstimator, TransformerMixin
 from skopt import BayesSearchCV
 from skopt.space import Real, Integer, Categorical
@@ -84,93 +84,130 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 flux_cols = ['F8', 'F12', 'F24', 'F70']
 
-pipe = Pipeline([
-    ('impute', SimpleImputer(strategy='median')),
-    ('ratio', RatioGenerator(cols=flux_cols)),
-    ('scale', StandardScaler()),
-    ('model', DummyRegressor())
-])
-
-search_space = [
-    {
-    'impute': Categorical(['passthrough']),
-    'model': Categorical([XGBRegressor(random_state=2026, verbose=0)]),
-    'model__n_estimators': Integer(100, 800),
-    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-    'model__max_depth': Integer(3, 9),
-    'model__min_child_weight': Integer(1, 7),
-    'model__subsample': Real(0.6, 1.0),
-    'model__colsample_bytree': Real(0.6, 1.0),
-    'model__gamma': Real(0.0, 5.0),
-    'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
-    'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+models = {
+    "CatBoost (Imputed)": {
+        "pipe": Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', CatBoostRegressor(random_state=2026, verbose=0, thread_count=-1))
+        ]),
+        "space": {
+            'impute__strategy': Categorical(['mean', 'median']),
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__iterations': Integer(100, 1000),
+            'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+            'model__depth': Integer(4, 10),
+            'model__l2_leaf_reg': Real(1, 10, prior='uniform'),
+            'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
+            'model__bagging_temperature': Real(0.0, 1.0)
+        }
     },
-    {
-    'model': Categorical([XGBRegressor(random_state=2026, verbose=0)]),
-    'model__n_estimators': Integer(100, 800),
-    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-    'model__max_depth': Integer(3, 9),
-    'model__min_child_weight': Integer(1, 7),
-    'model__subsample': Real(0.6, 1.0),
-    'model__colsample_bytree': Real(0.6, 1.0),
-    'model__gamma': Real(0.0, 5.0),
-    'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
-    'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+    "Catboost (No Impute)": {
+        "pipe": Pipeline([
+            ('impute', "passthrough"),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', CatBoostRegressor(random_state=2026, verbose=0, thread_count=-1))
+        ]),
+        "space": {
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__iterations': Integer(100, 1000),
+            'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+            'model__depth': Integer(4, 10),
+            'model__l2_leaf_reg': Real(1, 10, prior='uniform'),
+            'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
+            'model__bagging_temperature': Real(0.0, 1.0)
+        }
     },
-    {
-    'model': Categorical([RandomForestRegressor(random_state=2026, verbose=0)]),
-    'model__n_estimators': Integer(100, 800),
-    'model__max_depth': Integer(5, 50),
-    'model__min_samples_split': Integer(2, 20),
-    'model__min_samples_leaf': Integer(1, 20),
-    'model__max_features': Categorical(['sqrt', 'log2', None]), 
-    'model__bootstrap': Categorical([True, False])
-    },
-    {
-    'impute': Categorical(['passthrough']),
-    'model': Categorical([CatBoostRegressor(random_state=2026, verbose=0)]),
-    'model__iterations': Integer(100, 1000),
-    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-    'model__depth': Integer(4, 10),
-    'model__l2_leaf_reg': Real(1, 10, prior='uniform'),
-    'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
-    'model__bagging_temperature': Real(0.0, 1.0)
-    },
-    {
-    'model': Categorical([CatBoostRegressor(random_state=2026, verbose=0)]),
-    'model__iterations': Integer(100, 1000),
-    'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-    'model__depth': Integer(4, 10),
-    'model__l2_leaf_reg': Real(1, 10, prior='uniform'),
-    'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
-    'model__bagging_temperature': Real(0.0, 1.0)
+    "XGBoost (Imputed)": {
+        "pipe": Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=-1))
+        ]),
+        "space": {
+            'impute__strategy': Categorical(['mean', 'median']),
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__n_estimators': Integer(100, 800),
+            'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+            'model__max_depth': Integer(3, 9),
+            'model__min_child_weight': Integer(1, 7),
+            'model__subsample': Real(0.6, 1.0),
+            'model__colsample_bytree': Real(0.6, 1.0),
+            'model__gamma': Real(0.0, 5.0),
+            'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
+            'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
     }
-]
+    },
+    "XGBoost (No Impute)": {
+        "pipe": Pipeline([
+            ('impute', "passthrough"),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=-1))
+        ]),
+        "space": {
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__n_estimators': Integer(100, 800),
+            'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+            'model__max_depth': Integer(3, 9),
+            'model__min_child_weight': Integer(1, 7),
+            'model__subsample': Real(0.6, 1.0),
+            'model__colsample_bytree': Real(0.6, 1.0),
+            'model__gamma': Real(0.0, 5.0),
+            'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
+            'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+            }     
+    },
+    "Random Forest": {
+        "pipe": Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', RandomForestRegressor(random_state=2026, verbose=0, n_jobs=-1))
+        ]),
+        "space": {
+            'impute__strategy': Categorical(['mean', 'median']),
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__n_estimators': Integer(100, 800),
+            'model__max_depth': Integer(5, 50),
+            'model__min_samples_split': Integer(2, 20),
+            'model__min_samples_leaf': Integer(1, 20),
+            'model__max_features': Categorical(['sqrt', 'log2', None]), 
+            'model__bootstrap': Categorical([True, False])
+        }
+    }
+}
 
-# search_space = {
-#     'impute': [SimpleImputer(strategy='median')],
-#     'scale': [StandardScaler()],
-#     'model': Categorical([RandomForestRegressor(random_state=2026)]),
-#     'model__n_estimators': Integer(100, 800),
-#     'model__max_depth': Integer(3, 20),
-#     'model__min_samples_split': Integer(2, 10),
-#     'model__max_features': Categorical(['sqrt', 'log2', None])
-# }
+best_overall_score = float('-inf')
+best_overall_model = None
 
-opt = BayesSearchCV(
-    pipe, 
-    search_space,
-    cv=5,
-    scoring='neg_root_mean_squared_error',
-    random_state=2026,
-    n_jobs=-1,
-    verbose=0
-)
+for name, setup in models.items():
+    print(f"--- Running {name} ---")
+    
+    opt = BayesSearchCV(
+        estimator=setup["pipe"],
+        search_spaces=setup["space"],
+        n_iter=30, 
+        cv=5,
+        scoring='neg_root_mean_squared_error',
+        n_jobs=1,
+        random_state=2026
+    )
 
-opt.fit(X_train, y_train)
-print("Best RMSE for temp low fluxes random forest optimization trial 1: ", -opt.best_score_)
-print("Best hyperparameters: ", opt['model'].best_params_)
+    opt.fit(X_train, y_train)
 
+    print(f"Best Score: {opt.best_score_:.4f}")
+    print(f"Best Params: {dict(opt.best_params_)}\n")
+
+    # Keep track of the absolute winner
+    if opt.best_score_ > best_overall_score:
+        best_overall_score = opt.best_score_
+        best_overall_model = opt.best_estimator_
+
+    print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_score}\nModel: {best_overall_model}")
 
 ## Try again, but logging the response variable to see what happens
 
@@ -186,16 +223,31 @@ new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
     random_state=2026
 )
 
-log_opt = BayesSearchCV(
-    pipe, 
-    search_space,
-    cv=5,
-    scoring='neg_root_mean_squared_error',
-    random_state=2026,
-    n_jobs=-1,
-    verbose=0
-)
+best_overall_log_score = float('-inf')
+best_overall_log_model = None
 
-log_opt.fit(new_X_train, new_y_train)
-print("Best RMSE for log(temp) low fluxes random forest optimization trial 1: ", -log_opt.best_score_)
-print("Best hyperparameters: ", log_opt['model'].best_params_)
+for name, setup in models.items():
+    print(f"--- Running {name} for log of temp---")
+    
+    log_opt = BayesSearchCV(
+        estimator=setup["pipe"],
+        search_spaces=setup["space"],
+        n_iter=30, 
+        cv=5,
+        scoring='neg_root_mean_squared_error',
+        n_jobs=1,
+        random_state=2026
+    )
+
+    log_opt.fit(X_train, y_train)
+
+    print(f"Best Score with log temp (not translatable): {log_opt.best_score_:.4f}")
+    print(f"Best Params with log temp (not translatable): {dict(log_opt.best_params_)}\n")
+
+    # Keep track of the absolute winner
+    if log_opt.best_score_ > best_overall_log_score:
+        best_overall_log_score = log_opt.best_score_
+        best_overall_log_model = log_opt.best_estimator_
+
+    print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_log_score}\nModel: {best_overall_log_model}")
+

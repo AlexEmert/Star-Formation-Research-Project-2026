@@ -17,6 +17,7 @@ from skopt.space import Real, Integer, Categorical
 import itertools
 from pyhere import here
 from sklearn import set_config
+from sklearn.metrics import r2_score, root_mean_squared_error
 
 # Force all scikit-learn transformers to output pandas DataFrames
 set_config(transform_output="pandas")
@@ -178,6 +179,71 @@ models = {
             'model__max_features': Categorical(['sqrt', 'log2', None]), 
             'model__bootstrap': Categorical([True, False])
         }
+    },
+    "Decision Tree": {
+        "pipe": Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', DecisionTreeRegressor(random_state=2026))
+        ]),
+        "space": {
+            'impute__strategy': Categorical(['mean', 'median']),
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__max_depth': Integer(5, 50),
+            'model__min_samples_split': Integer(2, 20),
+            'model__min_samples_leaf': Integer(1, 20),
+            'model__max_features': Categorical(['sqrt', 'log2', None])
+        }
+    },
+    "SVR (linear)": {
+        "pipe": Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', SVR())
+        ]),
+        "space": {
+            'impute__strategy': Categorical(['mean', 'median']),
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__kernel': Categorical(['linear']),
+            'model__C': Real(0.1, 100, prior='log-uniform'),
+            'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
+        }
+    },
+    "SVR (rbf)": {
+        "pipe": Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', SVR())
+        ]),
+        "space": {
+            'impute__strategy': Categorical(['mean', 'median']),
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__kernel': Categorical(['rbf']),
+            'model__C': Real(0.1, 100, prior='log-uniform'),
+            'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
+            'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
+        }
+    },
+    "SVR (poly)": {
+        "pipe": Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', SVR())
+        ]),
+        "space": {
+            'impute__strategy': Categorical(['mean', 'median']),
+            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'model__kernel': Categorical(['rbf']),
+            'model__C': Real(0.1, 100, prior='log-uniform'),
+            'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
+            'model__epsilon': Real(0.01, 1.0, prior='log-uniform'),
+            'model__degree': Integer(2, 5),
+            'model__coef0': Real(-1.0, 1.0)
+        }
     }
 }
 
@@ -199,15 +265,22 @@ for name, setup in models.items():
 
     opt.fit(X_train, y_train)
 
-    print(f"Best Score: {opt.best_score_:.4f}")
+    print(f"Best Score: {-opt.best_score_:.4f}")
     print(f"Best Params: {dict(opt.best_params_)}\n")
 
     # Keep track of the absolute winner
     if opt.best_score_ > best_overall_score:
-        best_overall_score = opt.best_score_
+        best_overall_score = -opt.best_score_
         best_overall_model = opt.best_estimator_
 
-    print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_score}\nModel: {best_overall_model}")
+# print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_score}\nModel: {best_overall_model}")
+
+best_overall_model.fit(X_train, y_train)
+y_pred = best_overall_model.predict(X_test)
+best_mod_rmse = root_mean_squared_error(y_test, y_pred)
+best_mod_r2 = r2_score(y_test, y_pred)
+print(f"Best overall model performance on test set:\nRMSE: {best_mod_rmse:.4f}\nR^2: {best_mod_r2:.4f}")
+
 
 ## Try again, but logging the response variable to see what happens
 log_phot_y = np.log1p(phot['TEMP'])
@@ -237,13 +310,18 @@ for name, setup in models.items():
 
     log_opt.fit(new_X_train, new_y_train)
 
-    print(f"Best Score with log temp (not translatable): {log_opt.best_score_:.4f}")
+    print(f"Best Score with log temp (not translatable): {-log_opt.best_score_:.4f}")
     print(f"Best Params with log temp (not translatable): {dict(log_opt.best_params_)}\n")
 
     # Keep track of the absolute winner
     if log_opt.best_score_ > best_overall_log_score:
-        best_overall_log_score = log_opt.best_score_
+        best_overall_log_score = -log_opt.best_score_
         best_overall_log_model = log_opt.best_estimator_
 
-    print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_log_score}\nModel: {best_overall_log_model}")
+# print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_log_score}\nModel: {best_overall_log_model}")
 
+best_overall_log_model.fit(new_X_train, new_y_train)
+new_y_pred = best_overall_log_model.predict(new_X_test)
+best_log_mod_rmse = root_mean_squared_error(new_y_test, new_y_pred)
+best_log_mod_r2 = r2_score(new_y_test, new_y_pred)
+print(f"Best overall model performance on test set:\nRMSE: {best_log_mod_rmse:.4f}\nR^2: {best_log_mod_r2:.4f}")

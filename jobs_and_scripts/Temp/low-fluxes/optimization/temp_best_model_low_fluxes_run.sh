@@ -4,8 +4,8 @@
 #SBATCH --cpus-per-task=48
 #SBATCH -J temp_model_fit
 #SBATCH -p bsudfq
-#SBATCH -t 12:00:00
-#SBATCH --output=trial2_temp_low_fluxes_results.out
+#SBATCH -t 03:00:00
+#SBATCH --output=trial3_temp_low_fluxes_results.out
 
 
 . ~/.bashrc

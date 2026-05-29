@@ -210,10 +210,6 @@ for name, setup in models.items():
     print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_score}\nModel: {best_overall_model}")
 
 ## Try again, but logging the response variable to see what happens
-
-phot = phot.drop(columns=['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB'])
-
-phot_X = phot.drop(columns=['TEMP'])
 log_phot_y = np.log1p(phot['TEMP'])
 
 new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
@@ -239,7 +235,7 @@ for name, setup in models.items():
         random_state=2026
     )
 
-    log_opt.fit(X_train, y_train)
+    log_opt.fit(new_X_train, new_y_train)
 
     print(f"Best Score with log temp (not translatable): {log_opt.best_score_:.4f}")
     print(f"Best Params with log temp (not translatable): {dict(log_opt.best_params_)}\n")

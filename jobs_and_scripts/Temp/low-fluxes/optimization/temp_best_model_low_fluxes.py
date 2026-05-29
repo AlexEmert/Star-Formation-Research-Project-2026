@@ -245,7 +245,6 @@ best_overall_model.fit(X_train, y_train)
 y_pred = best_overall_model.predict(X_test)
 best_mod_rmse = root_mean_squared_error(y_test, y_pred)
 best_mod_r2 = r2_score(y_test, y_pred)
-print(f"Best overall model performance on test set:\nRMSE: {best_mod_rmse:.4f}\nR^2: {best_mod_r2:.4f}")
 
 
 ## Try again, but logging the response variable to see what happens
@@ -276,8 +275,8 @@ for name, setup in models.items():
 
     log_opt.fit(new_X_train, new_y_train)
 
-    print(f"Best Score with log temp (not translatable): {-log_opt.best_score_:.4f}")
-    print(f"Best Params with log temp (not translatable): {dict(log_opt.best_params_)}\n")
+    print(f"Best Score: {-log_opt.best_score_:.4f}")
+    print(f"Best Params: {dict(log_opt.best_params_)}\n")
 
     # Keep track of the absolute winner
     if log_opt.best_score_ > best_overall_log_score:
@@ -290,4 +289,9 @@ best_overall_log_model.fit(new_X_train, new_y_train)
 new_y_pred = best_overall_log_model.predict(new_X_test)
 best_log_mod_rmse = root_mean_squared_error(new_y_test, new_y_pred)
 best_log_mod_r2 = r2_score(new_y_test, new_y_pred)
-print(f"Best overall model performance on test set:\nRMSE: {best_log_mod_rmse:.4f}\nR^2: {best_log_mod_r2:.4f}")
+
+
+print(f"Best overall model is: {best_overall_model}")
+print(f"Best overall model performance on test set:\nRMSE: {best_mod_rmse:.4f}\nR^2: {best_mod_r2:.4f}")
+print(f"Best overall log model is: {best_overall_log_model}")
+print(f"Best overall log model performance on test set:\nRMSE: {best_log_mod_rmse:.4f}\nR^2: {best_log_mod_r2:.4f}")

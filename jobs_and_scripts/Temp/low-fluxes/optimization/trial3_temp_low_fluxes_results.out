@@ -1,0 +1,74 @@
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('median'), np.int64(5), np.str_('log2'), np.int64(18), np.int64(20), StandardScaler()] before, using random point ['mean', np.int64(8), 'sqrt', np.int64(1), np.int64(5), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('median'), np.int64(5), np.str_('log2'), np.int64(20), np.int64(20), StandardScaler()] before, using random point ['median', np.int64(19), 'log2', np.int64(7), np.int64(11), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('mean'), np.int64(5), np.str_('log2'), np.int64(20), np.int64(20), StandardScaler()] before, using random point ['median', np.int64(48), 'sqrt', np.int64(10), np.int64(4), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('mean'), np.int64(5), None, np.int64(20), np.int64(20), np.str_('passthrough')] before, using random point ['mean', np.int64(43), 'sqrt', np.int64(6), np.int64(7), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('mean'), np.int64(5), None, np.int64(20), np.int64(20), np.str_('passthrough')] before, using random point ['median', np.int64(5), 'sqrt', np.int64(5), np.int64(8), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('mean'), np.int64(5), np.str_('sqrt'), np.int64(20), np.int64(20), StandardScaler()] before, using random point ['mean', np.int64(12), None, np.int64(9), np.int64(13), StandardScaler()]
+  warnings.warn(
+--- Running CatBoost (Imputed) ---
+Best Score: 3.8113
+Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.0, 'model__depth': 4, 'model__iterations': 475, 'model__l2_leaf_reg': 7.108053505069411, 'model__learning_rate': 0.02057538813040521, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+
+--- Running Catboost (No Impute) ---
+Best Score: 3.8207
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 389, 'model__l2_leaf_reg': 5.965217443494435, 'model__learning_rate': 0.017732423792706377, 'model__random_strength': 1e-09, 'scale': 'passthrough'}
+
+--- Running XGBoost (Imputed) ---
+Best Score: 3.8078
+Best Params: {'impute__strategy': 'median', 'model__colsample_bytree': 0.6, 'model__gamma': 0.0, 'model__learning_rate': 0.01, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 541, 'model__reg_alpha': 0.0001, 'model__reg_lambda': 10.0, 'model__subsample': 0.6093967327157669, 'scale': RobustScaler()}
+
+--- Running XGBoost (No Impute) ---
+Best Score: 3.7868
+Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 5.0, 'model__learning_rate': 0.01, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 456, 'model__reg_alpha': 0.0009562864626200623, 'model__reg_lambda': 10.0, 'model__subsample': 0.9670580558607058, 'scale': RobustScaler()}
+
+--- Running Random Forest ---
+Best Score: 3.8117
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 11, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'model__n_estimators': 800, 'scale': 'passthrough'}
+
+--- Running Decision Tree ---
+Best Score: 3.8938
+Best Params: {'impute__strategy': 'mean', 'model__max_depth': 5, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 20, 'scale': 'passthrough'}
+
+--- Running SVR (rbf) ---
+Best Score: 3.9312
+Best Params: {'model__C': 13.991905076847624, 'model__epsilon': 1.0, 'model__gamma': 0.025729141137971208, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+
+Best overall model performance on test set:
+RMSE: 3.8462
+R^2: 0.3578
+--- Running CatBoost (Imputed) for log of temp---
+Best Score with log temp (not translatable): 0.1884
+Best Params with log temp (not translatable): {'impute__strategy': 'median', 'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 1000, 'model__l2_leaf_reg': 4.483275333460036, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+
+--- Running Catboost (No Impute) for log of temp---
+Best Score with log temp (not translatable): 0.1888
+Best Params with log temp (not translatable): {'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 1000, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': RobustScaler()}
+
+--- Running XGBoost (Imputed) for log of temp---
+Best Score with log temp (not translatable): 0.1892
+Best Params with log temp (not translatable): {'impute__strategy': 'mean', 'model__colsample_bytree': 0.9671142960374697, 'model__gamma': 0.3868252519568394, 'model__learning_rate': 0.13440386117253525, 'model__max_depth': 7, 'model__min_child_weight': 4, 'model__n_estimators': 294, 'model__reg_alpha': 0.0007745965569659434, 'model__reg_lambda': 0.1215513019705238, 'model__subsample': 0.9232805936188169, 'scale': RobustScaler()}
+
+--- Running XGBoost (No Impute) for log of temp---
+Best Score with log temp (not translatable): 0.1882
+Best Params with log temp (not translatable): {'model__colsample_bytree': 0.9844252721180402, 'model__gamma': 0.05852268168758946, 'model__learning_rate': 0.029836293143403813, 'model__max_depth': 8, 'model__min_child_weight': 4, 'model__n_estimators': 733, 'model__reg_alpha': 1.922692474626121, 'model__reg_lambda': 0.00015737191467989943, 'model__subsample': 0.9978337221048107, 'scale': RobustScaler()}
+
+--- Running Random Forest for log of temp---
+Best Score with log temp (not translatable): 0.1885
+Best Params with log temp (not translatable): {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 7, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 14, 'model__n_estimators': 146, 'scale': StandardScaler()}
+
+--- Running Decision Tree for log of temp---
+Best Score with log temp (not translatable): 0.1929
+Best Params with log temp (not translatable): {'impute__strategy': 'mean', 'model__max_depth': 5, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 20, 'scale': 'passthrough'}
+
+--- Running SVR (rbf) for log of temp---
+Best Score with log temp (not translatable): 0.1943
+Best Params with log temp (not translatable): {'model__C': 0.5338962643566704, 'model__epsilon': 0.023022567968313267, 'model__gamma': 0.01648634266091738, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+
+Best overall model performance on test set:
+RMSE: 0.1904
+R^2: 0.3495

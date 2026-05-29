@@ -1,0 +1,4 @@
+--- Running SVR (rbf) ---
+Best Score: 3.9312
+Best Params: {'model__C': 13.991905076847624, 'model__epsilon': 1.0, 'model__gamma': 0.025729141137971208, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+

@@ -1,0 +1,62 @@
+--- Running CatBoost (Imputed) ---
+Best Score: 0.8320
+Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.6788446361217412, 'model__depth': 4, 'model__iterations': 492, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.02407761510850607, 'model__random_strength': 1e-09, 'scale': StandardScaler()}
+
+--- Running Catboost (No Impute) ---
+Best Score: 0.8414
+Best Params: {'model__bagging_temperature': 0.0, 'model__depth': 5, 'model__iterations': 1000, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+
+--- Running XGBoost (Imputed) ---
+Best Score: 0.8327
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.603522663434367, 'model__gamma': 3.585692332386471, 'model__learning_rate': 0.03031175985106467, 'model__max_depth': 4, 'model__min_child_weight': 2, 'model__n_estimators': 459, 'model__reg_alpha': 0.03301267318619929, 'model__reg_lambda': 0.0001, 'model__subsample': 0.7177114479783526, 'scale': RobustScaler()}
+
+--- Running XGBoost (No Impute) ---
+Best Score: 0.8373
+Best Params: {'model__colsample_bytree': 0.9593774422625767, 'model__gamma': 4.352244325350058, 'model__learning_rate': 0.01323495688880311, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 370, 'model__reg_alpha': 10.0, 'model__reg_lambda': 10.0, 'model__subsample': 0.8440983700168803, 'scale': RobustScaler()}
+
+--- Running Random Forest ---
+Best Score: 0.8355
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'log2', 'model__min_samples_leaf': 10, 'model__min_samples_split': 5, 'model__n_estimators': 717, 'scale': StandardScaler()}
+
+--- Running Decision Tree ---
+Best Score: 0.8781
+Best Params: {'impute__strategy': 'median', 'model__max_depth': 36, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'scale': StandardScaler()}
+
+--- Running SVR (rbf) ---
+Best Score: 0.8730
+Best Params: {'model__C': 79.82601127003628, 'model__epsilon': 0.35233736128534204, 'model__gamma': 0.0011425486176783832, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+
+Best overall model performance on test set:
+RMSE: 0.9399
+R^2: 0.4361
+--- Running CatBoost (Imputed) for log of surface density---
+Best Score with log surface dens (not translatable): 0.2894
+Best Params with log surface dens (not translatable): {'impute__strategy': 'median', 'model__bagging_temperature': 0.9937895675331595, 'model__depth': 6, 'model__iterations': 490, 'model__l2_leaf_reg': 9.068951432724946, 'model__learning_rate': 0.035777940090064096, 'model__random_strength': 5.768455538004626, 'scale': StandardScaler()}
+
+--- Running Catboost (No Impute) for log of surface density---
+Best Score with log surface dens (not translatable): 0.2853
+Best Params with log surface dens (not translatable): {'model__bagging_temperature': 1.0, 'model__depth': 5, 'model__iterations': 461, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.026261871260019623, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+
+--- Running XGBoost (Imputed) for log of surface density---
+Best Score with log surface dens (not translatable): 0.2913
+Best Params with log surface dens (not translatable): {'impute__strategy': 'mean', 'model__colsample_bytree': 0.8584723354640194, 'model__gamma': 0.5519193347305158, 'model__learning_rate': 0.05177251925714647, 'model__max_depth': 4, 'model__min_child_weight': 5, 'model__n_estimators': 503, 'model__reg_alpha': 0.00032488359255466716, 'model__reg_lambda': 0.009916450745497709, 'model__subsample': 0.9736519297369672, 'scale': StandardScaler()}
+
+--- Running XGBoost (No Impute) for log of surface density---
+Best Score with log surface dens (not translatable): 0.2859
+Best Params with log surface dens (not translatable): {'model__colsample_bytree': 0.7688050778248422, 'model__gamma': 0.0, 'model__learning_rate': 0.05020214037644537, 'model__max_depth': 4, 'model__min_child_weight': 1, 'model__n_estimators': 287, 'model__reg_alpha': 10.0, 'model__reg_lambda': 0.0001, 'model__subsample': 0.6407283094684566, 'scale': RobustScaler()}
+
+--- Running Random Forest for log of surface density---
+Best Score with log surface dens (not translatable): 0.2891
+Best Params with log surface dens (not translatable): {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'log2', 'model__min_samples_leaf': 10, 'model__min_samples_split': 5, 'model__n_estimators': 717, 'scale': StandardScaler()}
+
+--- Running Decision Tree for log of surface density---
+Best Score with log surface dens (not translatable): 0.3057
+Best Params with log surface dens (not translatable): {'impute__strategy': 'median', 'model__max_depth': 45, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 19, 'model__min_samples_split': 3, 'scale': StandardScaler()}
+
+--- Running SVR (rbf) for log of surface density---
+Best Score with log surface dens (not translatable): 0.3193
+Best Params with log surface dens (not translatable): {'model__C': 35.43174087947261, 'model__epsilon': 0.01, 'model__gamma': 0.0001, 'model__kernel': 'rbf', 'scale': RobustScaler()}
+
+Best overall model performance on test set:
+RMSE: 0.3017
+R^2: 0.5054

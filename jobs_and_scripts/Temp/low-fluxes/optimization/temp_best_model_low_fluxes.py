@@ -196,53 +196,19 @@ models = {
             'model__max_features': Categorical(['sqrt', 'log2', None])
         }
     },
-    "SVR (linear)": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', SVR())
-        ]),
-        "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__kernel': Categorical(['linear']),
-            'model__C': Real(0.1, 100, prior='log-uniform'),
-            'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
-        }
-    },
     "SVR (rbf)": {
         "pipe": Pipeline([
-            ('impute', SimpleImputer()),
+            ('impute', SimpleImputer(strategy='median')),
             ('ratio', RatioGenerator(cols=flux_cols)),
             ('scale', RobustScaler()),
             ('model', SVR())
         ]),
         "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+            'scale': Categorical([StandardScaler(), RobustScaler()]),
             'model__kernel': Categorical(['rbf']),
             'model__C': Real(0.1, 100, prior='log-uniform'),
             'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
             'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
-        }
-    },
-    "SVR (poly)": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', SVR())
-        ]),
-        "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__kernel': Categorical(['rbf']),
-            'model__C': Real(0.1, 100, prior='log-uniform'),
-            'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
-            'model__epsilon': Real(0.01, 1.0, prior='log-uniform'),
-            'model__degree': Integer(2, 5),
-            'model__coef0': Real(-1.0, 1.0)
         }
     }
 }

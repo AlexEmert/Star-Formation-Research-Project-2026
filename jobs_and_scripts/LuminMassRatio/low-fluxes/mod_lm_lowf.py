@@ -71,10 +71,10 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
 
 
 phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_low_fluxes.csv"))
-phot = phot.drop(columns=['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'TEMP', 'YB'])
+phot = phot.drop(columns=['LRATIO', 'T_BOL', 'SURF_DENS', 'L_BOL', 'MASS', 'DIAM', 'TEMP', 'YB'])
 
-phot_X = phot.drop(columns=['SURF_DENS'])
-phot_y = phot['SURF_DENS']
+phot_X = phot.drop(columns=['LM'])
+phot_y = phot['LM']
 
 X_train, X_test, y_train, y_test = train_test_split(
     phot_X, 
@@ -217,7 +217,7 @@ best_overall_score = float('-inf')
 best_overall_model = None
 
 for name, setup in models.items():
-    print(f"--- Running {name} for surface density---")
+    print(f"--- Running {name} for luminosity mass ratio---")
     
     opt = BayesSearchCV(
         estimator=setup["pipe"],
@@ -248,7 +248,7 @@ best_mod_r2 = r2_score(y_test, y_pred)
 
 
 ## Try again, but logging the response variable to see what happens
-log_phot_y = np.log1p(phot['SURF_DENS'])
+log_phot_y = np.log1p(phot['LM'])
 
 new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
     phot_X, 
@@ -261,7 +261,7 @@ best_overall_log_score = float('-inf')
 best_overall_log_model = None
 
 for name, setup in models.items():
-    print(f"--- Running {name} for log of surface density---")
+    print(f"--- Running {name} for log of luminosity mass ratio---")
     
     log_opt = BayesSearchCV(
         estimator=setup["pipe"],

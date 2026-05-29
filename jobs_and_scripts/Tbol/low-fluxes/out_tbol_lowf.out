@@ -1,0 +1,72 @@
+--- Running CatBoost (Imputed) for Tbol---
+Best Score: 9.6895
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.0, 'model__depth': 6, 'model__iterations': 540, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.02505156948617233, 'model__random_strength': 10.0, 'scale': RobustScaler()}
+
+--- Running Catboost (No Impute) for Tbol---
+Best Score: 9.5529
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 7, 'model__iterations': 761, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+
+--- Running XGBoost (Imputed) for Tbol---
+Best Score: 9.6800
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.8322548869903333, 'model__gamma': 2.191142876631854, 'model__learning_rate': 0.01, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 429, 'model__reg_alpha': 9.211195532122353, 'model__reg_lambda': 10.0, 'model__subsample': 0.6, 'scale': 'passthrough'}
+
+--- Running XGBoost (No Impute) for Tbol---
+Best Score: 9.5629
+Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 1.2901093821530398, 'model__learning_rate': 0.022937932694636256, 'model__max_depth': 6, 'model__min_child_weight': 7, 'model__n_estimators': 161, 'model__reg_alpha': 0.05799044880773637, 'model__reg_lambda': 0.0011046390723082726, 'model__subsample': 0.6264586452953925, 'scale': StandardScaler()}
+
+--- Running Random Forest for Tbol---
+Best Score: 9.5910
+Best Params: {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 50, 'model__max_features': 'log2', 'model__min_samples_leaf': 16, 'model__min_samples_split': 20, 'model__n_estimators': 800, 'scale': 'passthrough'}
+
+--- Running Decision Tree for Tbol---
+Best Score: 9.9958
+Best Params: {'impute__strategy': 'mean', 'model__max_depth': 5, 'model__max_features': 'log2', 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'scale': StandardScaler()}
+
+--- Running SVR (rbf) for Tbol---
+Best Score: 10.1667
+Best Params: {'model__C': 14.352063745932234, 'model__epsilon': 1.0, 'model__gamma': 0.027732953692195944, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+
+--- Running CatBoost (Imputed) for log of tbol---
+Best Score: 0.2042
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.7943632576343748, 'model__depth': 4, 'model__iterations': 687, 'model__l2_leaf_reg': 6.435768837816619, 'model__learning_rate': 0.010394287660994974, 'model__random_strength': 5.379985806259564, 'scale': RobustScaler()}
+
+--- Running Catboost (No Impute) for log of tbol---
+Best Score: 0.2035
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 5, 'model__iterations': 795, 'model__l2_leaf_reg': 9.341154388833754, 'model__learning_rate': 0.01, 'model__random_strength': 4.197016412609172e-05, 'scale': 'passthrough'}
+
+--- Running XGBoost (Imputed) for log of tbol---
+Best Score: 0.2050
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.9671142960374697, 'model__gamma': 0.3868252519568394, 'model__learning_rate': 0.13440386117253525, 'model__max_depth': 7, 'model__min_child_weight': 4, 'model__n_estimators': 294, 'model__reg_alpha': 0.0007745965569659434, 'model__reg_lambda': 0.1215513019705238, 'model__subsample': 0.9232805936188169, 'scale': RobustScaler()}
+
+--- Running XGBoost (No Impute) for log of tbol---
+Best Score: 0.2029
+Best Params: {'model__colsample_bytree': 0.9303355394588066, 'model__gamma': 0.07994554827901403, 'model__learning_rate': 0.010373994880306395, 'model__max_depth': 4, 'model__min_child_weight': 4, 'model__n_estimators': 768, 'model__reg_alpha': 1.033589540808996, 'model__reg_lambda': 0.04569053664255344, 'model__subsample': 0.9210161716177251, 'scale': RobustScaler()}
+
+--- Running Random Forest for log of tbol---
+Best Score: 0.2039
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'log2', 'model__min_samples_leaf': 10, 'model__min_samples_split': 5, 'model__n_estimators': 717, 'scale': StandardScaler()}
+
+--- Running Decision Tree for log of tbol---
+Best Score: 0.2113
+Best Params: {'impute__strategy': 'mean', 'model__max_depth': 5, 'model__max_features': None, 'model__min_samples_leaf': 16, 'model__min_samples_split': 3, 'scale': RobustScaler()}
+
+--- Running SVR (rbf) for log of tbol---
+Best Score: 0.2170
+Best Params: {'model__C': 0.1, 'model__epsilon': 0.01, 'model__gamma': 0.03831568787719793, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+
+Best overall model is: Pipeline(steps=[('impute', SimpleImputer()),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.0, depth=6, iterations=540, l2_leaf_reg=1.0, learning_rate=0.02505156948617233, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+Best overall model performance on test set:
+RMSE: 9.7778
+R^2: 0.3152
+Best overall log model is: Pipeline(steps=[('impute', SimpleImputer()),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.7943632576343748, depth=4, iterations=687, l2_leaf_reg=6.435768837816619, learning_rate=0.010394287660994974, loss_function='RMSE', random_state=2026, random_strength=5.379985806259564, verbose=0))])
+Best overall log model performance on test set:
+RMSE: 0.2087
+R^2: 0.3297

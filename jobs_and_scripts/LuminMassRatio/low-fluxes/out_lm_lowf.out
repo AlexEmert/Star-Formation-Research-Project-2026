@@ -1,0 +1,78 @@
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('mean'), np.True_, np.int64(50), np.str_('log2'), np.int64(20), np.int64(2), np.int64(800), StandardScaler()] before, using random point ['median', False, np.int64(17), 'sqrt', np.int64(15), np.int64(13), np.int64(384), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('median'), np.int64(5), np.str_('sqrt'), np.int64(20), np.int64(20), RobustScaler()] before, using random point ['mean', np.int64(47), 'log2', np.int64(16), np.int64(5), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('median'), np.int64(5), None, np.int64(13), np.int64(20), StandardScaler()] before, using random point ['median', np.int64(48), 'sqrt', np.int64(10), np.int64(4), 'passthrough']
+  warnings.warn(
+--- Running CatBoost (Imputed) for luminosity mass ratio---
+Best Score: 28.4470
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.0, 'model__depth': 10, 'model__iterations': 100, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.030729700343286485, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+
+--- Running Catboost (No Impute) for luminosity mass ratio---
+Best Score: 28.5729
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 1000, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': RobustScaler()}
+
+--- Running XGBoost (Imputed) for luminosity mass ratio---
+Best Score: 28.5616
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.7501424582785371, 'model__gamma': 0.0, 'model__learning_rate': 0.015403031383462164, 'model__max_depth': 5, 'model__min_child_weight': 7, 'model__n_estimators': 130, 'model__reg_alpha': 0.0024604458842914746, 'model__reg_lambda': 0.026061052040541748, 'model__subsample': 0.6597217220945372, 'scale': 'passthrough'}
+
+--- Running XGBoost (No Impute) for luminosity mass ratio---
+Best Score: 28.2964
+Best Params: {'model__colsample_bytree': 1.0, 'model__gamma': 0.0, 'model__learning_rate': 0.0151864832450523, 'model__max_depth': 3, 'model__min_child_weight': 1, 'model__n_estimators': 227, 'model__reg_alpha': 0.0001, 'model__reg_lambda': 10.0, 'model__subsample': 0.6, 'scale': StandardScaler()}
+
+--- Running Random Forest for luminosity mass ratio---
+Best Score: 28.4471
+Best Params: {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 26, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 4, 'model__n_estimators': 575, 'scale': StandardScaler()}
+
+--- Running Decision Tree for luminosity mass ratio---
+Best Score: 29.1735
+Best Params: {'impute__strategy': 'median', 'model__max_depth': 5, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 15, 'model__min_samples_split': 20, 'scale': RobustScaler()}
+
+--- Running SVR (rbf) for luminosity mass ratio---
+Best Score: 29.6776
+Best Params: {'model__C': 100.0, 'model__epsilon': 1.0, 'model__gamma': 0.014815572164543331, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+
+--- Running CatBoost (Imputed) for log of luminosity mass ratio---
+Best Score: 0.8625
+Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.6269440157301299, 'model__depth': 7, 'model__iterations': 1000, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+
+--- Running Catboost (No Impute) for log of luminosity mass ratio---
+Best Score: 0.8689
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 6, 'model__iterations': 469, 'model__l2_leaf_reg': 2.515177259220626, 'model__learning_rate': 0.01, 'model__random_strength': 1e-09, 'scale': 'passthrough'}
+
+--- Running XGBoost (Imputed) for log of luminosity mass ratio---
+Best Score: 0.8645
+Best Params: {'impute__strategy': 'median', 'model__colsample_bytree': 0.8892069734514625, 'model__gamma': 0.6107243863231228, 'model__learning_rate': 0.01219329412620784, 'model__max_depth': 3, 'model__min_child_weight': 1, 'model__n_estimators': 439, 'model__reg_alpha': 5.830774784759885, 'model__reg_lambda': 0.0643918065659704, 'model__subsample': 0.7542154487386179, 'scale': 'passthrough'}
+
+--- Running XGBoost (No Impute) for log of luminosity mass ratio---
+Best Score: 0.8643
+Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 3.6570779563943017, 'model__learning_rate': 0.011895486247785095, 'model__max_depth': 3, 'model__min_child_weight': 3, 'model__n_estimators': 457, 'model__reg_alpha': 0.005554450078149069, 'model__reg_lambda': 0.0007929525922264133, 'model__subsample': 0.8246186828052584, 'scale': StandardScaler()}
+
+--- Running Random Forest for log of luminosity mass ratio---
+Best Score: 0.8623
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 22, 'model__max_features': 'log2', 'model__min_samples_leaf': 20, 'model__min_samples_split': 3, 'model__n_estimators': 757, 'scale': 'passthrough'}
+
+--- Running Decision Tree for log of luminosity mass ratio---
+Best Score: 0.8893
+Best Params: {'impute__strategy': 'median', 'model__max_depth': 5, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 20, 'scale': StandardScaler()}
+
+--- Running SVR (rbf) for log of luminosity mass ratio---
+Best Score: 0.8942
+Best Params: {'model__C': 7.155146490952943, 'model__epsilon': 0.01, 'model__gamma': 0.017007121904791037, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+
+Best overall model is: Pipeline(steps=[('impute', SimpleImputer()),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', 'passthrough'),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.0, depth=10, iterations=100, l2_leaf_reg=1.0, learning_rate=0.030729700343286485, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+Best overall model performance on test set:
+RMSE: 31.2320
+R^2: 0.1469
+Best overall log model is: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.6269440157301299, depth=7, iterations=1000, l2_leaf_reg=10.0, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+Best overall log model performance on test set:
+RMSE: 0.8719
+R^2: 0.4048

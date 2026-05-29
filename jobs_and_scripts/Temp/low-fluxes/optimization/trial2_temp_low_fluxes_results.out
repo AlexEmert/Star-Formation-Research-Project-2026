@@ -1,0 +1,177 @@
+--- Running CatBoost (Imputed) ---
+Best Score: -3.8113
+Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.0, 'model__depth': 4, 'model__iterations': 475, 'model__l2_leaf_reg': 7.108053505069411, 'model__learning_rate': 0.02057538813040521, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+
+*** Best Temp low fluxes results ***
+Score: -3.8112854451779477
+Model: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', 'passthrough'),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.0, depth=4, iterations=475, l2_leaf_reg=7.108053505069411, learning_rate=0.02057538813040521, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+--- Running Catboost (No Impute) ---
+Best Score: -3.8207
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 389, 'model__l2_leaf_reg': 5.965217443494435, 'model__learning_rate': 0.017732423792706377, 'model__random_strength': 1e-09, 'scale': 'passthrough'}
+
+*** Best Temp low fluxes results ***
+Score: -3.8112854451779477
+Model: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', 'passthrough'),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.0, depth=4, iterations=475, l2_leaf_reg=7.108053505069411, learning_rate=0.02057538813040521, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+--- Running XGBoost (Imputed) ---
+Best Score: -3.8078
+Best Params: {'impute__strategy': 'median', 'model__colsample_bytree': 0.6, 'model__gamma': 0.0, 'model__learning_rate': 0.01, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 541, 'model__reg_alpha': 0.0001, 'model__reg_lambda': 10.0, 'model__subsample': 0.6093967327157669, 'scale': RobustScaler()}
+
+*** Best Temp low fluxes results ***
+Score: -3.80781125463609
+Model: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.6, device=None,
+                              early_stopping_rounds=None,
+                              enable_categorical=False, eval_metric=N...
+                              feature_types=None, feature_weights=None,
+                              gamma=0.0, grow_policy=None, importance_type=None,
+                              interaction_constraints=None, learning_rate=0.01,
+                              max_bin=None, max_cat_threshold=None,
+                              max_cat_to_onehot=None, max_delta_step=None,
+                              max_depth=3, max_leaves=None, min_child_weight=7,
+                              missing=nan, monotone_constraints=None,
+                              multi_strategy=None, n_estimators=541, n_jobs=-1,
+                              num_parallel_tree=None, ...))])
+--- Running XGBoost (No Impute) ---
+Best Score: -3.7868
+Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 5.0, 'model__learning_rate': 0.01, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 456, 'model__reg_alpha': 0.0009562864626200623, 'model__reg_lambda': 10.0, 'model__subsample': 0.9670580558607058, 'scale': RobustScaler()}
+
+*** Best Temp low fluxes results ***
+Score: -3.786810651065975
+Model: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.6, device=None,
+                              early_stopping_rounds=None,
+                              enable_categorical=False, eval_metric=None,
+                              feature_types=N...weights=None,
+                              gamma=5.0, grow_policy=None, importance_type=None,
+                              interaction_constraints=None, learning_rate=0.01,
+                              max_bin=None, max_cat_threshold=None,
+                              max_cat_to_onehot=None, max_delta_step=None,
+                              max_depth=3, max_leaves=None, min_child_weight=7,
+                              missing=nan, monotone_constraints=None,
+                              multi_strategy=None, n_estimators=456, n_jobs=-1,
+                              num_parallel_tree=None, ...))])
+--- Running Random Forest ---
+Best Score: -3.8117
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 11, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'model__n_estimators': 800, 'scale': 'passthrough'}
+
+*** Best Temp low fluxes results ***
+Score: -3.786810651065975
+Model: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.6, device=None,
+                              early_stopping_rounds=None,
+                              enable_categorical=False, eval_metric=None,
+                              feature_types=N...weights=None,
+                              gamma=5.0, grow_policy=None, importance_type=None,
+                              interaction_constraints=None, learning_rate=0.01,
+                              max_bin=None, max_cat_threshold=None,
+                              max_cat_to_onehot=None, max_delta_step=None,
+                              max_depth=3, max_leaves=None, min_child_weight=7,
+                              missing=nan, monotone_constraints=None,
+                              multi_strategy=None, n_estimators=456, n_jobs=-1,
+                              num_parallel_tree=None, ...))])
+--- Running CatBoost (Imputed) for log of temp---
+Best Score with log temp (not translatable): -0.1884
+Best Params with log temp (not translatable): {'impute__strategy': 'median', 'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 1000, 'model__l2_leaf_reg': 4.483275333460036, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+
+*** Best Temp low fluxes results ***
+Score: -0.18836285638569567
+Model: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=1.0, depth=4, iterations=1000, l2_leaf_reg=4.483275333460036, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+--- Running Catboost (No Impute) for log of temp---
+Best Score with log temp (not translatable): -0.1888
+Best Params with log temp (not translatable): {'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 1000, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': RobustScaler()}
+
+*** Best Temp low fluxes results ***
+Score: -0.18836285638569567
+Model: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=1.0, depth=4, iterations=1000, l2_leaf_reg=4.483275333460036, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+--- Running XGBoost (Imputed) for log of temp---
+Best Score with log temp (not translatable): -0.1892
+Best Params with log temp (not translatable): {'impute__strategy': 'mean', 'model__colsample_bytree': 0.9671142960374697, 'model__gamma': 0.3868252519568394, 'model__learning_rate': 0.13440386117253525, 'model__max_depth': 7, 'model__min_child_weight': 4, 'model__n_estimators': 294, 'model__reg_alpha': 0.0007745965569659434, 'model__reg_lambda': 0.1215513019705238, 'model__subsample': 0.9232805936188169, 'scale': RobustScaler()}
+
+*** Best Temp low fluxes results ***
+Score: -0.18836285638569567
+Model: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=1.0, depth=4, iterations=1000, l2_leaf_reg=4.483275333460036, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+--- Running XGBoost (No Impute) for log of temp---
+Best Score with log temp (not translatable): -0.1882
+Best Params with log temp (not translatable): {'model__colsample_bytree': 0.9844252721180402, 'model__gamma': 0.05852268168758946, 'model__learning_rate': 0.029836293143403813, 'model__max_depth': 8, 'model__min_child_weight': 4, 'model__n_estimators': 733, 'model__reg_alpha': 1.922692474626121, 'model__reg_lambda': 0.00015737191467989943, 'model__subsample': 0.9978337221048107, 'scale': RobustScaler()}
+
+*** Best Temp low fluxes results ***
+Score: -0.18821644439424895
+Model: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.9844252721180402, device=None,
+                              early_stopping_rounds=None,
+                              enable_categorical=False, eval_metric=None,...
+                              gamma=0.05852268168758946, grow_policy=None,
+                              importance_type=None,
+                              interaction_constraints=None,
+                              learning_rate=0.029836293143403813, max_bin=None,
+                              max_cat_threshold=None, max_cat_to_onehot=None,
+                              max_delta_step=None, max_depth=8, max_leaves=None,
+                              min_child_weight=4, missing=nan,
+                              monotone_constraints=None, multi_strategy=None,
+                              n_estimators=733, n_jobs=-1,
+                              num_parallel_tree=None, ...))])
+--- Running Random Forest for log of temp---
+Best Score with log temp (not translatable): -0.1885
+Best Params with log temp (not translatable): {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 7, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 14, 'model__n_estimators': 146, 'scale': StandardScaler()}
+
+*** Best Temp low fluxes results ***
+Score: -0.18821644439424895
+Model: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.9844252721180402, device=None,
+                              early_stopping_rounds=None,
+                              enable_categorical=False, eval_metric=None,...
+                              gamma=0.05852268168758946, grow_policy=None,
+                              importance_type=None,
+                              interaction_constraints=None,
+                              learning_rate=0.029836293143403813, max_bin=None,
+                              max_cat_threshold=None, max_cat_to_onehot=None,
+                              max_delta_step=None, max_depth=8, max_leaves=None,
+                              min_child_weight=4, missing=nan,
+                              monotone_constraints=None, multi_strategy=None,
+                              n_estimators=733, n_jobs=-1,
+                              num_parallel_tree=None, ...))])

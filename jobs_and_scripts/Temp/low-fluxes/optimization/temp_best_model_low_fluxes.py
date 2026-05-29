@@ -94,7 +94,7 @@ pipe = Pipeline([
 search_space = [
     {
     'impute': ['passthrough'],
-    'model': [XGBRegressor(random_state=2026, verbose=0)],
+    'model': Categorical([XGBRegressor(random_state=2026, verbose=0)]),
     'model__n_estimators': Integer(100, 800),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
     'model__max_depth': Integer(3, 9),
@@ -106,7 +106,7 @@ search_space = [
     'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
     },
     {
-    'model': [XGBRegressor(random_state=2026, verbose=0)],
+    'model': Categorical([XGBRegressor(random_state=2026, verbose=0)]),
     'model__n_estimators': Integer(100, 800),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
     'model__max_depth': Integer(3, 9),
@@ -118,7 +118,7 @@ search_space = [
     'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
     },
     {
-    'model': [RandomForestRegressor(random_state=2026, verbose=0)],
+    'model': Categorical([RandomForestRegressor(random_state=2026, verbose=0)]),
     'model__n_estimators': Integer(100, 800),
     'model__max_depth': Integer(5, 50),
     'model__min_samples_split': Integer(2, 20),
@@ -128,7 +128,7 @@ search_space = [
     },
     {
     'impute': ['passthrough'],
-    'model': [CatBoostRegressor(random_state=2026, verbose=0)],
+    'model': Categorical([CatBoostRegressor(random_state=2026, verbose=0)]),
     'model__iterations': Integer(100, 1000),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
     'model__depth': Integer(4, 10),
@@ -137,7 +137,7 @@ search_space = [
     'model__bagging_temperature': Real(0.0, 1.0)
     },
     {
-    'model': [CatBoostRegressor(random_state=2026, verbose=0)],
+    'model': Categorical([CatBoostRegressor(random_state=2026, verbose=0)]),
     'model__iterations': Integer(100, 1000),
     'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
     'model__depth': Integer(4, 10),
@@ -169,7 +169,7 @@ opt = BayesSearchCV(
 
 opt.fit(X_train, y_train)
 print("Best RMSE for temp low fluxes random forest optimization trial 1: ", -opt.best_score_)
-print("Best hyperparameters: ", opt.best_params_)
+print("Best hyperparameters: ", opt['model'].best_params_)
 
 
 ## Try again, but logging the response variable to see what happens
@@ -198,4 +198,4 @@ log_opt = BayesSearchCV(
 
 log_opt.fit(new_X_train, new_y_train)
 print("Best RMSE for log(temp) low fluxes random forest optimization trial 1: ", -log_opt.best_score_)
-print("Best hyperparameters: ", log_opt.best_params_)
+print("Best hyperparameters: ", log_opt['model'].best_params_)

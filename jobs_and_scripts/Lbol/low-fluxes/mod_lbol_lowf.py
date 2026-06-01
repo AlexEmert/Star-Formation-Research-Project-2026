@@ -213,7 +213,7 @@ models = {
     }
 }
 
-best_overall_score = float('-inf')
+best_overall_score = float('inf')
 best_overall_model = None
 
 for name, setup in models.items():
@@ -235,7 +235,7 @@ for name, setup in models.items():
     print(f"Best Params: {dict(opt.best_params_)}\n")
 
     # Keep track of the absolute winner
-    if opt.best_score_ > best_overall_score:
+    if -opt.best_score_ < best_overall_score:
         best_overall_score = -opt.best_score_
         best_overall_model = opt.best_estimator_
 
@@ -257,7 +257,7 @@ new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
     random_state=2026
 )
 
-best_overall_log_score = float('-inf')
+best_overall_log_score = float('inf')
 best_overall_log_model = None
 
 for name, setup in models.items():
@@ -279,7 +279,7 @@ for name, setup in models.items():
     print(f"Best Params: {dict(log_opt.best_params_)}\n")
 
     # Keep track of the absolute winner
-    if log_opt.best_score_ > best_overall_log_score:
+    if -log_opt.best_score_ < best_overall_log_score:
         best_overall_log_score = -log_opt.best_score_
         best_overall_log_model = log_opt.best_estimator_
 

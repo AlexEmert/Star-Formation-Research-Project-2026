@@ -249,14 +249,7 @@ best_mod_r2 = r2_score(y_test, y_pred)
 
 
 ## Try again, but logging the response variable to see what happens
-log_phot_y = np.log1p(phot['TEMP'])
-
-new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
-    phot_X, 
-    log_phot_y,
-    train_size=0.8,
-    random_state=2026
-)
+log_y_train = np.log1p(y_train)
 
 best_overall_log_score = float('inf')
 best_overall_log_model = None
@@ -274,7 +267,7 @@ for name, setup in models.items():
         random_state=2026
     )
 
-    log_opt.fit(new_X_train, new_y_train)
+    log_opt.fit(X_train, log_y_train)
 
     print(f"Best Score: {-log_opt.best_score_:.4f}")
     print(f"Best Params: {dict(log_opt.best_params_)}\n")
@@ -286,10 +279,11 @@ for name, setup in models.items():
 
 # print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_log_score}\nModel: {best_overall_log_model}")
 
-best_overall_log_model.fit(new_X_train, new_y_train)
-new_y_pred = best_overall_log_model.predict(new_X_test)
-best_log_mod_rmse = root_mean_squared_error(new_y_test, new_y_pred)
-best_log_mod_r2 = r2_score(new_y_test, new_y_pred)
+best_overall_log_model.fit(X_train, log_y_train)
+new_y_pred_log = best_overall_log_model.predict(X_test)
+new_y_pred = np.expm1(new_y_pred_log) # invert the log transform to get predictions back on original scale
+best_log_mod_rmse = root_mean_squared_error(y_test, new_y_pred)
+best_log_mod_r2 = r2_score(y_test, new_y_pred)
 
 
 print(f"Best overall model is: {best_overall_model}")

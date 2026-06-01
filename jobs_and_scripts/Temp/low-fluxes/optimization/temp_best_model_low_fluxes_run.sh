@@ -5,7 +5,7 @@
 #SBATCH -J temp_model_fit
 #SBATCH -p bsudfq
 #SBATCH -t 06:00:00
-#SBATCH --output=trial3_temp_low_fluxes_results.out
+#SBATCH --output=out_temp_lowf4.out
 
 
 . ~/.bashrc

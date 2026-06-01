@@ -43,7 +43,7 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         # Create a copy to avoid SettingWithCopy warnings or mutating the original
         X_out = X.copy()
         
-        for top, bottom in itertools.permutations(self.cols, 2):
+        for top, bottom in itertools.combinations(self.cols, 2):
             new_col_name = f"{top}_over_{bottom}"
             X_out[new_col_name] = X_out[top] / (X_out[bottom] + 1e-8 ) #add epsilon to reduce division by 0 errors
             
@@ -63,7 +63,7 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         # Generate ratio feature names
         ratio_features = [
             f"{top}_over_{bottom}"
-            for top, bottom in itertools.permutations(self.cols, 2)
+            for top, bottom in itertools.combinations(self.cols, 2)
         ]
 
         # IMPORTANT: include ALL original input features
@@ -84,6 +84,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 flux_cols = ['F8', 'F12', 'F24', 'F70']
+flux_cols = flux_cols[::-1]
 
 models = {
     "CatBoost (Imputed)": {

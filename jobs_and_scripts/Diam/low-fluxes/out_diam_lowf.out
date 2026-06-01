@@ -1,0 +1,56 @@
+--- Running CatBoost (Imputed) for diam---
+Best Score: 0.3877
+Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.571647239302347, 'model__depth': 8, 'model__iterations': 148, 'model__l2_leaf_reg': 3.6568830232936786, 'model__learning_rate': 0.026437439733500642, 'model__random_strength': 1.0955796756157396e-09, 'scale': RobustScaler()}
+
+--- Running Catboost (No Impute) for diam---
+Best Score: 0.3882
+Best Params: {'model__bagging_temperature': 0.6953367405695673, 'model__depth': 9, 'model__iterations': 316, 'model__l2_leaf_reg': 9.349613063550175, 'model__learning_rate': 0.012603073441498325, 'model__random_strength': 2.1156935562390796e-08, 'scale': 'passthrough'}
+
+--- Running XGBoost (Imputed) for diam---
+Best Score: 0.3900
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.8584723354640194, 'model__gamma': 0.5519193347305158, 'model__learning_rate': 0.05177251925714647, 'model__max_depth': 4, 'model__min_child_weight': 5, 'model__n_estimators': 503, 'model__reg_alpha': 0.00032488359255466716, 'model__reg_lambda': 0.009916450745497709, 'model__subsample': 0.9736519297369672, 'scale': StandardScaler()}
+
+--- Running XGBoost (No Impute) for diam---
+Best Score: 0.3892
+Best Params: {'model__colsample_bytree': 0.7283966980235954, 'model__gamma': 1.1871795689046858, 'model__learning_rate': 0.05608206124714764, 'model__max_depth': 8, 'model__min_child_weight': 6, 'model__n_estimators': 637, 'model__reg_alpha': 0.4430673015243139, 'model__reg_lambda': 0.00010487332280488721, 'model__subsample': 0.8423811275933908, 'scale': StandardScaler()}
+
+--- Running Random Forest for diam---
+Best Score: 0.3886
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'log2', 'model__min_samples_leaf': 10, 'model__min_samples_split': 5, 'model__n_estimators': 717, 'scale': StandardScaler()}
+
+--- Running CatBoost (Imputed) for log of diam---
+Best Score: 0.7986
+Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.0, 'model__depth': 10, 'model__iterations': 100, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.018382054369829138, 'model__random_strength': 0.10728324699427874, 'scale': RobustScaler()}
+
+--- Running Catboost (No Impute) for log of diam---
+Best Score: 0.7973
+Best Params: {'model__bagging_temperature': 0.15045400830672592, 'model__depth': 10, 'model__iterations': 293, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+
+--- Running XGBoost (Imputed) for log of diam---
+Best Score: 0.8015
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.7293622145968831, 'model__gamma': 2.9423218978922874, 'model__learning_rate': 0.028826360298166893, 'model__max_depth': 9, 'model__min_child_weight': 5, 'model__n_estimators': 258, 'model__reg_alpha': 0.0029238250160032848, 'model__reg_lambda': 0.0092440750413992, 'model__subsample': 0.8384811829992442, 'scale': RobustScaler()}
+
+--- Running XGBoost (No Impute) for log of diam---
+Best Score: 0.7997
+Best Params: {'model__colsample_bytree': 0.9482376514101377, 'model__gamma': 3.6150871681432823, 'model__learning_rate': 0.015150354480431505, 'model__max_depth': 3, 'model__min_child_weight': 1, 'model__n_estimators': 155, 'model__reg_alpha': 0.026571982459851613, 'model__reg_lambda': 5.830774784759885, 'model__subsample': 0.8247064487806279, 'scale': RobustScaler()}
+
+--- Running Random Forest for log of diam---
+Best Score: 0.8000
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'model__n_estimators': 800, 'scale': RobustScaler()}
+
+Best overall model is: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.571647239302347, depth=8, iterations=148, l2_leaf_reg=3.6568830232936786, learning_rate=0.026437439733500642, loss_function='RMSE', random_state=2026, random_strength=1.0955796756157396e-09, verbose=0))])
+Best overall model performance on test set:
+RMSE: 0.3936
+R^2: 0.0077
+Best overall log model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.15045400830672592, depth=10, iterations=293, l2_leaf_reg=10.0, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+Best overall log model performance on test set:
+RMSE: 0.7777
+R^2: 0.0153

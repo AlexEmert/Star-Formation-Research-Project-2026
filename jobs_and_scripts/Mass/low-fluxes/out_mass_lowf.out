@@ -1,0 +1,58 @@
+--- Running CatBoost (Imputed) for mass---
+Best Score: 1581.4550
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.0, 'model__depth': 10, 'model__iterations': 100, 'model__l2_leaf_reg': 4.438989924416286, 'model__learning_rate': 0.024003979534635272, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+
+--- Running Catboost (No Impute) for mass---
+Best Score: 1588.9982
+Best Params: {'model__bagging_temperature': 0.010469068752776946, 'model__depth': 8, 'model__iterations': 205, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.017906177300179557, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+
+--- Running XGBoost (Imputed) for mass---
+Best Score: 1587.5321
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.6, 'model__gamma': 3.594077258355553, 'model__learning_rate': 0.01, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 254, 'model__reg_alpha': 10.0, 'model__reg_lambda': 10.0, 'model__subsample': 1.0, 'scale': StandardScaler()}
+
+--- Running XGBoost (No Impute) for mass---
+Best Score: 1587.7857
+Best Params: {'model__colsample_bytree': 0.9752487804188995, 'model__gamma': 2.908808073465492, 'model__learning_rate': 0.014719858764967932, 'model__max_depth': 3, 'model__min_child_weight': 1, 'model__n_estimators': 153, 'model__reg_alpha': 0.01526325141930935, 'model__reg_lambda': 9.437142460763232, 'model__subsample': 0.752059355729311, 'scale': RobustScaler()}
+
+--- Running Random Forest for mass---
+Best Score: 1579.5786
+Best Params: {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 50, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'model__n_estimators': 480, 'scale': StandardScaler()}
+
+--- Running CatBoost (Imputed) for log of mass---
+Best Score: 1.8100
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.0, 'model__depth': 10, 'model__iterations': 100, 'model__l2_leaf_reg': 5.119031103026151, 'model__learning_rate': 0.04026882552382671, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+
+--- Running Catboost (No Impute) for log of mass---
+Best Score: 1.8047
+Best Params: {'model__bagging_temperature': 0.17993668326475243, 'model__depth': 9, 'model__iterations': 508, 'model__l2_leaf_reg': 2.923985954514558, 'model__learning_rate': 0.01, 'model__random_strength': 8.510704776035368, 'scale': 'passthrough'}
+
+--- Running XGBoost (Imputed) for log of mass---
+Best Score: 1.8168
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.6, 'model__gamma': 0.5359585383400917, 'model__learning_rate': 0.01, 'model__max_depth': 7, 'model__min_child_weight': 4, 'model__n_estimators': 336, 'model__reg_alpha': 10.0, 'model__reg_lambda': 0.05857010868049922, 'model__subsample': 0.6, 'scale': StandardScaler()}
+
+--- Running XGBoost (No Impute) for log of mass---
+Best Score: 1.8117
+Best Params: {'model__colsample_bytree': 0.9194572917479583, 'model__gamma': 3.2044663280192793, 'model__learning_rate': 0.01576769736919313, 'model__max_depth': 3, 'model__min_child_weight': 5, 'model__n_estimators': 586, 'model__reg_alpha': 6.159214987732367, 'model__reg_lambda': 10.0, 'model__subsample': 1.0, 'scale': 'passthrough'}
+
+--- Running Random Forest for log of mass---
+Best Score: 1.8107
+Best Params: {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 19, 'model__min_samples_split': 14, 'model__n_estimators': 258, 'scale': StandardScaler()}
+
+Best overall model is: Pipeline(steps=[('impute', SimpleImputer()),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 RandomForestRegressor(max_depth=50, max_features='sqrt',
+                                       min_samples_leaf=20, n_estimators=480,
+                                       n_jobs=-1, random_state=2026))])
+Best overall model performance on test set:
+RMSE: 2313.0727
+R^2: 0.0950
+Best overall log model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
+                ('scale', 'passthrough'),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=0.17993668326475243, depth=9, iterations=508, l2_leaf_reg=2.923985954514558, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=8.510704776035368, verbose=0))])
+Best overall log model performance on test set:
+RMSE: 1.7795
+R^2: 0.1705

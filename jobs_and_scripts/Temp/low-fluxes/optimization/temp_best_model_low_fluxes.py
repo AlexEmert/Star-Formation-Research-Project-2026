@@ -180,38 +180,38 @@ models = {
             'model__max_features': Categorical(['sqrt', 'log2', None]), 
             'model__bootstrap': Categorical([True, False])
         }
-    },
-    "Decision Tree": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', DecisionTreeRegressor(random_state=2026))
-        ]),
-        "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__max_depth': Integer(5, 50),
-            'model__min_samples_split': Integer(2, 20),
-            'model__min_samples_leaf': Integer(1, 20),
-            'model__max_features': Categorical(['sqrt', 'log2', None])
-        }
-    },
-    "SVR (rbf)": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer(strategy='median')),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', SVR())
-        ]),
-        "space": {
-            'scale': Categorical([StandardScaler(), RobustScaler()]),
-            'model__kernel': Categorical(['rbf']),
-            'model__C': Real(0.1, 100, prior='log-uniform'),
-            'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
-            'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
-        }
-    }
+    }# ,
+    # "Decision Tree": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer()),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', DecisionTreeRegressor(random_state=2026))
+    #     ]),
+    #     "space": {
+    #         'impute__strategy': Categorical(['mean', 'median']),
+    #         'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+    #         'model__max_depth': Integer(5, 50),
+    #         'model__min_samples_split': Integer(2, 20),
+    #         'model__min_samples_leaf': Integer(1, 20),
+    #         'model__max_features': Categorical(['sqrt', 'log2', None])
+    #     }
+    # },
+    # "SVR (rbf)": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer(strategy='median')),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', SVR())
+    #     ]),
+    #     "space": {
+    #         'scale': Categorical([StandardScaler(), RobustScaler()]),
+    #         'model__kernel': Categorical(['rbf']),
+    #         'model__C': Real(0.1, 100, prior='log-uniform'),
+    #         'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
+    #         'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
+    #     }
+    # }
 }
 
 best_overall_score = float('inf')
@@ -249,13 +249,20 @@ best_mod_r2 = r2_score(y_test, y_pred)
 
 
 ## Try again, but logging the response variable to see what happens
-log_y_train = np.log1p(y_train)
+log_phot_y = np.log1p(phot_y)
+
+new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
+    phot_X, 
+    log_phot_y,
+    train_size=0.8,
+    random_state=2026
+)
 
 best_overall_log_score = float('inf')
 best_overall_log_model = None
 
 for name, setup in models.items():
-    print(f"--- Running {name} for log of temp---")
+    print(f"--- Running {name} for log of diam---")
     
     log_opt = BayesSearchCV(
         estimator=setup["pipe"],
@@ -267,7 +274,7 @@ for name, setup in models.items():
         random_state=2026
     )
 
-    log_opt.fit(X_train, log_y_train)
+    log_opt.fit(new_X_train, new_y_train)
 
     print(f"Best Score: {-log_opt.best_score_:.4f}")
     print(f"Best Params: {dict(log_opt.best_params_)}\n")
@@ -279,12 +286,10 @@ for name, setup in models.items():
 
 # print(f"*** Best Temp low fluxes results ***\nScore: {best_overall_log_score}\nModel: {best_overall_log_model}")
 
-best_overall_log_model.fit(X_train, log_y_train)
-new_y_pred_log = best_overall_log_model.predict(X_test)
-new_y_pred = np.expm1(new_y_pred_log) # invert the log transform to get predictions back on original scale
-best_log_mod_rmse = root_mean_squared_error(y_test, new_y_pred)
-best_log_mod_r2 = r2_score(y_test, new_y_pred)
-
+best_overall_log_model.fit(new_X_train, new_y_train)
+new_y_pred = best_overall_log_model.predict(new_X_test)
+best_log_mod_rmse = root_mean_squared_error(new_y_test, new_y_pred)
+best_log_mod_r2 = r2_score(new_y_test, new_y_pred)
 
 print(f"Best overall model is: {best_overall_model}")
 print(f"Best overall model performance on test set:\nRMSE: {best_mod_rmse:.4f}\nR^2: {best_mod_r2:.4f}")

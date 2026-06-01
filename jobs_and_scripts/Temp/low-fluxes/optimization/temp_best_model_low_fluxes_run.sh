@@ -5,7 +5,7 @@
 #SBATCH -J temp_model_fit
 #SBATCH -p bsudfq
 #SBATCH -t 06:00:00
-#SBATCH --output=out_temp_lowf4.out
+#SBATCH --output=out_temp_lowf5.out
 
 
 . ~/.bashrc

@@ -180,38 +180,38 @@ models = {
             'model__max_features': Categorical(['sqrt', 'log2', None]), 
             'model__bootstrap': Categorical([True, False])
         }
-    },
-    "Decision Tree": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', DecisionTreeRegressor(random_state=2026))
-        ]),
-        "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__max_depth': Integer(5, 50),
-            'model__min_samples_split': Integer(2, 20),
-            'model__min_samples_leaf': Integer(1, 20),
-            'model__max_features': Categorical(['sqrt', 'log2', None])
-        }
-    },
-    "SVR (rbf)": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer(strategy='median')),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', SVR())
-        ]),
-        "space": {
-            'scale': Categorical([StandardScaler(), RobustScaler()]),
-            'model__kernel': Categorical(['rbf']),
-            'model__C': Real(0.1, 100, prior='log-uniform'),
-            'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
-            'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
-        }
-    }
+    }# ,
+    # "Decision Tree": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer()),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', DecisionTreeRegressor(random_state=2026))
+    #     ]),
+    #     "space": {
+    #         'impute__strategy': Categorical(['mean', 'median']),
+    #         'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+    #         'model__max_depth': Integer(5, 50),
+    #         'model__min_samples_split': Integer(2, 20),
+    #         'model__min_samples_leaf': Integer(1, 20),
+    #         'model__max_features': Categorical(['sqrt', 'log2', None])
+    #     }
+    # },
+    # "SVR (rbf)": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer(strategy='median')),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', SVR())
+    #     ]),
+    #     "space": {
+    #         'scale': Categorical([StandardScaler(), RobustScaler()]),
+    #         'model__kernel': Categorical(['rbf']),
+    #         'model__C': Real(0.1, 100, prior='log-uniform'),
+    #         'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
+    #         'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
+    #     }
+    #}
 }
 
 best_overall_score = float('inf')
@@ -249,7 +249,7 @@ best_mod_r2 = r2_score(y_test, y_pred)
 
 
 ## Try again, but logging the response variable to see what happens
-log_phot_y = np.log1p(phot['DIAM'])
+log_phot_y = np.log(phot['DIAM'])
 
 new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
     phot_X, 

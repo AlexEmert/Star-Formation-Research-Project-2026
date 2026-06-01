@@ -1,72 +1,90 @@
---- Running CatBoost (Imputed) ---
-Best Score: 0.8320
-Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.6788446361217412, 'model__depth': 4, 'model__iterations': 492, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.02407761510850607, 'model__random_strength': 1e-09, 'scale': StandardScaler()}
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('mean'), np.int64(5), None, np.int64(14), np.int64(2), np.str_('passthrough')] before, using random point ['mean', np.int64(26), 'sqrt', np.int64(12), np.int64(7), 'passthrough']
+  warnings.warn(
+--- Running CatBoost (Imputed) for surface density---
+Best Score: 0.8426
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.5432255695256468, 'model__depth': 6, 'model__iterations': 100, 'model__l2_leaf_reg': 7.292844062146713, 'model__learning_rate': 0.10470168051228446, 'model__random_strength': 1e-09, 'scale': 'passthrough'}
 
---- Running Catboost (No Impute) ---
-Best Score: 0.8414
-Best Params: {'model__bagging_temperature': 0.0, 'model__depth': 5, 'model__iterations': 1000, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+--- Running Catboost (No Impute) for surface density---
+Best Score: 0.8470
+Best Params: {'model__bagging_temperature': 0.6702626905867995, 'model__depth': 4, 'model__iterations': 500, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.01780433097274598, 'model__random_strength': 10.0, 'scale': StandardScaler()}
 
---- Running XGBoost (Imputed) ---
-Best Score: 0.8327
-Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.603522663434367, 'model__gamma': 3.585692332386471, 'model__learning_rate': 0.03031175985106467, 'model__max_depth': 4, 'model__min_child_weight': 2, 'model__n_estimators': 459, 'model__reg_alpha': 0.03301267318619929, 'model__reg_lambda': 0.0001, 'model__subsample': 0.7177114479783526, 'scale': RobustScaler()}
+--- Running XGBoost (Imputed) for surface density---
+Best Score: 0.8452
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.7293622145968831, 'model__gamma': 2.9423218978922874, 'model__learning_rate': 0.028826360298166893, 'model__max_depth': 9, 'model__min_child_weight': 5, 'model__n_estimators': 258, 'model__reg_alpha': 0.0029238250160032848, 'model__reg_lambda': 0.0092440750413992, 'model__subsample': 0.8384811829992442, 'scale': RobustScaler()}
 
---- Running XGBoost (No Impute) ---
-Best Score: 0.8373
-Best Params: {'model__colsample_bytree': 0.9593774422625767, 'model__gamma': 4.352244325350058, 'model__learning_rate': 0.01323495688880311, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 370, 'model__reg_alpha': 10.0, 'model__reg_lambda': 10.0, 'model__subsample': 0.8440983700168803, 'scale': RobustScaler()}
+--- Running XGBoost (No Impute) for surface density---
+Best Score: 0.8382
+Best Params: {'model__colsample_bytree': 0.6053736746204773, 'model__gamma': 5.0, 'model__learning_rate': 0.01, 'model__max_depth': 3, 'model__min_child_weight': 7, 'model__n_estimators': 800, 'model__reg_alpha': 10.0, 'model__reg_lambda': 10.0, 'model__subsample': 0.7984734982387633, 'scale': StandardScaler()}
 
---- Running Random Forest ---
-Best Score: 0.8355
+--- Running Random Forest for surface density---
+Best Score: 0.8365
 Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'log2', 'model__min_samples_leaf': 10, 'model__min_samples_split': 5, 'model__n_estimators': 717, 'scale': StandardScaler()}
 
---- Running Decision Tree ---
-Best Score: 0.8781
-Best Params: {'impute__strategy': 'median', 'model__max_depth': 36, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'scale': StandardScaler()}
+--- Running Decision Tree for surface density---
+Best Score: 0.8641
+Best Params: {'impute__strategy': 'mean', 'model__max_depth': 5, 'model__max_features': None, 'model__min_samples_leaf': 14, 'model__min_samples_split': 20, 'scale': 'passthrough'}
 
---- Running SVR (rbf) ---
-Best Score: 0.8730
-Best Params: {'model__C': 79.82601127003628, 'model__epsilon': 0.35233736128534204, 'model__gamma': 0.0011425486176783832, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+--- Running SVR (rbf) for surface density---
+Best Score: 0.8839
+Best Params: {'model__C': 24.49274177665175, 'model__epsilon': 0.2640074975572612, 'model__gamma': 0.002162403103937206, 'model__kernel': 'rbf', 'scale': StandardScaler()}
 
 --- Running CatBoost (Imputed) for log of surface density---
-Best Score: 0.2894
-Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.9937895675331595, 'model__depth': 6, 'model__iterations': 490, 'model__l2_leaf_reg': 9.068951432724946, 'model__learning_rate': 0.035777940090064096, 'model__random_strength': 5.768455538004626, 'scale': StandardScaler()}
+Best Score: 0.2897
+Best Params: {'impute__strategy': 'median', 'model__bagging_temperature': 0.40003713050866463, 'model__depth': 7, 'model__iterations': 579, 'model__l2_leaf_reg': 5.407846188608166, 'model__learning_rate': 0.016112434685790933, 'model__random_strength': 0.6447303625671337, 'scale': StandardScaler()}
 
 --- Running Catboost (No Impute) for log of surface density---
-Best Score: 0.2853
-Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 5, 'model__iterations': 461, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.026261871260019623, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+Best Score: 0.2887
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 4, 'model__iterations': 1000, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
 
 --- Running XGBoost (Imputed) for log of surface density---
-Best Score: 0.2913
-Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.8584723354640194, 'model__gamma': 0.5519193347305158, 'model__learning_rate': 0.05177251925714647, 'model__max_depth': 4, 'model__min_child_weight': 5, 'model__n_estimators': 503, 'model__reg_alpha': 0.00032488359255466716, 'model__reg_lambda': 0.009916450745497709, 'model__subsample': 0.9736519297369672, 'scale': StandardScaler()}
+Best Score: 0.2912
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 1.0, 'model__gamma': 0.5423150474057923, 'model__learning_rate': 0.0619705447900913, 'model__max_depth': 6, 'model__min_child_weight': 7, 'model__n_estimators': 750, 'model__reg_alpha': 0.1058451103981001, 'model__reg_lambda': 10.0, 'model__subsample': 1.0, 'scale': StandardScaler()}
 
 --- Running XGBoost (No Impute) for log of surface density---
-Best Score: 0.2859
-Best Params: {'model__colsample_bytree': 0.7688050778248422, 'model__gamma': 0.0, 'model__learning_rate': 0.05020214037644537, 'model__max_depth': 4, 'model__min_child_weight': 1, 'model__n_estimators': 287, 'model__reg_alpha': 10.0, 'model__reg_lambda': 0.0001, 'model__subsample': 0.6407283094684566, 'scale': RobustScaler()}
+Best Score: 0.2860
+Best Params: {'model__colsample_bytree': 0.7267181217259091, 'model__gamma': 0.0, 'model__learning_rate': 0.041524555070553554, 'model__max_depth': 3, 'model__min_child_weight': 2, 'model__n_estimators': 238, 'model__reg_alpha': 1.507726993988415, 'model__reg_lambda': 10.0, 'model__subsample': 0.7321718424610135, 'scale': RobustScaler()}
 
 --- Running Random Forest for log of surface density---
-Best Score: 0.2891
+Best Score: 0.2890
 Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 31, 'model__max_features': 'log2', 'model__min_samples_leaf': 10, 'model__min_samples_split': 5, 'model__n_estimators': 717, 'scale': StandardScaler()}
 
 --- Running Decision Tree for log of surface density---
-Best Score: 0.3057
-Best Params: {'impute__strategy': 'median', 'model__max_depth': 45, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 19, 'model__min_samples_split': 3, 'scale': StandardScaler()}
+Best Score: 0.3037
+Best Params: {'impute__strategy': 'mean', 'model__max_depth': 5, 'model__max_features': None, 'model__min_samples_leaf': 18, 'model__min_samples_split': 2, 'scale': StandardScaler()}
 
 --- Running SVR (rbf) for log of surface density---
-Best Score: 0.3193
-Best Params: {'model__C': 35.43174087947261, 'model__epsilon': 0.01, 'model__gamma': 0.0001, 'model__kernel': 'rbf', 'scale': RobustScaler()}
+Best Score: 0.3183
+Best Params: {'model__C': 0.1, 'model__epsilon': 0.1993437527423445, 'model__gamma': 0.09992159842905599, 'model__kernel': 'rbf', 'scale': StandardScaler()}
 
 Best overall model is: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
-                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
                 ('scale', StandardScaler()),
                 ('model',
-                 CatBoostRegressor(bagging_temperature=0.6788446361217412, depth=4, iterations=492, l2_leaf_reg=10.0, learning_rate=0.02407761510850607, loss_function='RMSE', random_state=2026, random_strength=1e-09, verbose=0))])
+                 RandomForestRegressor(max_depth=31, max_features='log2',
+                                       min_samples_leaf=10, min_samples_split=5,
+                                       n_estimators=717, n_jobs=-1,
+                                       random_state=2026))])
 Best overall model performance on test set:
-RMSE: 0.9399
-R^2: 0.4361
-Best overall log model is: Pipeline(steps=[('impute', SimpleImputer(strategy='median')),
-                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
-                ('scale', StandardScaler()),
+RMSE: 0.9800
+R^2: 0.3869
+Best overall log model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
+                ('scale', RobustScaler()),
                 ('model',
-                 CatBoostRegressor(bagging_temperature=0.9937895675331595, depth=6, iterations=490, l2_leaf_reg=9.068951432724946, learning_rate=0.035777940090064096, loss_function='RMSE', random_state=2026, random_strength=5.768455538004626, verbose=0))])
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.7267181217259091, device=None,
+                              early_stopping_rounds=None,
+                              enable_categorical=False, eval_metric=None,...
+                              gamma=0.0, grow_policy=None, importance_type=None,
+                              interaction_constraints=None,
+                              learning_rate=0.041524555070553554, max_bin=None,
+                              max_cat_threshold=None, max_cat_to_onehot=None,
+                              max_delta_step=None, max_depth=3, max_leaves=None,
+                              min_child_weight=2, missing=nan,
+                              monotone_constraints=None, multi_strategy=None,
+                              n_estimators=238, n_jobs=-1,
+                              num_parallel_tree=None, ...))])
 Best overall log model performance on test set:
-RMSE: 0.3017
-R^2: 0.5054
+RMSE: 0.2999
+R^2: 0.5114

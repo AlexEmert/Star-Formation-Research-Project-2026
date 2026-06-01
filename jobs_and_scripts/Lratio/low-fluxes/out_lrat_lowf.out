@@ -1,72 +1,74 @@
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [np.str_('median'), np.int64(5), np.str_('log2'), np.int64(20), np.int64(20), StandardScaler()] before, using random point ['median', np.int64(24), None, np.int64(19), np.int64(4), RobustScaler()]
+  warnings.warn(
 --- Running CatBoost (Imputed) for lratio---
-Best Score: 218.6145
-Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 1.0, 'model__depth': 8, 'model__iterations': 100, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.07406845447742587, 'model__random_strength': 1.6926268855614655, 'scale': StandardScaler()}
+Best Score: 219.2462
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.7126344062766492, 'model__depth': 10, 'model__iterations': 227, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': 'passthrough'}
 
 --- Running Catboost (No Impute) for lratio---
-Best Score: 219.2044
-Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 10, 'model__iterations': 305, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': 'passthrough'}
+Best Score: 218.9525
+Best Params: {'model__bagging_temperature': 0.363083185574475, 'model__depth': 9, 'model__iterations': 226, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.016702882040502905, 'model__random_strength': 2.84491409778648, 'scale': 'passthrough'}
 
 --- Running XGBoost (Imputed) for lratio---
-Best Score: 219.7346
-Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.6271554412803542, 'model__gamma': 4.6784880514284115, 'model__learning_rate': 0.012412521716858554, 'model__max_depth': 6, 'model__min_child_weight': 4, 'model__n_estimators': 149, 'model__reg_alpha': 0.5307476857890289, 'model__reg_lambda': 9.06363972977692, 'model__subsample': 0.8662200057632041, 'scale': StandardScaler()}
+Best Score: 219.4727
+Best Params: {'impute__strategy': 'mean', 'model__colsample_bytree': 0.6, 'model__gamma': 3.1853100170478177, 'model__learning_rate': 0.014719151889478463, 'model__max_depth': 4, 'model__min_child_weight': 3, 'model__n_estimators': 100, 'model__reg_alpha': 0.18390220480345634, 'model__reg_lambda': 10.0, 'model__subsample': 0.997256237216614, 'scale': StandardScaler()}
 
 --- Running XGBoost (No Impute) for lratio---
-Best Score: 219.9407
-Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 3.8433463021170673, 'model__learning_rate': 0.01, 'model__max_depth': 8, 'model__min_child_weight': 1, 'model__n_estimators': 226, 'model__reg_alpha': 0.0010328908552971275, 'model__reg_lambda': 9.566482940354351, 'model__subsample': 0.7785911497259241, 'scale': StandardScaler()}
+Best Score: 220.5176
+Best Params: {'model__colsample_bytree': 0.9876428509550006, 'model__gamma': 3.8593127955633957, 'model__learning_rate': 0.01, 'model__max_depth': 6, 'model__min_child_weight': 1, 'model__n_estimators': 145, 'model__reg_alpha': 0.006150050740635603, 'model__reg_lambda': 10.0, 'model__subsample': 0.9386124243380677, 'scale': RobustScaler()}
 
 --- Running Random Forest for lratio---
-Best Score: 219.5236
-Best Params: {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 50, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'model__n_estimators': 328, 'scale': StandardScaler()}
+Best Score: 219.8482
+Best Params: {'impute__strategy': 'mean', 'model__bootstrap': True, 'model__max_depth': 32, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 2, 'model__n_estimators': 736, 'scale': StandardScaler()}
 
 --- Running Decision Tree for lratio---
-Best Score: 236.6089
-Best Params: {'impute__strategy': 'mean', 'model__max_depth': 9, 'model__max_features': 'log2', 'model__min_samples_leaf': 19, 'model__min_samples_split': 19, 'scale': StandardScaler()}
+Best Score: 232.2711
+Best Params: {'impute__strategy': 'median', 'model__max_depth': 50, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 9, 'model__min_samples_split': 13, 'scale': StandardScaler()}
 
 --- Running SVR (rbf) for lratio---
-Best Score: 224.3843
-Best Params: {'model__C': 100.0, 'model__epsilon': 1.0, 'model__gamma': 0.029622036351522652, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+Best Score: 223.5505
+Best Params: {'model__C': 100.0, 'model__epsilon': 1.0, 'model__gamma': 0.08790266979626984, 'model__kernel': 'rbf', 'scale': StandardScaler()}
 
 --- Running CatBoost (Imputed) for log of lratio---
-Best Score: 0.9687
-Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.33979574014175357, 'model__depth': 7, 'model__iterations': 1000, 'model__l2_leaf_reg': 8.288964933170462, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
+Best Score: 0.9678
+Best Params: {'impute__strategy': 'mean', 'model__bagging_temperature': 0.0, 'model__depth': 4, 'model__iterations': 889, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.01, 'model__random_strength': 10.0, 'scale': StandardScaler()}
 
 --- Running Catboost (No Impute) for log of lratio---
-Best Score: 0.9750
-Best Params: {'model__bagging_temperature': 0.0, 'model__depth': 6, 'model__iterations': 647, 'model__l2_leaf_reg': 7.073156553497121, 'model__learning_rate': 0.01364304426357614, 'model__random_strength': 0.8697410015589275, 'scale': RobustScaler()}
+Best Score: 0.9766
+Best Params: {'model__bagging_temperature': 0.32333762470856087, 'model__depth': 8, 'model__iterations': 846, 'model__l2_leaf_reg': 8.813901568298004, 'model__learning_rate': 0.01, 'model__random_strength': 1e-09, 'scale': StandardScaler()}
 
 --- Running XGBoost (Imputed) for log of lratio---
-Best Score: 0.9710
-Best Params: {'impute__strategy': 'median', 'model__colsample_bytree': 0.6, 'model__gamma': 5.0, 'model__learning_rate': 0.01, 'model__max_depth': 7, 'model__min_child_weight': 1, 'model__n_estimators': 437, 'model__reg_alpha': 0.0001, 'model__reg_lambda': 10.0, 'model__subsample': 0.6, 'scale': StandardScaler()}
+Best Score: 0.9704
+Best Params: {'impute__strategy': 'median', 'model__colsample_bytree': 0.8045423939323281, 'model__gamma': 5.0, 'model__learning_rate': 0.01, 'model__max_depth': 9, 'model__min_child_weight': 6, 'model__n_estimators': 800, 'model__reg_alpha': 3.930263067778569, 'model__reg_lambda': 0.000128533973615652, 'model__subsample': 0.7110555395365298, 'scale': StandardScaler()}
 
 --- Running XGBoost (No Impute) for log of lratio---
-Best Score: 0.9712
-Best Params: {'model__colsample_bytree': 0.6113961225448349, 'model__gamma': 2.4563894626832945, 'model__learning_rate': 0.03599179569008926, 'model__max_depth': 9, 'model__min_child_weight': 7, 'model__n_estimators': 100, 'model__reg_alpha': 1.7433882296424088, 'model__reg_lambda': 0.016798033305658062, 'model__subsample': 0.951757082684184, 'scale': 'passthrough'}
+Best Score: 0.9709
+Best Params: {'model__colsample_bytree': 0.6221297525620525, 'model__gamma': 4.234532373652067, 'model__learning_rate': 0.017290486902073136, 'model__max_depth': 7, 'model__min_child_weight': 6, 'model__n_estimators': 752, 'model__reg_alpha': 0.022238181260188877, 'model__reg_lambda': 0.0005053956571980438, 'model__subsample': 0.6698325728936284, 'scale': 'passthrough'}
 
 --- Running Random Forest for log of lratio---
-Best Score: 0.9696
-Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 50, 'model__max_features': 'log2', 'model__min_samples_leaf': 14, 'model__min_samples_split': 2, 'model__n_estimators': 800, 'scale': 'passthrough'}
+Best Score: 0.9686
+Best Params: {'impute__strategy': 'median', 'model__bootstrap': True, 'model__max_depth': 50, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 20, 'model__min_samples_split': 20, 'model__n_estimators': 100, 'scale': 'passthrough'}
 
 --- Running Decision Tree for log of lratio---
-Best Score: 0.9971
-Best Params: {'impute__strategy': 'median', 'model__max_depth': 5, 'model__max_features': None, 'model__min_samples_leaf': 20, 'model__min_samples_split': 3, 'scale': RobustScaler()}
+Best Score: 0.9899
+Best Params: {'impute__strategy': 'mean', 'model__max_depth': 5, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 19, 'model__min_samples_split': 19, 'scale': StandardScaler()}
 
 --- Running SVR (rbf) for log of lratio---
-Best Score: 0.9941
-Best Params: {'model__C': 22.365313559995702, 'model__epsilon': 0.01, 'model__gamma': 0.0067647825905486885, 'model__kernel': 'rbf', 'scale': StandardScaler()}
+Best Score: 0.9964
+Best Params: {'model__C': 1.339596031827307, 'model__epsilon': 0.5593442257643588, 'model__gamma': 0.44450175899857697, 'model__kernel': 'rbf', 'scale': StandardScaler()}
 
-Best overall model is: Pipeline(steps=[('impute', SimpleImputer()),
-                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
-                ('scale', StandardScaler()),
+Best overall model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
+                ('scale', 'passthrough'),
                 ('model',
-                 CatBoostRegressor(bagging_temperature=1.0, depth=8, iterations=100, l2_leaf_reg=1.0, learning_rate=0.07406845447742587, loss_function='RMSE', random_state=2026, random_strength=1.6926268855614655, verbose=0))])
+                 CatBoostRegressor(bagging_temperature=0.363083185574475, depth=9, iterations=226, l2_leaf_reg=10.0, learning_rate=0.016702882040502905, loss_function='RMSE', random_state=2026, random_strength=2.84491409778648, verbose=0))])
 Best overall model performance on test set:
-RMSE: 261.5804
-R^2: 0.0133
+RMSE: 256.4333
+R^2: 0.0518
 Best overall log model is: Pipeline(steps=[('impute', SimpleImputer()),
-                ('ratio', RatioGenerator(cols=['F8', 'F12', 'F24', 'F70'])),
+                ('ratio', RatioGenerator(cols=['F70', 'F24', 'F12', 'F8'])),
                 ('scale', StandardScaler()),
                 ('model',
-                 CatBoostRegressor(bagging_temperature=0.33979574014175357, depth=7, iterations=1000, l2_leaf_reg=8.288964933170462, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
+                 CatBoostRegressor(bagging_temperature=0.0, depth=4, iterations=889, l2_leaf_reg=1.0, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=10.0, verbose=0))])
 Best overall log model performance on test set:
-RMSE: 0.9670
-R^2: 0.2735
+RMSE: 0.9652
+R^2: 0.2761

@@ -113,8 +113,18 @@ print(f"R^2: {r2}")
 xgb_model = model.named_steps['model']
 importance_scores = model.named_steps['model'].feature_importances_
 feature_names = model.named_steps['ratio'].get_feature_names_out(input_features=X_train.columns)
-xgb_model.feature_importances_ = importance_scores
-plot_importance(xgb_model, importance_type='gain', show_values=False, xlabel='Gain', ylabel='Features', title='XGBoost Feature Importance (Gain)')
-plt.show()
 
+importance_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance': importance_scores
+})
 
+importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.barh(importance_df['Feature'], importance_df['Importance'], color='steelblue')
+ax.set_title('XGBoost Feature Importances with log of TEMP as response')
+ax.set_xlabel('Importance (Gain)')
+ax.set_ylabel('Feature')
+plt.tight_layout()
+plt.savefig('xgb_log_temp_feature_importances_plot.png', dpi=300, bbox_inches='tight')

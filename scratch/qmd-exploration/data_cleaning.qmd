@@ -136,9 +136,62 @@ phot_extra_cleaned = phot.drop(columns = [
     'f_PCONF', 
     'f_CEXT'
 ])
-print(phot_extra_cleaned.columns.tolist())
 ```
 
 ```{python}
 phot_extra_cleaned.to_csv('../data/cleaned/MIRION_phot_fluxes.csv', index=False)
+```
+
+
+
+
+## making final "master" dataset for final models that can be trimmed within scripts
+
+```{python}
+dist_colspecs = [
+    (0, 4),    #ID 
+   (5, 10),    #DIST 
+  (11, 16),    #e_DIST      
+  (17, 22),    #DIST_C	 
+  (23, 29),    #DIST_M 
+  (30, 36),    #e_DIST_M  
+  (37, 48),    #STAT_M   
+  (49, 53),    #PFAR 
+  (54, 59),    #DIST_R1   
+  (60, 65),    #e_DIST_R1
+  (66, 70),    #PINT_R1
+  (71, 76),    #ARM_R1
+  (77, 82),    #DIST_R2
+  (83, 87),    #e_DIST_R2   
+  (88, 92),    #PINT_R2   
+  (93, 98)     #ARM_R2
+]
+dist_colnames = ['YB', 'DIST', 'e_DIST', 'DIST_C', 'DIST_M', 'e_DIST_M', 'STAT_M', 'PFAR', 'DIST_R1', 'e_DIST_R1', 'PINT_R1', 'ARM_R1', 'DIST_R2', 'e_DIST_R2', 'PINT_R2', 'ARM_R2']
+print(len(dist_colnames), len(dist_colspecs))
+dist = pd.read_fwf(
+    here("data", "MRT-dist.txt"),
+    colspecs=dist_colspecs,
+    names=dist_colnames,
+    skiprows=28,
+    encoding='utf-8-sig',
+    na_values=[999.0000]
+)
+dist.head()
+dist = dist.drop(columns = ['e_DIST', 'DIST_C', 'DIST_M', 'e_DIST_M', 'STAT_M', 'PFAR', 'DIST_R1', 'e_DIST_R1', 'PINT_R1', 'ARM_R1', 'DIST_R2', 'e_DIST_R2', 'PINT_R2', 'ARM_R2'])
+```
+
+```{python}
+mirion = pd.read_csv(here('data/cleaned', 'MIRION_cleaned_all_fluxes.csv'))
+mirion = mirion.drop(columns = ['F8', 'F12', 'F24', 'F70'])
+phot_read = pd.read_csv(here('data/cleaned', 'MIRION_phot_cleaned.csv'))
+phot_read = phot_read.drop(columns=['f_SAT', 'f_NOSRC', 'f_PCONF'])
+```
+
+```{python}
+total_data = pd.merge(mirion, dist, on='YB', how='inner')
+total_data = pd.merge(total_data, phot_read, on='YB', how='left')
+```
+
+```{python}
+total_data.to_csv(here('data/cleaned', 'MIRION_cleaned_everything.csv'))
 ```

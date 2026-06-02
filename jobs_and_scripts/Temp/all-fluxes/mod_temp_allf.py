@@ -120,97 +120,97 @@ models = {
             'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
             'model__bagging_temperature': Real(0.0, 1.0)
         }
-    },
-    "XGBoost (Imputed)": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=-1))
-        ]),
-        "space": {
-            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__n_estimators': Integer(100, 800),
-            'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-            'model__max_depth': Integer(3, 9),
-            'model__min_child_weight': Integer(1, 7),
-            'model__subsample': Real(0.6, 1.0),
-            'model__colsample_bytree': Real(0.6, 1.0),
-            'model__gamma': Real(0.0, 5.0),
-            'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
-            'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
-    }
-    },
-    "XGBoost (No Impute)": {
-        "pipe": Pipeline([
-            ('impute', "passthrough"),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=-1))
-        ]),
-        "space": {
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__n_estimators': Integer(100, 800),
-            'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-            'model__max_depth': Integer(3, 9),
-            'model__min_child_weight': Integer(1, 7),
-            'model__subsample': Real(0.6, 1.0),
-            'model__colsample_bytree': Real(0.6, 1.0),
-            'model__gamma': Real(0.0, 5.0),
-            'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
-            'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
-            }     
-    },
-    "Random Forest": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', RandomForestRegressor(random_state=2026, verbose=0, n_jobs=-1))
-        ]),
-        "space": {
-            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__n_estimators': Integer(100, 800),
-            'model__max_depth': Integer(5, 50),
-            'model__min_samples_split': Integer(2, 20),
-            'model__min_samples_leaf': Integer(1, 20),
-            'model__max_features': Categorical(['sqrt', 'log2', None]), 
-            'model__bootstrap': Categorical([True, False])
-        }
-    },
-    "Decision Tree": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', DecisionTreeRegressor(random_state=2026))
-        ]),
-        "space": {
-            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
-            'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__max_depth': Integer(5, 50),
-            'model__min_samples_split': Integer(2, 20),
-            'model__min_samples_leaf': Integer(1, 20),
-            'model__max_features': Categorical(['sqrt', 'log2', None])
-        }
-    },
-    "SVR (rbf)": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer(strategy='median')),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', SVR())
-        ]),
-        "space": {
-            'scale': Categorical([StandardScaler(), RobustScaler()]),
-            'model__kernel': Categorical(['rbf']),
-            'model__C': Real(0.1, 100, prior='log-uniform'),
-            'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
-            'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
-        }
-    }
+    }# ,
+    # "XGBoost (Imputed)": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer()),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=-1))
+    #     ]),
+    #     "space": {
+    #         'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
+    #         'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+    #         'model__n_estimators': Integer(100, 800),
+    #         'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+    #         'model__max_depth': Integer(3, 9),
+    #         'model__min_child_weight': Integer(1, 7),
+    #         'model__subsample': Real(0.6, 1.0),
+    #         'model__colsample_bytree': Real(0.6, 1.0),
+    #         'model__gamma': Real(0.0, 5.0),
+    #         'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
+    #         'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+    # }
+    # },
+    # "XGBoost (No Impute)": {
+    #     "pipe": Pipeline([
+    #         ('impute', "passthrough"),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=-1))
+    #     ]),
+    #     "space": {
+    #         'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+    #         'model__n_estimators': Integer(100, 800),
+    #         'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
+    #         'model__max_depth': Integer(3, 9),
+    #         'model__min_child_weight': Integer(1, 7),
+    #         'model__subsample': Real(0.6, 1.0),
+    #         'model__colsample_bytree': Real(0.6, 1.0),
+    #         'model__gamma': Real(0.0, 5.0),
+    #         'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
+    #         'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+    #         }     
+    # },
+    # "Random Forest": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer()),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', RandomForestRegressor(random_state=2026, verbose=0, n_jobs=-1))
+    #     ]),
+    #     "space": {
+    #         'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
+    #         'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+    #         'model__n_estimators': Integer(100, 800),
+    #         'model__max_depth': Integer(5, 50),
+    #         'model__min_samples_split': Integer(2, 20),
+    #         'model__min_samples_leaf': Integer(1, 20),
+    #         'model__max_features': Categorical(['sqrt', 'log2', None]), 
+    #         'model__bootstrap': Categorical([True, False])
+    #     }
+    # },
+    # "Decision Tree": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer()),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', DecisionTreeRegressor(random_state=2026))
+    #     ]),
+    #     "space": {
+    #         'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
+    #         'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
+    #         'model__max_depth': Integer(5, 50),
+    #         'model__min_samples_split': Integer(2, 20),
+    #         'model__min_samples_leaf': Integer(1, 20),
+    #         'model__max_features': Categorical(['sqrt', 'log2', None])
+    #     }
+    # },
+    # "SVR (rbf)": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer(strategy='median')),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', SVR())
+    #     ]),
+    #     "space": {
+    #         'scale': Categorical([StandardScaler(), RobustScaler()]),
+    #         'model__kernel': Categorical(['rbf']),
+    #         'model__C': Real(0.1, 100, prior='log-uniform'),
+    #         'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
+    #         'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
+    #     }
+    # }
 }
 
 best_overall_score = float('inf')

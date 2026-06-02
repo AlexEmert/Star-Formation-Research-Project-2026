@@ -1,0 +1,36 @@
+--- Running CatBoost (Imputed) ---
+Best Score: 1.3976
+Best Params: {'impute': KNNImputer(), 'model__bagging_temperature': 0.8880096695308707, 'model__depth': 5, 'model__iterations': 935, 'model__l2_leaf_reg': 1.6121963246094881, 'model__learning_rate': 0.01569587187385806, 'model__random_strength': 0.38948081088792214, 'scale': 'passthrough'}
+
+--- Running Catboost (No Impute) ---
+Best Score: 1.3449
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 6, 'model__iterations': 1000, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.02377704472496484, 'model__random_strength': 2.731953911212148e-09, 'scale': RobustScaler()}
+
+--- Running CatBoost (Imputed) for log of diam---
+Best Score: 0.0624
+Best Params: {'impute': SimpleImputer(), 'model__bagging_temperature': 0.9177857400936743, 'model__depth': 4, 'model__iterations': 788, 'model__l2_leaf_reg': 7.523663458336747, 'model__learning_rate': 0.06837489648540754, 'model__random_strength': 6.001076049102508e-07, 'scale': StandardScaler()}
+
+--- Running Catboost (No Impute) for log of diam---
+Best Score: 0.0598
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 6, 'model__iterations': 880, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.012705238622014697, 'model__random_strength': 1.5001755264019525e-09, 'scale': StandardScaler()}
+
+Best overall model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio',
+                 RatioGenerator(cols=['F1100', 'F870', 'F500', 'F350', 'F250',
+                                      'F160', 'F70', 'F24', 'F12', 'F8'])),
+                ('scale', RobustScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=1.0, depth=6, iterations=1000, l2_leaf_reg=10.0, learning_rate=0.02377704472496484, loss_function='RMSE', random_state=2026, random_strength=2.731953911212148e-09, verbose=0))])
+Best overall model performance on test set:
+RMSE: 1.5472
+R^2: 0.8961
+Best overall log model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio',
+                 RatioGenerator(cols=['F1100', 'F870', 'F500', 'F350', 'F250',
+                                      'F160', 'F70', 'F24', 'F12', 'F8'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=1.0, depth=6, iterations=880, l2_leaf_reg=1.0, learning_rate=0.012705238622014697, loss_function='RMSE', random_state=2026, random_strength=1.5001755264019525e-09, verbose=0))])
+Best overall log model performance on test set:
+RMSE: 0.0754
+R^2: 0.8979

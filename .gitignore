@@ -1,4 +1,2 @@
 /__pycache__
-data/*
-!data/cleaned/
-data/cleaned/MIRION_phot_fluxes.csv
+

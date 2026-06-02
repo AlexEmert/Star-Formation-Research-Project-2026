@@ -5,7 +5,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
 import pandas as pd
 import numpy as np
-from sklearn.impute import SimpleImputer
+from sklearn.impute import SimpleImputer, KNNImputer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
@@ -69,7 +69,7 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         return np.array(input_features + ratio_features, dtype=object)
 
 
-phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_all_fluxes.csv"))
+phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 phot = phot.drop(columns=['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB'])
 
 phot_X = phot.drop(columns=['TEMP'])
@@ -94,7 +94,7 @@ models = {
             ('model', CatBoostRegressor(random_state=2026, verbose=0, thread_count=-1))
         ]),
         "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
+            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
             'model__iterations': Integer(100, 1000),
             'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
@@ -129,7 +129,7 @@ models = {
             ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=-1))
         ]),
         "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
+            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
             'model__n_estimators': Integer(100, 800),
             'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
@@ -170,7 +170,7 @@ models = {
             ('model', RandomForestRegressor(random_state=2026, verbose=0, n_jobs=-1))
         ]),
         "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
+            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
             'model__n_estimators': Integer(100, 800),
             'model__max_depth': Integer(5, 50),
@@ -188,7 +188,7 @@ models = {
             ('model', DecisionTreeRegressor(random_state=2026))
         ]),
         "space": {
-            'impute__strategy': Categorical(['mean', 'median']),
+            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
             'model__max_depth': Integer(5, 50),
             'model__min_samples_split': Integer(2, 20),

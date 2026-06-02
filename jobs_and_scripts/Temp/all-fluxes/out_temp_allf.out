@@ -21,8 +21,8 @@ Best Score: 1.3352
 Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 1.2863137216287954, 'model__learning_rate': 0.01623539377765309, 'model__max_depth': 3, 'model__min_child_weight': 1, 'model__n_estimators': 773, 'model__reg_alpha': 6.368109016666125, 'model__reg_lambda': 0.0001, 'model__subsample': 0.6329157558478268, 'scale': 'passthrough'}
 
 --- Running Random Forest ---
-Best Score: 1.5370
-Best Params: {'impute': KNNImputer(), 'model__bootstrap': False, 'model__max_depth': 42, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 1, 'model__min_samples_split': 3, 'model__n_estimators': 425, 'scale': 'passthrough'}
+Best Score: 1.5474
+Best Params: {'impute': KNNImputer(), 'model__bootstrap': False, 'model__max_depth': 50, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 1, 'model__min_samples_split': 10, 'model__n_estimators': 297, 'scale': 'passthrough'}
 
 --- Running Decision Tree ---
 Best Score: 1.6961

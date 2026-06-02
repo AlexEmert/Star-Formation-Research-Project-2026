@@ -1,0 +1,96 @@
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [KNNImputer(), np.int64(50), None, np.int64(20), np.int64(2), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(24), None, np.int64(19), np.int64(4), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(strategy='median'), np.int64(50), None, np.int64(13), np.int64(2), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(8), 'log2', np.int64(4), np.int64(18), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(strategy='median'), np.int64(50), None, np.int64(16), np.int64(2), RobustScaler()] before, using random point [SimpleImputer(), np.int64(26), 'sqrt', np.int64(12), np.int64(7), 'passthrough']
+  warnings.warn(
+--- Running CatBoost (Imputed) ---
+Best Score: 1.3976
+Best Params: {'impute': KNNImputer(), 'model__bagging_temperature': 0.8880096695308707, 'model__depth': 5, 'model__iterations': 935, 'model__l2_leaf_reg': 1.6121963246094881, 'model__learning_rate': 0.01569587187385806, 'model__random_strength': 0.38948081088792214, 'scale': 'passthrough'}
+
+--- Running Catboost (No Impute) ---
+Best Score: 1.3449
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 6, 'model__iterations': 1000, 'model__l2_leaf_reg': 10.0, 'model__learning_rate': 0.02377704472496484, 'model__random_strength': 2.731953911212148e-09, 'scale': RobustScaler()}
+
+--- Running XGBoost (Imputed) ---
+Best Score: 1.4110
+Best Params: {'impute': SimpleImputer(), 'model__colsample_bytree': 0.6, 'model__gamma': 5.0, 'model__learning_rate': 0.01, 'model__max_depth': 9, 'model__min_child_weight': 1, 'model__n_estimators': 800, 'model__reg_alpha': 0.0001, 'model__reg_lambda': 0.0001, 'model__subsample': 0.6, 'scale': RobustScaler()}
+
+--- Running XGBoost (No Impute) ---
+Best Score: 1.3352
+Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 1.2863137216287954, 'model__learning_rate': 0.01623539377765309, 'model__max_depth': 3, 'model__min_child_weight': 1, 'model__n_estimators': 773, 'model__reg_alpha': 6.368109016666125, 'model__reg_lambda': 0.0001, 'model__subsample': 0.6329157558478268, 'scale': 'passthrough'}
+
+--- Running Random Forest ---
+Best Score: 1.5370
+Best Params: {'impute': KNNImputer(), 'model__bootstrap': False, 'model__max_depth': 42, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 1, 'model__min_samples_split': 3, 'model__n_estimators': 425, 'scale': 'passthrough'}
+
+--- Running Decision Tree ---
+Best Score: 1.6961
+Best Params: {'impute': SimpleImputer(strategy='median'), 'model__max_depth': 50, 'model__max_features': None, 'model__min_samples_leaf': 14, 'model__min_samples_split': 2, 'scale': RobustScaler()}
+
+--- Running SVR (rbf) ---
+Best Score: 2.1469
+Best Params: {'model__C': 100.0, 'model__epsilon': 1.0, 'model__gamma': 0.0006021493666978834, 'model__kernel': 'rbf', 'scale': RobustScaler()}
+
+--- Running CatBoost (Imputed) for log of diam---
+Best Score: 0.0624
+Best Params: {'impute': SimpleImputer(), 'model__bagging_temperature': 0.9177857400936743, 'model__depth': 4, 'model__iterations': 788, 'model__l2_leaf_reg': 7.523663458336747, 'model__learning_rate': 0.06837489648540754, 'model__random_strength': 6.001076049102508e-07, 'scale': StandardScaler()}
+
+--- Running Catboost (No Impute) for log of diam---
+Best Score: 0.0598
+Best Params: {'model__bagging_temperature': 1.0, 'model__depth': 6, 'model__iterations': 880, 'model__l2_leaf_reg': 1.0, 'model__learning_rate': 0.012705238622014697, 'model__random_strength': 1.5001755264019525e-09, 'scale': StandardScaler()}
+
+--- Running XGBoost (Imputed) for log of diam---
+Best Score: 0.0641
+Best Params: {'impute': SimpleImputer(strategy='median'), 'model__colsample_bytree': 0.8784509198949696, 'model__gamma': 0.0, 'model__learning_rate': 0.02967789874301115, 'model__max_depth': 9, 'model__min_child_weight': 5, 'model__n_estimators': 377, 'model__reg_alpha': 0.02019837888028617, 'model__reg_lambda': 10.0, 'model__subsample': 0.6, 'scale': RobustScaler()}
+
+--- Running XGBoost (No Impute) for log of diam---
+Best Score: 0.0612
+Best Params: {'model__colsample_bytree': 0.6, 'model__gamma': 0.0, 'model__learning_rate': 0.032385483550689806, 'model__max_depth': 7, 'model__min_child_weight': 1, 'model__n_estimators': 800, 'model__reg_alpha': 0.0001, 'model__reg_lambda': 10.0, 'model__subsample': 0.6, 'scale': 'passthrough'}
+
+--- Running Random Forest for log of diam---
+Best Score: 0.0655
+Best Params: {'impute': SimpleImputer(strategy='median'), 'model__bootstrap': True, 'model__max_depth': 48, 'model__max_features': None, 'model__min_samples_leaf': 3, 'model__min_samples_split': 2, 'model__n_estimators': 723, 'scale': RobustScaler()}
+
+--- Running Decision Tree for log of diam---
+Best Score: 0.0774
+Best Params: {'impute': SimpleImputer(), 'model__max_depth': 9, 'model__max_features': None, 'model__min_samples_leaf': 16, 'model__min_samples_split': 3, 'scale': RobustScaler()}
+
+--- Running SVR (rbf) for log of diam---
+Best Score: 0.0975
+Best Params: {'model__C': 100.0, 'model__epsilon': 0.06899983035934645, 'model__gamma': 0.00017075715616691567, 'model__kernel': 'rbf', 'scale': RobustScaler()}
+
+Best overall model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio',
+                 RatioGenerator(cols=['F1100', 'F870', 'F500', 'F350', 'F250',
+                                      'F160', 'F70', 'F24', 'F12', 'F8'])),
+                ('scale', 'passthrough'),
+                ('model',
+                 XGBRegressor(base_score=None, booster=None, callbacks=None,
+                              colsample_bylevel=None, colsample_bynode=None,
+                              colsample_bytree=0.6, device=None,
+                              early_stopping_rounds=None,
+                              enable_categori...
+                              gamma=1.2863137216287954, grow_policy=None,
+                              importance_type=None,
+                              interaction_constraints=None,
+                              learning_rate=0.01623539377765309, max_bin=None,
+                              max_cat_threshold=None, max_cat_to_onehot=None,
+                              max_delta_step=None, max_depth=3, max_leaves=None,
+                              min_child_weight=1, missing=nan,
+                              monotone_constraints=None, multi_strategy=None,
+                              n_estimators=773, n_jobs=-1,
+                              num_parallel_tree=None, ...))])
+Best overall model performance on test set:
+RMSE: 1.6124
+R^2: 0.8871
+Best overall log model is: Pipeline(steps=[('impute', 'passthrough'),
+                ('ratio',
+                 RatioGenerator(cols=['F1100', 'F870', 'F500', 'F350', 'F250',
+                                      'F160', 'F70', 'F24', 'F12', 'F8'])),
+                ('scale', StandardScaler()),
+                ('model',
+                 CatBoostRegressor(bagging_temperature=1.0, depth=6, iterations=880, l2_leaf_reg=1.0, learning_rate=0.012705238622014697, loss_function='RMSE', random_state=2026, random_strength=1.5001755264019525e-09, verbose=0))])
+Best overall log model performance on test set:
+RMSE: 0.0754
+R^2: 0.8979

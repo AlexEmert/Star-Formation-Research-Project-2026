@@ -1,0 +1,80 @@
+---
+title: Distributions
+execute:
+ jupyter: math4025
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from plotnine import *
+from pyhere import here
+```
+
+```{python}
+phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
+phot.head()
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='TEMP')) +
+    geom_histogram()
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='SURF_DENS')) +
+    geom_histogram() +
+    scale_x_log10()
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='T_BOL')) +
+    geom_histogram() 
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='LM')) +
+    geom_histogram() +
+    scale_x_log10()
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='LRATIO')) +
+    geom_histogram() +
+    scale_x_log10()
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='DIAM')) +
+    geom_histogram() +
+    scale_x_sqrt()
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='MASS')) +
+    geom_histogram() +
+    scale_x_log10()
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='L_BOL')) +
+    geom_histogram() +
+    scale_x_log10()
+)
+```

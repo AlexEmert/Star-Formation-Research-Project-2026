@@ -248,7 +248,7 @@ best_mod_r2 = r2_score(y_test, y_pred)
 
 
 ## Try again, but logging the response variable to see what happens
-log_phot_y = np.log1p(phot_y)
+log_phot_y = np.log(phot_y)
 
 new_X_train, new_X_test, new_y_train, new_y_test = train_test_split(
     phot_X, 

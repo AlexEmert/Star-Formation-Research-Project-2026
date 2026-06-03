@@ -293,12 +293,3 @@ print(f"Best overall model is: {best_overall_model}")
 print(f"Best overall model performance on test set:\nRMSE: {best_mod_rmse:.4f}\nR^2: {best_mod_r2:.4f}")
 print(f"Best overall log model is: {best_overall_log_model}")
 print(f"Best overall log model performance on test set:\nRMSE: {best_log_mod_rmse:.4f}\nR^2: {best_log_mod_r2:.4f}")
-
-
-## converting log predictions back to original to compare to non-log model
-converted_log_preds = np.exp(new_y_pred)
-converted_y_test = np.exp(new_y_test)
-converted_log_rmse = root_mean_squared_error(converted_y_test, converted_log_preds)
-converted_log_r2 = r2_score(converted_y_test, converted_log_preds)
-
-print(f"Converted log model performance on original scale:\nRMSE: {converted_log_rmse:.4f}\nR^2: {converted_log_r2:.4f}")

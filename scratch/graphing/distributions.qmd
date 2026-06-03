@@ -14,8 +14,9 @@ from pyhere import here
 
 ```{python}
 phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
-phot.head()
 ```
+
+## Physical properties
 
 ```{python}
 (
@@ -76,5 +77,49 @@ phot.head()
     ggplot(phot, aes(x='L_BOL')) +
     geom_histogram() +
     scale_x_log10()
+)
+```
+
+
+
+## Flux uncertainties
+
+```{python}
+(
+    ggplot(phot, aes(x='F8', y='e_F8')) +
+    geom_point()
+)
+```
+
+```{python}
+print(phot['e_F8'].describe())
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='F12', y='e_F12')) +
+    geom_point()
+)
+```
+
+```{python}
+print(phot['e_F12'].describe())
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='F24', y='e_F24')) +
+    geom_point()
+)
+```
+
+```{python}
+print(phot['e_F24'].describe())
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='F70', y='e_F70')) +
+    geom_point()
 )
 ```

@@ -98,7 +98,7 @@ models = {
             ('model', CatBoostRegressor(random_state=2026, verbose=0, thread_count=-1))
         ]),
         "space": {
-            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()], 'passthrough'),
+            'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer(), 'passthrough']),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
             'model__iterations': Integer(100, 1000),
             'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),

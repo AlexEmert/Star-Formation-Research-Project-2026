@@ -1,0 +1,46 @@
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [KNNImputer(), np.int64(50), None, np.int64(20), np.int64(2), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(24), None, np.int64(19), np.int64(4), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(strategy='median'), np.int64(50), None, np.int64(13), np.int64(2), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(8), 'log2', np.int64(4), np.int64(18), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(strategy='median'), np.int64(50), None, np.int64(16), np.int64(2), RobustScaler()] before, using random point [SimpleImputer(), np.int64(26), 'sqrt', np.int64(12), np.int64(7), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [KNNImputer(), np.int64(50), None, np.int64(20), np.int64(2), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(25), None, np.int64(9), np.int64(18), 'passthrough']
+  warnings.warn(
+CatBoost:
+Best CV Score: 1.3403
+XGBoost:
+Best CV Score: 1.3422
+Random Forest:
+Best CV Score: 1.4985
+Decision Tree:
+Best CV Score: 1.6961
+SVR (rbf):
+Best CV Score: 2.1469
+CatBoost for log of diam:
+Best CV Score: 0.0638
+XGBoost for log of diam:
+Best CV Score: 0.0649
+Random Forest for log of diam:
+Best CV Score: 0.0691
+Decision Tree for log of diam:
+Best CV Score: 0.0810
+SVR (rbf) for log of diam:
+Best CV Score: 0.0970
+
+
+Summary of Best Models:
+Best overall CV RMSE: 1.3403
+Final model impute strategy: passthrough
+Final model scaler: StandardScaler()
+Final model parameters: CatBoostRegressor(bagging_temperature=0.48902434083402524, depth=6, iterations=647, l2_leaf_reg=9.54210015658819, learning_rate=0.05149073705583383, loss_function='RMSE', random_state=2026, random_strength=0.09125124326980817, verbose=0)
+Best overall model performance on test set:
+RMSE: 1.5322
+R^2: 0.8981
+
+Best overall log CV RMSE: 0.0638
+Final log model impute strategy: passthrough
+Final log model scaler: passthrough
+Final log model parameters: CatBoostRegressor(bagging_temperature=0.34471841394013025, depth=9, iterations=672, l2_leaf_reg=1.0, learning_rate=0.01, loss_function='RMSE', random_state=2026, random_strength=1e-09, verbose=0)
+Best overall log model performance on test set:
+RMSE: 0.0800
+R^2: 0.8969

@@ -4,8 +4,8 @@
 #SBATCH --cpus-per-task=48
 #SBATCH -J dens_model_fit
 #SBATCH -p bsudfq
-#SBATCH -t 06:00:00
-#SBATCH --output=out_dens_allf.out
+#SBATCH -t 1-00:00:00
+#SBATCH --output=out_dens_allf2.out
 
 
 . ~/.bashrc

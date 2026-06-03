@@ -73,11 +73,14 @@ class RatioGenerator(BaseEstimator, TransformerMixin):
         return np.array(input_features + ratio_features, dtype=object)
 
 
+# read data with all response variables and everything else
 phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
-phot = phot.drop(columns=['LRATIO', 'TEMP', 'LM', 'L_BOL', 'MASS', 'DIAM', 'T_BOL', 'YB'])
 
-phot_X = phot.drop(columns=['SURF_DENS'])
-phot_y = phot['SURF_DENS']
+#drop the other response variables so they don't interact with the predictions
+phot = phot.drop(columns=['LM', 'TEMP', 'MASS', 'LRATIO', 'SURF_DENS', 'L_BOL', 'T_BOL', 'YB'])
+
+phot_X = phot.drop(columns=['DIAM'])
+phot_y = phot['DIAM']
 
 X_train, X_test, y_train, y_test = train_test_split(
     phot_X, 
@@ -244,7 +247,7 @@ global_best_log_result = None
 best_log_model_name = ""
 
 for name, setup in models.items():
-    print(f"{name} for log of surf dens:")
+    print(f"{name} for log of diam:")
     
     log_opt = BayesSearchCV(
         estimator=setup["pipe"],
@@ -296,31 +299,31 @@ print(f"Final log model parameters: {best_overall_log_model.named_steps['model']
 plt.figure(figsize=(8, 6))
 plot_convergence(global_best_result)
 plt.title(f"Convergence Plot: {best_model_name}")
-plt.savefig(f"dens_convergence_plot.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"diam_convergence_plot.png", dpi=300, bbox_inches='tight')
 
 #objective plot
 plot_objective(global_best_result, size=2)
 plt.title(f"Objective Plot: {best_model_name}")
-plt.savefig(f"dens_objective_plot.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"diam_objective_plot.png", dpi=300, bbox_inches='tight')
 
 # evaluation plot
 plot_evaluations(global_best_result, size=2)
 plt.title(f"Evaluation Plot: {best_model_name}")
-plt.savefig(f"dens_evaluation_plot.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"diam_evaluation_plot.png", dpi=300, bbox_inches='tight')
 
 
 ## log response variable skopt plots
 plt.figure(figsize=(8, 6))
 plot_convergence(global_best_log_result)
 plt.title(f"Convergence Plot: {best_log_model_name}")
-plt.savefig(f"log_dens_convergence_plot.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"log_diam_convergence_plot.png", dpi=300, bbox_inches='tight')
 
 #objective plot
 plot_objective(global_best_log_result, size=2)
 plt.title(f"Objective Plot: {best_log_model_name}")
-plt.savefig(f"log_dens_objective_plot_.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"log_diam_objective_plot_.png", dpi=300, bbox_inches='tight')
 
 # evaluation plot
 plot_evaluations(global_best_log_result, size=2)
 plt.title(f"Evaluation Plot: {best_log_model_name}")
-plt.savefig(f"log_dens_evaluation_plot.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"log_diam_evaluation_plot.png", dpi=300, bbox_inches='tight')

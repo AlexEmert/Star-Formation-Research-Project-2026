@@ -244,7 +244,7 @@ global_best_log_result = None
 best_log_model_name = ""
 
 for name, setup in models.items():
-    print(f"{name} for log of diam:")
+    print(f"{name} for log of temp:")
     
     log_opt = BayesSearchCV(
         estimator=setup["pipe"],
@@ -300,13 +300,13 @@ plt.savefig(f"temp_convergence_plot.png", dpi=300, bbox_inches='tight')
 
 #objective plot
 plt.figure(figsize=(10, 10))
-plot_objective(global_best_result)
+plot_objective(global_best_result, size=2)
 plt.title(f"Objective Plot: {best_model_name}")
 plt.savefig(f"temp_objective_plot.png", dpi=300, bbox_inches='tight')
 
 # evaluation plot
 plt.figure(figsize=(10,8))
-plot_evaluations(global_best_result)
+plot_evaluations(global_best_result, size=2)
 plt.title(f"Evaluation Plot: {best_model_name}")
 plt.savefig(f"temp_evaluation_plot.png", dpi=300, bbox_inches='tight')
 
@@ -319,12 +319,12 @@ plt.savefig(f"log_temp_convergence_plot.png", dpi=300, bbox_inches='tight')
 
 #objective plot
 plt.figure(figsize=(10, 10))
-plot_objective(global_best_log_result)
+plot_objective(global_best_log_result, size=2)
 plt.title(f"Objective Plot: {best_log_model_name}")
-plt.savefig(f"log_temp_objective_plot_{best_log_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"log_temp_objective_plot.png", dpi=300, bbox_inches='tight')
 
 # evaluation plot
 plt.figure(figsize=(10,8))
-plot_evaluations(global_best_log_result)
+plot_evaluations(global_best_log_result, size=2)
 plt.title(f"Evaluation Plot: {best_log_model_name}")
 plt.savefig(f"log_temp_evaluation_plot.png", dpi=300, bbox_inches='tight')

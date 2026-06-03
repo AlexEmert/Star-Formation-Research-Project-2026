@@ -2,12 +2,12 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=48
-#SBATCH -J mass_model_fit
+#SBATCH -J lm_model_fit
 #SBATCH -p bsudfq
 #SBATCH -t 1-00:00:00
-#SBATCH --output=out_mass_allf.out
+#SBATCH --output=out_lm_allf.out
 
 
 . ~/.bashrc
 mamba activate starform-alex
-python mod_mass_allf.py
+python mod_lm_allf.py

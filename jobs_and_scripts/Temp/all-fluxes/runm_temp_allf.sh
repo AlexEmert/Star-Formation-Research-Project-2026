@@ -4,8 +4,8 @@
 #SBATCH --cpus-per-task=48
 #SBATCH -J temp_model_fit
 #SBATCH -p bsudfq
-#SBATCH -t 04:00:00
-#SBATCH --output=out_temp_allf3.out
+#SBATCH -t 20:00:00
+#SBATCH --output=out_temp_allf4.out
 
 
 . ~/.bashrc

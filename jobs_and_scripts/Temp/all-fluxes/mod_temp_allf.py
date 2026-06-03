@@ -95,18 +95,22 @@ models = {
             ('impute', SimpleImputer()),
             ('ratio', RatioGenerator(cols=flux_cols)),
             ('scale', RobustScaler()),
-            ('model', CatBoostRegressor(random_state=2026, verbose=0, thread_count=-1))
+            ('model', CatBoostRegressor(random_state=2026, verbose=0, thread_count=-1, loss_function='RMSE'))
         ]),
         "space": {
             'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer(), 'passthrough']),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__iterations': Integer(100, 1000),
-            'model__learning_rate': Real(0.01, 0.3, prior='log-uniform'),
-            'model__depth': Integer(4, 10),
-            'model__l2_leaf_reg': Real(1, 10, prior='uniform'),
-            'model__random_strength': Real(1e-9, 10, prior='log-uniform'),
-            'model__bagging_temperature': Real(0.0, 1.0)
-        }
+            "model__iterations": Integer(100, 3000),
+            "model__learning_rate": Real(1e-4, 0.5, prior="log-uniform"),
+            "model__depth": Integer(3, 12),
+            "model__l2_leaf_reg": Real(1e-3, 100.0, prior="log-uniform"),
+            "model__random_strength": Real(1e-9, 10.0, prior="log-uniform"),
+            "model__bagging_temperature": Real(0.0, 10.0, prior="uniform"),
+            "model__border_count": Integer(32, 255),
+            "model__min_data_in_leaf": Integer(1, 100),
+            "model__colsample_bylevel": Real(0.05, 1.0, prior="uniform"),
+            "model__grow_policy": Categorical(["SymmetricTree", "Depthwise", "Lossguide"])
+        }       
     },
     "XGBoost": {
         "pipe": Pipeline([
@@ -118,15 +122,16 @@ models = {
         "space": {
             'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer(), 'passthrough']),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__n_estimators': Integer(100, 800),
-            'model__learning_rate': Real(0.01, 0.2, prior='log-uniform'),
-            'model__max_depth': Integer(3, 9),
-            'model__min_child_weight': Integer(1, 7),
-            'model__subsample': Real(0.6, 1.0),
-            'model__colsample_bytree': Real(0.6, 1.0),
-            'model__gamma': Real(0.0, 5.0),
-            'model__reg_alpha': Real(1e-4, 10.0, prior='log-uniform'),
-            'model__reg_lambda': Real(1e-4, 10.0, prior='log-uniform')
+            "model__n_estimators": Integer(100, 3000),
+            "model__learning_rate": Real(1e-4, 0.5, prior="log-uniform"),
+            "model__max_depth": Integer(3, 12),
+            "model__min_child_weight": Integer(1, 20),
+            "model__subsample": Real(0.5, 1.0, prior="uniform"),
+            "model__colsample_bytree": Real(0.5, 1.0, prior="uniform"),
+            "model__colsample_bylevel": Real(0.5, 1.0, prior="uniform"),
+            "model__reg_alpha": Real(1e-9, 100.0, prior="log-uniform"),
+            "model__reg_lambda": Real(1e-9, 100.0, prior="log-uniform"),
+            "model__gamma": Real(1e-9, 10.0, prior="log-uniform")
         }
     },
     "Random Forest": {
@@ -139,11 +144,11 @@ models = {
         "space": {
             'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__n_estimators': Integer(100, 800),
-            'model__max_depth': Integer(5, 50),
-            'model__min_samples_split': Integer(2, 20),
-            'model__min_samples_leaf': Integer(1, 20),
-            'model__max_features': Categorical(['sqrt', 'log2', None]), 
+            "model__n_estimators": Integer(10, 1000),
+            "model__max_depth": Integer(3, 30),
+            "model__min_samples_split": Integer(2, 20),
+            "model__min_samples_leaf": Integer(1, 20),
+            "model__max_features": Categorical(["sqrt", "log2", None]), 
             'model__bootstrap': Categorical([True, False])
         }
     },
@@ -157,27 +162,29 @@ models = {
         "space": {
             'impute': Categorical([SimpleImputer(strategy='mean'), SimpleImputer(strategy='median'), KNNImputer()]),
             'scale': Categorical([StandardScaler(), RobustScaler(), 'passthrough']),
-            'model__max_depth': Integer(5, 50),
-            'model__min_samples_split': Integer(2, 20),
-            'model__min_samples_leaf': Integer(1, 20),
-            'model__max_features': Categorical(['sqrt', 'log2', None])
-        }
-    },
-    "SVR (rbf)": {
-        "pipe": Pipeline([
-            ('impute', SimpleImputer(strategy='median')),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', SVR())
-        ]),
-        "space": {
-            'scale': Categorical([StandardScaler(), RobustScaler()]),
-            'model__kernel': Categorical(['rbf']),
-            'model__C': Real(0.1, 100, prior='log-uniform'),
-            'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
-            'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
+            "model__max_depth": Integer(3, 30),
+            "model__min_samples_split": Integer(2, 20),
+            "model__min_samples_leaf": Integer(1, 20),
+            "model__max_features": Categorical(["sqrt", "log2", None])
         }
     }
+    #   leaving out SVR because it is not only slow but consistently underperforms the other models
+    # ,
+    # "SVR (rbf)": {
+    #     "pipe": Pipeline([
+    #         ('impute', SimpleImputer(strategy='median')),
+    #         ('ratio', RatioGenerator(cols=flux_cols)),
+    #         ('scale', RobustScaler()),
+    #         ('model', SVR())
+    #     ]),
+    #     "space": {
+    #         'scale': Categorical([StandardScaler(), RobustScaler()]),
+    #         'model__kernel': Categorical(['rbf']),
+    #         'model__C': Real(0.1, 100, prior='log-uniform'),
+    #         'model__gamma': Real(1e-4, 1e+1, prior='log-uniform'),
+    #         'model__epsilon': Real(0.01, 1.0, prior='log-uniform')
+    #     }
+    # }
 }
 
 
@@ -220,6 +227,7 @@ best_mod_rmse = root_mean_squared_error(y_test, y_pred)
 best_mod_r2 = r2_score(y_test, y_pred)
 
 
+print("\n")
 ## Try again, but logging the response variable incase that is more important
 log_phot_y = np.log(phot_y)
 
@@ -241,7 +249,7 @@ for name, setup in models.items():
     log_opt = BayesSearchCV(
         estimator=setup["pipe"],
         search_spaces=setup["space"],
-        n_iter=45, 
+        n_iter=200, 
         cv=5,
         scoring='neg_root_mean_squared_error',
         n_jobs=1,
@@ -267,16 +275,19 @@ best_log_mod_r2 = r2_score(new_y_test, new_y_pred)
 
 print("\n")
 print("Summary of Best Models:")
-print(f"Best overall CV RMSE: {best_overall_score:.4f}")
+print(f"Best overall CV RMSE: {best_overall_score:.4f}\n")
+print(f"Best overall model performance on test set:\nRMSE: {best_mod_rmse:.4f}\nR^2: {best_mod_r2:.4f}\n")
 print(f"Final model impute strategy: {best_overall_model.named_steps['impute']}")
 print(f"Final model scaler: {best_overall_model.named_steps['scale']}")
 print(f"Final model parameters: {best_overall_model.named_steps['model']}")
-print(f"Best overall model performance on test set:\nRMSE: {best_mod_rmse:.4f}\nR^2: {best_mod_r2:.4f}\n")
-print(f"Best overall log CV RMSE: {best_overall_log_score:.4f}")
+
+
+print(f"Best overall log CV RMSE: {best_overall_log_score:.4f}\n")
+print(f"Best overall log model performance on test set:\nRMSE: {best_log_mod_rmse:.4f}\nR^2: {best_log_mod_r2:.4f}\n")
 print(f"Final log model impute strategy: {best_overall_log_model.named_steps['impute']}")
 print(f"Final log model scaler: {best_overall_log_model.named_steps['scale']}")
 print(f"Final log model parameters: {best_overall_log_model.named_steps['model']}")
-print(f"Best overall log model performance on test set:\nRMSE: {best_log_mod_rmse:.4f}\nR^2: {best_log_mod_r2:.4f}")
+
 
 
 ## graphing the skopt plots for the best model
@@ -285,35 +296,35 @@ print(f"Best overall log model performance on test set:\nRMSE: {best_log_mod_rms
 plt.figure(figsize=(8, 6))
 plot_convergence(global_best_result)
 plt.title(f"Convergence Plot: {best_model_name}")
-plt.savefig(f"convergence_plot_{best_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"temp_convergence_plot.png", dpi=300, bbox_inches='tight')
 
 #objective plot
 plt.figure(figsize=(10, 10))
 plot_objective(global_best_result)
 plt.title(f"Objective Plot: {best_model_name}")
-plt.savefig(f"objective_plot_{best_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"temp_objective_plot.png", dpi=300, bbox_inches='tight')
 
 # evaluation plot
 plt.figure(figsize=(10,8))
 plot_evaluations(global_best_result)
 plt.title(f"Evaluation Plot: {best_model_name}")
-plt.savefig(f"evaluation_plot_{best_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"temp_evaluation_plot.png", dpi=300, bbox_inches='tight')
 
 
 ## log response variable skopt plots
 plt.figure(figsize=(8, 6))
 plot_convergence(global_best_log_result)
 plt.title(f"Convergence Plot: {best_log_model_name}")
-plt.savefig(f"convergence_plot_{best_log_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"log_temp_convergence_plot.png", dpi=300, bbox_inches='tight')
 
 #objective plot
 plt.figure(figsize=(10, 10))
 plot_objective(global_best_log_result)
 plt.title(f"Objective Plot: {best_log_model_name}")
-plt.savefig(f"objective_plot_{best_log_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"log_temp_objective_plot_{best_log_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
 
 # evaluation plot
 plt.figure(figsize=(10,8))
 plot_evaluations(global_best_log_result)
 plt.title(f"Evaluation Plot: {best_log_model_name}")
-plt.savefig(f"evaluation_plot_{best_log_model_name.replace(' ', '_')}.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"log_temp_evaluation_plot.png", dpi=300, bbox_inches='tight')

@@ -8,8 +8,8 @@ SPACES = ("catboost_space.pkl" "rf_space.pkl" "xgboost_space.pkl" "tree_space.pk
 mkdir -p ../logs ../results
 
 
-for r in "${Responses[@]}"; do
-    for s in "${Spaces[@]}"; do
+for r in "${RESPONSES[@]}"; do
+    for s in "${SPACES[@]}"; do
 
         sbatch --export=ALL,RESPONSE="$r",SPACE="$s",ITERS="200" run_job.sh
 

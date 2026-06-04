@@ -1,7 +1,7 @@
 #!/bin/bash
 
-RESPONSES = ("LRATIO" "T_BOL" "LM" "L_BOL" "MASS" "DIAM" "SURF_DENS" "TEMP")
-SPACES = ("catboost_space.pkl" "rf_space.pkl" "xgboost_space.pkl" "tree_space.pkl")
+RESPONSES=("LRATIO" "T_BOL" "LM" "L_BOL" "MASS" "DIAM" "SURF_DENS" "TEMP")
+SPACES=("catboost_space.pkl" "rf_space.pkl" "xgboost_space.pkl" "tree_space.pkl")
 
 
 # just in case something goes wrong, automatically makes results and logs folders

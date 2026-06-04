@@ -3,7 +3,10 @@ import numpy as np
 import itertools
 from pyhere import here
 from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn import set_config
 
+# make it work with data frames
+set_config(transform_output="pandas")
 class RatioGenerator(BaseEstimator, TransformerMixin):
     '''
     A custom transformer that generates new features by taking the ratios of all combinations of specified columns.

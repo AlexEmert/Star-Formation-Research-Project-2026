@@ -1,0 +1,199 @@
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(7), np.int64(1000), RobustScaler()] before, using random point [KNNImputer(), False, np.int64(17), 'sqrt', np.int64(15), np.int64(8), np.int64(899), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(7), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(), True, np.int64(24), 'log2', np.int64(18), np.int64(6), np.int64(43), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(7), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(), False, np.int64(13), None, np.int64(16), np.int64(19), np.int64(797), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(7), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(4), 'sqrt', np.int64(8), np.int64(16), np.int64(576), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(8), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(28), 'sqrt', np.int64(13), np.int64(19), np.int64(360), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(6), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(), False, np.int64(29), None, np.int64(11), np.int64(3), np.int64(882), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(21), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [KNNImputer(), False, np.int64(9), None, np.int64(14), np.int64(12), np.int64(822), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(22), np.str_('sqrt'), np.int64(1), np.int64(3), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(), False, np.int64(17), None, np.int64(1), np.int64(9), np.int64(854), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [KNNImputer(), True, np.int64(8), 'sqrt', np.int64(1), np.int64(15), np.int64(764), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(25), 'sqrt', np.int64(11), np.int64(13), np.int64(921), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), RobustScaler()] before, using random point [KNNImputer(), False, np.int64(23), None, np.int64(7), np.int64(5), np.int64(543), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(7), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(21), 'sqrt', np.int64(4), np.int64(18), np.int64(214), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), False, np.int64(24), 'sqrt', np.int64(13), np.int64(12), np.int64(780), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [KNNImputer(), True, np.int64(17), 'log2', np.int64(3), np.int64(10), np.int64(809), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), False, np.int64(25), 'log2', np.int64(13), np.int64(13), np.int64(703), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(7), 'sqrt', np.int64(12), np.int64(3), np.int64(766), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(), True, np.int64(13), 'log2', np.int64(9), np.int64(4), np.int64(619), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), None, np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), False, np.int64(25), None, np.int64(17), np.int64(3), np.int64(493), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(), False, np.int64(29), None, np.int64(18), np.int64(12), np.int64(639), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(29), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(), True, np.int64(18), 'log2', np.int64(14), np.int64(10), np.int64(373), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(29), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(), True, np.int64(19), 'sqrt', np.int64(5), np.int64(16), np.int64(347), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(27), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(29), 'log2', np.int64(10), np.int64(6), np.int64(525), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(30), np.str_('sqrt'), np.int64(20), np.int64(20), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(), False, np.int64(24), 'log2', np.int64(4), np.int64(10), np.int64(288), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(13), np.str_('sqrt'), np.int64(20), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(), False, np.int64(4), 'sqrt', np.int64(9), np.int64(11), np.int64(761), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(13), np.str_('sqrt'), np.int64(20), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(4), 'log2', np.int64(9), np.int64(11), np.int64(189), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(13), np.str_('sqrt'), np.int64(20), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(18), 'log2', np.int64(16), np.int64(8), np.int64(84), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(13), np.str_('sqrt'), np.int64(20), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [SimpleImputer(), True, np.int64(5), 'sqrt', np.int64(16), np.int64(9), np.int64(184), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(14), np.str_('sqrt'), np.int64(20), np.int64(2), np.int64(1000), StandardScaler()] before, using random point [KNNImputer(), True, np.int64(6), 'sqrt', np.int64(15), np.int64(19), np.int64(131), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(14), np.str_('sqrt'), np.int64(20), np.int64(10), np.int64(1000), StandardScaler()] before, using random point [KNNImputer(), False, np.int64(27), 'sqrt', np.int64(6), np.int64(6), np.int64(111), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.True_, np.int64(15), np.str_('sqrt'), np.int64(1), np.int64(2), np.int64(1000), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), True, np.int64(7), 'sqrt', np.int64(12), np.int64(3), np.int64(970), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), RobustScaler()] before, using random point [SimpleImputer(), np.int64(12), None, np.int64(17), np.int64(3), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(17), 'sqrt', np.int64(3), np.int64(14), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(18), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(24), 'sqrt', np.int64(9), np.int64(14), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(18), np.str_('passthrough')] before, using random point [SimpleImputer(), np.int64(25), 'sqrt', np.int64(9), np.int64(9), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(13), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(24), 'sqrt', np.int64(5), np.int64(11), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(19), np.str_('passthrough')] before, using random point [SimpleImputer(), np.int64(23), None, np.int64(15), np.int64(7), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(17), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(4), 'sqrt', np.int64(4), np.int64(20), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(17), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(17), 'sqrt', np.int64(5), np.int64(9), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(17), np.str_('passthrough')] before, using random point [SimpleImputer(), np.int64(19), 'log2', np.int64(13), np.int64(4), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(17), RobustScaler()] before, using random point [SimpleImputer(), np.int64(18), 'sqrt', np.int64(4), np.int64(2), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(17), RobustScaler()] before, using random point [KNNImputer(), np.int64(16), 'sqrt', np.int64(15), np.int64(19), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(18), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(20), 'log2', np.int64(7), np.int64(19), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(25), 'sqrt', np.int64(6), np.int64(3), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(15), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(20), 'log2', np.int64(15), np.int64(10), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(13), RobustScaler()] before, using random point [SimpleImputer(), np.int64(25), 'log2', np.int64(19), np.int64(8), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(5), np.str_('passthrough')] before, using random point [SimpleImputer(), np.int64(7), 'log2', np.int64(1), np.int64(15), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(19), RobustScaler()] before, using random point [KNNImputer(), np.int64(7), 'sqrt', np.int64(16), np.int64(3), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(9), np.str_('passthrough')] before, using random point [SimpleImputer(), np.int64(4), 'log2', np.int64(9), np.int64(19), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(20), None, np.int64(3), np.int64(15), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(16), np.str_('passthrough')] before, using random point [SimpleImputer(), np.int64(7), None, np.int64(18), np.int64(4), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), RobustScaler()] before, using random point [SimpleImputer(), np.int64(22), None, np.int64(14), np.int64(10), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(12), 'log2', np.int64(18), np.int64(12), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(11), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(5), None, np.int64(5), np.int64(3), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(14), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(13), None, np.int64(9), np.int64(3), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(16), 'sqrt', np.int64(17), np.int64(17), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(4), 'log2', np.int64(4), np.int64(16), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(11), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(14), None, np.int64(2), np.int64(15), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), RobustScaler()] before, using random point [SimpleImputer(strategy='median'), np.int64(12), None, np.int64(2), np.int64(10), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(11), np.str_('passthrough')] before, using random point [SimpleImputer(), np.int64(4), 'sqrt', np.int64(12), np.int64(6), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(13), RobustScaler()] before, using random point [KNNImputer(), np.int64(27), 'log2', np.int64(17), np.int64(5), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(4), 'sqrt', np.int64(19), np.int64(13), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(8), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(17), 'log2', np.int64(18), np.int64(19), StandardScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(17), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(29), 'sqrt', np.int64(18), np.int64(4), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(20), RobustScaler()] before, using random point [KNNImputer(), np.int64(29), None, np.int64(7), np.int64(9), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(17), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(21), 'log2', np.int64(16), np.int64(7), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(14), RobustScaler()] before, using random point [KNNImputer(), np.int64(9), 'log2', np.int64(20), np.int64(16), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(11), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(11), 'sqrt', np.int64(15), np.int64(7), RobustScaler()]
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(19), np.str_('passthrough')] before, using random point [KNNImputer(), np.int64(24), 'log2', np.int64(14), np.int64(7), 'passthrough']
+  warnings.warn(
+/bsuhome/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/optimizer/optimizer.py:517: UserWarning: The objective has been evaluated at point [SimpleImputer(), np.int64(23), None, np.int64(20), np.int64(3), np.str_('passthrough')] before, using random point [SimpleImputer(strategy='median'), np.int64(21), None, np.int64(14), np.int64(10), 'passthrough']
+  warnings.warn(
+CatBoost:
+Best CV Score: 0.5574
+XGBoost:
+Best CV Score: 0.5330
+Random Forest:
+Best CV Score: 0.5858
+Decision Tree:
+Best CV Score: 0.6943
+
+
+CatBoost for log of surf dens:
+Best CV Score: 0.5473
+XGBoost for log of surf dens:
+Best CV Score: 0.5466
+Random Forest for log of surf dens:
+Best CV Score: 0.5820
+Decision Tree for log of surf dens:
+Best CV Score: 0.6923
+
+
+Summary of Best Models:
+Best overall CV RMSE: 0.5330
+
+Best overall model performance on test set:
+RMSE: 0.6439
+R^2: 0.7353
+
+Final model impute strategy: passthrough
+Final model scaler: RobustScaler()
+Final model parameters: XGBRegressor(base_score=None, booster=None, callbacks=None,
+             colsample_bylevel=0.5209043516313219, colsample_bynode=None,
+             colsample_bytree=1.0, device=None, early_stopping_rounds=None,
+             enable_categorical=False, eval_metric=None, feature_types=None,
+             feature_weights=None, gamma=8.904240947290456e-07,
+             grow_policy=None, importance_type=None,
+             interaction_constraints=None, learning_rate=0.021728649841604025,
+             max_bin=None, max_cat_threshold=None, max_cat_to_onehot=None,
+             max_delta_step=None, max_depth=4, max_leaves=None,
+             min_child_weight=1, missing=nan, monotone_constraints=None,
+             multi_strategy=None, n_estimators=506, n_jobs=-1,
+             num_parallel_tree=None, ...)
+Best overall log CV RMSE: 0.5466
+
+Best overall log model performance on test set:
+RMSE: 0.5328
+R^2: 0.8423
+
+Final log model impute strategy: passthrough
+Final log model scaler: passthrough
+Final log model parameters: XGBRegressor(base_score=None, booster=None, callbacks=None,
+             colsample_bylevel=0.7434714753806312, colsample_bynode=None,
+             colsample_bytree=0.5809953840163391, device=None,
+             early_stopping_rounds=None, enable_categorical=False,
+             eval_metric=None, feature_types=None, feature_weights=None,
+             gamma=1e-09, grow_policy=None, importance_type=None,
+             interaction_constraints=None, learning_rate=0.002611799390124943,
+             max_bin=None, max_cat_threshold=None, max_cat_to_onehot=None,
+             max_delta_step=None, max_depth=9, max_leaves=None,
+             min_child_weight=17, missing=nan, monotone_constraints=None,
+             multi_strategy=None, n_estimators=3000, n_jobs=-1,
+             num_parallel_tree=None, ...)

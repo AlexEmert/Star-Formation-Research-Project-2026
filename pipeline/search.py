@@ -35,7 +35,7 @@ def add_parser_arguments():
     parser.add_argument('--response', '-r', type=str, required=True, help='The response variable to predict')
     parser.add_argument('--space', '-s', type=str, required=True, help="Name of pickled search space dictionary")
     parser.add_argument('--iters', '-n', type=int, default=50, help='Number of iterations to run the optimization for')
-    parser.add_argument('--data', '-d', type=str, default= "MIRION_cleaned_everything.csv", required=True, help='Name of CSV file containing the data')
+    parser.add_argument('--data', '-d', type=str, default= "MIRION_cleaned_everything.csv", help='Name of CSV file containing the data')
     return parser.parse_args()
 
 def main():

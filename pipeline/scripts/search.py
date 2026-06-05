@@ -57,7 +57,7 @@ def main():
     flux_cols = ['F8', 'F12', 'F24', 'F70', 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100']
     flux_cols = flux_cols [::-1]
 
-    with open(here("spaces", args.space), "rb") as file:
+    with open(here("pipeline/spaces", args.space), "rb") as file:
         search_space = pickle.load(file)
 
     opt = BayesSearchCV(

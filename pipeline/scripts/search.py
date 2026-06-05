@@ -91,7 +91,7 @@ def main():
     #save this for later
     space_name = os.path.splitext(os.path.basename(args.space_file))[0]
 
-    with open(here("results", f"{space_name}_{args.response}_results.pkl"), "wb") as file:
+    with open(here("pipeline/results", f"{space_name}_{args.response}_results.pkl"), "wb") as file:
         pickle.dump({
             "CVscore": opt.best_score_,
             "best_params": opt.best_params_,

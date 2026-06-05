@@ -5,7 +5,7 @@ SPACES=("catboost_space.pkl") # "rf_space.pkl" "xgboost_space.pkl" "tree_space.p
 
 
 # just in case something goes wrong, automatically makes results and logs folders
-mkdir logs results
+mkdir -p ../logs ../results
 
 
 for r in "${RESPONSES[@]}"; do

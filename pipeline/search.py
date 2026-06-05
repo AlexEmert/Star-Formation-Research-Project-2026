@@ -44,8 +44,10 @@ def main():
     phot = pd.read_csv(here("data/cleaned", args.data))
 
     # split into X and y -- remove other physical properties
-    all_responses = ['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB', 'TEMP']
-    remove_properties = all_responses.remove(args.response)
+    remove_properties = ['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB', 'TEMP']
+
+    # remove the one that we want to keep so it isn't dropped
+    remove_properties.remove(args.response)
 
     y = phot[args.response]
     X = phot.drop(columns=remove_properties)

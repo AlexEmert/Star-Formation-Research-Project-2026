@@ -1,12 +1,11 @@
 #!/bin/bash
 #SBATCH -J model_fit      # job name
-#SBATCH -o log_slurm.o%j  # output and error file name (%j expands to jobID)
 #SBATCH -n 1              # total number of tasks requested
 #SBATCH -c 48             # CPU cores per task
 #SBATCH -N 1              # number of nodes you want to run on
 #SBATCH -p bsudfq         # queue (partition)
 #SBATCH -t 12:00:00       # run time (hh:mm:ss)
-#SBATCH --output=../logs/%x_%j.out
+#SBATCH --o=logs/%x_%j.out # output and error file name (%j expands to jobID)
 
 
 . ~/.bashrc

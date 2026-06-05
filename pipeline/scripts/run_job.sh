@@ -5,7 +5,7 @@
 #SBATCH -N 1              # number of nodes you want to run on
 #SBATCH -p bsudfq         # queue (partition)
 #SBATCH -t 12:00:00       # run time (hh:mm:ss)
-#SBATCH --o=../logs/%x_%j.out # output and error file name (%j expands to jobID)
+#SBATCH --output=../logs/%x_%j.out # output and error file name (%j expands to jobID)
 
 
 . ~/.bashrc

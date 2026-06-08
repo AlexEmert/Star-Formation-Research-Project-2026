@@ -16,7 +16,8 @@ from xgboost import XGBRegressor
 from sklearn.svm import SVR
 from skopt.space import Categorical, Real, Integer
 from sklearn.impute import KNNImputer, SimpleImputer
-from sklearn.preprocessing import StandardScaler, RobustScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler, FunctionTransformer
+from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -93,9 +94,9 @@ def main():
 
     with open(here("pipeline/results", f"{space_name}_{args.response}_results.pkl"), "wb") as file:
         pickle.dump({
-            "CVscore": opt.best_score_,
+            "CVscore": -opt.best_score_,
             "best_params": opt.best_params_,
-            "logCVscore": log_opt.best_score_,
+            "logCVscore": -log_opt.best_score_,
             "logbest_params": log_opt.best_params_
         }, file)
 

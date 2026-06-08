@@ -89,7 +89,7 @@ def main():
     log_opt.fit(X_train_log, y_train_log)
 
     #save this for later
-    space_name = os.path.splitext(os.path.basename(args.space_file))[0]
+    space_name = args.space.split("_")[0]
 
     with open(here("pipeline/results", f"{space_name}_{args.response}_results.pkl"), "wb") as file:
         pickle.dump({

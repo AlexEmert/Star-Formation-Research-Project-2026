@@ -1,3 +1,0 @@
-usage: search.py [-h] --response RESPONSE --space SPACE [--iters ITERS]
-                 --data DATA
-search.py: error: the following arguments are required: --data/-d

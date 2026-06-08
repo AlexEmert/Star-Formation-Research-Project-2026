@@ -169,7 +169,7 @@ dist_colspecs = [
 dist_colnames = ['YB', 'DIST', 'e_DIST', 'DIST_C', 'DIST_M', 'e_DIST_M', 'STAT_M', 'PFAR', 'DIST_R1', 'e_DIST_R1', 'PINT_R1', 'ARM_R1', 'DIST_R2', 'e_DIST_R2', 'PINT_R2', 'ARM_R2']
 print(len(dist_colnames), len(dist_colspecs))
 dist = pd.read_fwf(
-    here("data", "MRT-dist.txt"),
+    here("data/uncleaned", "MRT-dist.txt"),
     colspecs=dist_colspecs,
     names=dist_colnames,
     skiprows=28,
@@ -193,5 +193,9 @@ total_data = pd.merge(total_data, phot_read, on='YB', how='left')
 ```
 
 ```{python}
-total_data.to_csv(here('data/cleaned', 'MIRION_cleaned_everything.csv'))
+total_data.head()
+```
+
+```{python}
+total_data.to_csv(here('data/cleaned', 'MIRION_cleaned_everything.csv'), index=False)
 ```

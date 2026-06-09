@@ -60,9 +60,20 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='DIAM')) +
     geom_histogram() +
-    scale_x_sqrt()
+    scale_x_log10()
 )
 ```
+
+```{python}
+(
+    ggplot(phot, aes(x='DIAM', y='DIST', color='L_BOL')) +
+    geom_point() +
+    scale_color_continuous(trans='log', cmap_name='magma') +
+    scale_x_log10() +
+    scale_y_log10()
+)
+```
+
 
 ```{python}
 (
@@ -74,9 +85,37 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 
 ```{python}
 (
+    ggplot(phot, aes(x='MASS', y='DIST', color ='DIAM')) +
+    geom_point() +
+    scale_color_continuous(trans='log', cmap_name='magma') +
+    scale_x_log10() +
+    scale_y_log10()
+)
+```
+
+```{python}
+(
     ggplot(phot, aes(x='L_BOL')) +
     geom_histogram() +
     scale_x_log10()
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='L_BOL', y='DIST', color='MASS')) +
+    geom_point() +
+    scale_color_continuous(trans='log', cmap_name='magma') +
+    scale_x_log10() +
+    scale_y_log10()
+)
+```
+
+
+```{python}
+(
+    ggplot(phot, aes(x='DIST')) +
+    geom_histogram()
 )
 ```
 

@@ -1,0 +1,16 @@
+RF models:
+Best cv error for pca with temp: 6.52071562328954
+Best cv error for pca with diam: 0.04110692407817683
+Best cv error for ratio with temp: 2.1986131205937154
+Best cv error for ratio with diam: 0.034556085863583594
+Best cv error for log ratio with temp: 2.2010005216985684
+Best cv error for log ratio with diam: 0.03438706943155399
+
+
+XGboost models:
+Best cv error for pca with temp: 5.093990074790047
+Best cv error for pca with diam: 0.03609721829269359
+Best cv error for ratio with temp: 1.9994331519360302
+Best cv error for ratio with diam: 0.029995426016172454
+Best cv error for log ratio with temp: 1.9816044603130223
+Best cv error for log ratio with diam: 0.03024135653613102

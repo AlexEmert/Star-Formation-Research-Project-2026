@@ -73,17 +73,17 @@ def main():
     first_plot_path.parent.mkdir(parents=True, exist_ok=True)
 
     plt.figure(figsize=(8, 6))
-    plot_convergence(opt.optimizer_results_)
+    plot_convergence(opt.optimizer_results_[-1])
     plt.title(f"Convergence Plot: Best {args.response} Model Optimization")
     plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
 
     #objective plot
-    plot_objective(opt.optimizer_results_, size=2)
+    plot_objective(opt.optimizer_results_[-1], size=2)
     plt.title(f"Objective Plot: Best {args.response} Model Optimization")
     plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
 
     # evaluation plot
-    plot_evaluations(opt.optimizer_results_, size=2)
+    plot_evaluations(opt.optimizer_results_[-1], size=2)
     plt.title(f"Evaluation Plot: Best {args.response} Model Optimization")
     plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
 

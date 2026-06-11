@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/graphing/scripts/graph_skopt.py", line 91, in <module>
+    main()
+    ~~~~^^
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/graphing/scripts/graph_skopt.py", line 81, in main
+    plot_objective(opt.optimizer_results_, size=2)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/plots.py", line 800, in plot_objective
+    space = result.space
+            ^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'space'

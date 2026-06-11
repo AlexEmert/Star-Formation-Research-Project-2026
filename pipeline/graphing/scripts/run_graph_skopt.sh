@@ -7,11 +7,10 @@
 #SBATCH -t 1-00:00:00       # run time (hh:mm:ss)
 #SBATCH --output=../../logs/%x_%j.out # output and error file name (%j expands to jobID)
 
-
 . ~/.bashrc
 mamba activate starform-alex
 
 python graph_skopt.py \
     --response "TEMP" \
-    --space "tree_space" 
+    --space "tree_space.pkl" 
     #--iters "$ITERS"

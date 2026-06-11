@@ -41,7 +41,7 @@ def main():
     # remove the one that we want to keep so it isn't dropped
     remove_properties.remove(args.response)
 
-
+    # only logs the columns that have better log distributions
     if args.response == 'TEMP' or args.response == 'T_BOL':
         y = phot[args.response]
     else:
@@ -53,6 +53,7 @@ def main():
 
     flux_cols = ['F1100', 'F870', 'F500', 'F350', 'F250', 'F160', 'F70', 'F24', 'F12', 'F8']
 
+    # reads the space that contains a pipe with preprocessing/model, and a search space created for that model
     with open(here("pipeline/spaces", args.space), "rb") as file:
         search_space = pickle.load(file)
 

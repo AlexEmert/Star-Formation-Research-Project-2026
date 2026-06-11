@@ -69,6 +69,9 @@ def main():
 
     opt.fit(X_train, y_train)
 
+    first_plot_path = here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")
+    first_plot_path.parent.mkdir(parents=True, exist_ok=True)
+
     plt.figure(figsize=(8, 6))
     plot_convergence(opt.optimizer_results_)
     plt.title(f"Convergence Plot: Best {args.response} Model Optimization")

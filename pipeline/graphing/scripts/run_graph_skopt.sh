@@ -10,7 +10,4 @@
 . ~/.bashrc
 mamba activate starform-alex
 
-python graph_skopt.py \
-    --response "TEMP" \
-    --space "tree_space.pkl" 
-    #--iters "$ITERS"
+python graph_skopt.py --response $RESP --space $SPACE --iters "200"

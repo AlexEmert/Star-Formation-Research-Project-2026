@@ -11,7 +11,7 @@
 . ~/.bashrc
 mamba activate starform-alex
 
-python search.py \
+python graph_skopt.py \
     --response "TEMP" \
     --space "tree_space" 
     #--iters "$ITERS"

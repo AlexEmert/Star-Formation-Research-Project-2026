@@ -1,0 +1,100 @@
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'F1100_over_F870'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_indexing.py", line 469, in _get_column_indices
+    col_idx = all_columns.get_loc(col)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'F1100_over_F870'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 101, in <module>
+    main()
+    ~~~~^^
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 70, in main
+    opt.fit(X_train, y_train)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/searchcv.py", line 542, in fit
+    super().fit(X=X, y=y, groups=groups, **fit_params)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 1053, in fit
+    self._run_search(evaluate_candidates)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/searchcv.py", line 599, in _run_search
+    optim_result, score_name = self._step(
+                               ~~~~~~~~~~^
+        search_space,
+        ^^^^^^^^^^^^^
+    ...<3 lines>...
+        n_points=n_points_adjusted,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/skopt/searchcv.py", line 453, in _step
+    all_results = evaluate_candidates(params_dict)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 999, in evaluate_candidates
+    out = parallel(
+        delayed(_fit_and_score)(
+    ...<13 lines>...
+        )
+    )
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 91, in __call__
+    return super().__call__(iterable_with_config_and_warning_filters)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/joblib/parallel.py", line 1986, in __call__
+    return output if self.return_generator else list(output)
+                                                ~~~~^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/joblib/parallel.py", line 1914, in _get_sequential_output
+    res = func(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 184, in __call__
+    return self.function(*args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/model_selection/_validation.py", line 833, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/pipeline.py", line 613, in fit
+    Xt = self._fit(X, y, routed_params, raw_params=params)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/pipeline.py", line 547, in _fit
+    X, fitted_transformer = fit_transform_one_cached(
+                            ~~~~~~~~~~~~~~~~~~~~~~~~^
+        cloned_transformer,
+        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        params=step_params,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/joblib/memory.py", line 326, in __call__
+    return self.func(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/pipeline.py", line 1484, in _fit_transform_one
+    res = transformer.fit_transform(X, y, **params.get("fit_transform", {}))
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_set_output.py", line 316, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/compose/_column_transformer.py", line 991, in fit_transform
+    self._validate_column_callables(X)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/compose/_column_transformer.py", line 545, in _validate_column_callables
+    transformer_to_input_indices[name] = _get_column_indices(X, columns)
+                                         ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_indexing.py", line 477, in _get_column_indices
+    raise ValueError("A given column is not a column of the dataframe") from e
+ValueError: A given column is not a column of the dataframe

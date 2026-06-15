@@ -47,16 +47,12 @@ def main():
     # split into X and y -- remove other physical properties
     remove_properties = ['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB', 'TEMP']
 
-    # remove the one that we want to keep so it isn't dropped
-    remove_properties.remove(args.response)
-
     y = phot[args.response]
     X = phot.drop(columns=remove_properties)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
 
-    flux_cols = ['F8', 'F12', 'F24', 'F70', 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100']
-    flux_cols = flux_cols [::-1]
+    flux_cols = ['F1100', 'F870', 'F500', 'F350', 'F250', 'F160', 'F70', 'F24', 'F12', 'F8']
 
     with open(here("pipeline/spaces", args.space), "rb") as file:
         search_space = pickle.load(file)

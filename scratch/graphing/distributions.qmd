@@ -162,3 +162,14 @@ print(phot['e_F24'].describe())
     geom_point()
 )
 ```
+
+
+```{python}
+bands = ['8', '12', '24', '70']
+for band in bands:
+    phot[f'SNR_F{band}'] = phot[f'F{band}'] / (phot[f'e_F{band}'] + 1e-9)
+```
+
+```{python}
+phot['SNR_F70'].describe()
+```

@@ -41,7 +41,7 @@ phot_colnames = [
     "f_SAT", "f_MULTI", "f_NOSRC", "f_PCONF", "f_CEXT"
 ]
 phot = pd.read_fwf(
-    here("data", "MRT-phot.txt"),
+    here("data/uncleaned", "MRT-phot.txt"),
     colspecs=phot_colspecs,
     names=phot_colnames,
     skiprows=38,

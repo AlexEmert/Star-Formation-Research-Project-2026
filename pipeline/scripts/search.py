@@ -1,5 +1,6 @@
 import pandas as pd
-from ratio_function import RatioGenerator
+from ratio_function import RatioGenerator, LogRatioGenerator
+import matplotlib.pyplot as plt
 import itertools
 import numpy as np
 import argparse
@@ -20,6 +21,7 @@ from sklearn.preprocessing import StandardScaler, RobustScaler, FunctionTransfor
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
+from skopt.plots import plot_convergence, plot_objective, plot_evaluations
 
 set_config(transform_output="pandas")
 
@@ -34,7 +36,6 @@ set_config(transform_output="pandas")
 def add_parser_arguments():
     parser = argparse.ArgumentParser(description='Run Bayesian optimization for a model.')
     parser.add_argument('--response', '-r', type=str, required=True, help='The response variable to predict')
-    parser.add_argument('--space', '-s', type=str, required=True, help="Name of pickled search space dictionary")
     parser.add_argument('--iters', '-n', type=int, default=50, help='Number of iterations to run the optimization for')
     parser.add_argument('--data', '-d', type=str, default= "MIRION_cleaned_everything.csv", help='Name of CSV file containing the data')
     return parser.parse_args()
@@ -47,6 +48,11 @@ def main():
     # split into X and y -- remove other physical properties
     remove_properties = ['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB', 'TEMP']
 
+    ## add SNR as a feature
+    bands = ['8', '12', '24', '70']
+    for band in bands:
+        phot[f'SNR_F{band}'] = phot[f'F{band}'] / phot[f'e_F{band}']
+
     y = phot[args.response]
     X = phot.drop(columns=remove_properties)
 
@@ -54,47 +60,119 @@ def main():
 
     flux_cols = ['F1100', 'F870', 'F500', 'F350', 'F250', 'F160', 'F70', 'F24', 'F12', 'F8']
 
-    with open(here("pipeline/spaces", args.space), "rb") as file:
-        search_space = pickle.load(file)
+    with open(here("pipeline/spaces", "space_list.pkl"), "rb") as file:
+        search_space_list = pickle.load(file)
 
-    opt = BayesSearchCV(
-        estimator=search_space["pipe"],
-        search_spaces=search_space["space"],
-        n_iter=int(args.iters), 
-        cv=10,
-        scoring='neg_root_mean_squared_error',
-        n_jobs=1,
-        random_state=2026
-    )
+    with open(here("pipeline/spaces", "model_list.pkl"), "rb") as file2:
+        model_list = pickle.load(file2)
 
-    opt.fit(X_train, y_train)
+    model_names = ['cat', 'xgb', 'rf', 'tree', 'svr']
+    results = {}
 
-    log_y = np.log(y)
+    ## best models for plotting and comparison
+    best_model_name = ""
+    best_log_model_name = ""
+    best_overall_score = float('inf')
+    best_overall_log_score = float('inf')
+    skopt_plotting_info = None
+    skopt_log_plotting_info = None
 
-    X_train_log, X_test_log, y_train_log, y_test_log = train_test_split(X, log_y, test_size = 0.2, random_state=2026)
 
-    log_opt = BayesSearchCV(
-        estimator=search_space["pipe"],
-        search_spaces=search_space["space"],
-        n_iter=int(args.iters), 
-        cv=10,
-        scoring='neg_root_mean_squared_error',
-        n_jobs=1,
-        random_state=2026
-    )
+    for model_num in range(len(model_list)):
+        
+        current_model_name = model_names[model_num]
 
-    log_opt.fit(X_train_log, y_train_log)
+        ## hard coding to change serach space to n_jobs = -1 if it's SVR because SVR can't multithread
+        if model_num == 4 or model_num == 3:
+            search_jobs = -1
+        else:
+            search_jobs = 1
 
-    #save this for later
-    space_name = args.space.split("_")[0]
+        # switch model to fit that of the pipe
+        model_pipe = Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', 'passthrough')
+        ])
+        model_pipe.set_params(model=model_list[model_num])
 
-    with open(here("pipeline/results", f"{space_name}_{args.response}_results.pkl"), "wb") as file:
-        pickle.dump({
-            "CVscore": -opt.best_score_,
-            "best_params": opt.best_params_,
-            "logCVscore": -log_opt.best_score_,
-            "logbest_params": log_opt.best_params_
-        }, file)
+        opt = BayesSearchCV(
+            estimator=model_pipe,
+            search_spaces=search_space_list[model_num],
+            n_iter=int(args.iters), 
+            cv=10,
+            scoring='neg_root_mean_squared_error',
+            n_jobs=search_jobs,
+            random_state=2026
+        )
+
+        opt.fit(X_train, y_train)
+
+        if -opt.best_score_ < best_overall_score:
+            best_overall_score = -opt.best_score_
+            skopt_plotting_info = opt.optimizer_results_[-1]
+            best_model_name = current_model_name
+
+        log_y_train = np.log(y_train)
+
+        log_opt = BayesSearchCV(
+            estimator=model_pipe,
+            search_spaces=search_space_list[model_num],
+            n_iter=int(args.iters), 
+            cv=10,
+            scoring='neg_root_mean_squared_error',
+            n_jobs=search_jobs,
+            random_state=2026
+        )
+
+        log_opt.fit(X_train, log_y_train)
+
+        if -log_opt.best_score_ < best_overall_log_score:
+            best_overall_log_score = -log_opt.best_score_
+            skopt_log_plotting_info = log_opt.optimizer_results_[-1]
+            best_model_name = current_model_name
+
+        results[f'{current_model_name}_CV'] = -opt.best_score_
+        results[f'{current_model_name}_params'] = opt.best_params_
+        results[f'{current_model_name}_log_CV'] = -log_opt.best_score_
+        results[f'{current_model_name}_log_params'] = log_opt.best_params_
+
+
+    results['best_model_name'] = best_model_name
+    results['best_log_model_name'] = best_log_model_name
+    results['best_CV'] = best_overall_score
+    results['best_log_CV'] = best_overall_log_score
+
+    with open(here("pipeline/results", f"{args.response}_results.pkl"), "wb") as file:
+        pickle.dump(results, file)
+
+    skopt_plot = None
+
+    if args.response == "TEMP" or args.response == "T_BOL":
+        skopt_plot = skopt_plotting_info
+        best_model = best_model_name
+    else:
+        skopt_plot = skopt_log_plotting_info
+        best_model = best_log_model_name
+
+    first_plot_path = here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")
+    first_plot_path.parent.mkdir(parents=True, exist_ok=True)
+
+    plt.figure(figsize=(8, 6))
+    plot_convergence(skopt_plot)
+    plt.title(f"{args.response} Convergence Plot: {best_model} model")
+    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
+
+    #objective plot
+    plot_objective(skopt_plot, size=2)
+    plt.title(f"{args.response} Objective Plot: {best_model} model")
+    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
+
+    # evaluation plot
+    plot_evaluations(skopt_plot, size=2)
+    plt.title(f"{args.response} Evaluation Plot: {best_model} model")
+    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
 
 
 if __name__ == "__main__":

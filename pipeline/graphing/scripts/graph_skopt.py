@@ -6,7 +6,7 @@ from pyhere import here
 import os
 import matplotlib.pyplot as plt
 import pickle
-from ratio_function import RatioGenerator
+from ratio_function import RatioGenerator, LogRatioGenerator
 from sklearn.model_selection import train_test_split
 from sklearn import set_config
 from skopt import BayesSearchCV
@@ -37,9 +37,6 @@ def main():
 
     # split into X and y -- remove other physical properties
     remove_properties = ['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB', 'TEMP']
-
-    # remove the one that we want to keep so it isn't dropped
-    remove_properties.remove(args.response)
 
     # only logs the columns that have better log distributions
     if args.response == 'TEMP' or args.response == 'T_BOL':

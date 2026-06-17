@@ -131,7 +131,7 @@ def main():
         if -log_opt.best_score_ < best_overall_log_score:
             best_overall_log_score = -log_opt.best_score_
             skopt_log_plotting_info = log_opt.optimizer_results_[-1]
-            best_model_name = current_model_name
+            best_log_model_name = current_model_name
 
         results[f'{current_model_name}_CV'] = -opt.best_score_
         results[f'{current_model_name}_params'] = opt.best_params_

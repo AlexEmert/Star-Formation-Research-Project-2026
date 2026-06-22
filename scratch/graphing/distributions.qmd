@@ -21,7 +21,9 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 ```{python}
 (
     ggplot(phot, aes(x='TEMP')) +
-    geom_histogram()
+    geom_histogram() +
+    labs(x='Temperature (K)', y='count',
+         title='Distribution of Yellowball Temperatures')
 )
 ```
 
@@ -29,7 +31,8 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='SURF_DENS')) +
     geom_histogram() +
-    scale_x_log10()
+    scale_x_log10() +
+    labs(title='Log Distribution of Yellowball Surface Densities', x='log Surface Density (g/cm^2)')
 )
 ```
 
@@ -37,7 +40,7 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='T_BOL')) +
     geom_histogram() +
-    scale_x_log10()
+    labs(title ='Distribution of Yellowball Bolometric Temperatures', x='Bolometric Temperature (K)')
 )
 ```
 
@@ -45,7 +48,19 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='LM')) +
     geom_histogram() +
-    scale_x_log10()
+    scale_x_log10() +
+    labs(title='Log Distribution of Yellowball Luminosity-to-Mass Ratios', x='Log Luminosity-to-Mass Ratio')
+)
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='MASS', y='L_BOL', color = 'LM')) +
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10() +
+    scale_color_continuous(trans='log', cmap_name='viridis') +
+    labs(title='Bolometric Luminosity vs Mass', x='Log Mass', y='Log Bolometric Luminosity')
 )
 ```
 
@@ -53,7 +68,8 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='LRATIO')) +
     geom_histogram() +
-    scale_x_log10()
+    scale_x_log10() +
+    labs(title='Log Distribution of Yellowball Luminosity Ratios', x='Log Luminosity Ratio')
 )
 ```
 
@@ -61,17 +77,19 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='DIAM')) +
     geom_histogram() +
-    scale_x_log10()
+    scale_x_log10() +
+    labs(title='Log Distribution of Yellowball Diameters', x='Log Diameter (pc)')
 )
 ```
 
 ```{python}
 (
-    ggplot(phot, aes(x='DIAM', y='DIST', color='L_BOL')) +
+    ggplot(phot, aes(x='MASS', y='L_BOL', color='DIST')) +
     geom_point() +
     scale_color_continuous(trans='log', cmap_name='magma') +
     scale_x_log10() +
-    scale_y_log10()
+    scale_y_log10() + 
+    labs(x='Mass', y='Bolometric Luminosity', title='Log Relationship of Distance-based Physical Properties')
 )
 ```
 
@@ -80,7 +98,8 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='MASS')) +
     geom_histogram() +
-    scale_x_log10()
+    scale_x_log10() +
+    labs(x='Log Mass (Solar masses)', title='Log Distribution of Yellowball Masses')
 )
 ```
 
@@ -98,7 +117,8 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='L_BOL')) +
     geom_histogram() +
-    scale_x_log10()
+    scale_x_log10() +
+    labs(x='Log Bolometric Luminosity (Solar Luminosities)', title='Log Distribution of Yellwoball Bolometric Luminosities')
 )
 ```
 
@@ -116,7 +136,8 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 ```{python}
 (
     ggplot(phot, aes(x='DIST')) +
-    geom_histogram()
+    geom_histogram() +
+    scale_x_log10()
 )
 ```
 

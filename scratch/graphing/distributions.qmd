@@ -36,7 +36,8 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 ```{python}
 (
     ggplot(phot, aes(x='T_BOL')) +
-    geom_histogram() 
+    geom_histogram() +
+    scale_x_log10()
 )
 ```
 

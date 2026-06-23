@@ -22,6 +22,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from skopt.plots import plot_convergence, plot_objective, plot_evaluations
+from sklearn.metrics import root_mean_squared_error, r2_score
 
 set_config(transform_output="pandas")
 
@@ -46,7 +47,24 @@ def main():
     phot = pd.read_csv(here("data/cleaned", args.data))
 
     # split into X and y -- remove other physical properties
-    remove_properties = ['LRATIO', 'T_BOL', 'LM', 'L_BOL', 'MASS', 'DIAM', 'SURF_DENS', 'YB', 'TEMP']
+    remove_properties = [
+        'LRATIO', 
+        'T_BOL', 
+        'LM', 
+        'L_BOL', 
+        'MASS', 
+        'DIAM', 
+        'SURF_DENS', 
+        'YB', 
+        'TEMP',
+        'F160',
+        'F250',
+        'F350',
+        'F500',
+        'F870',
+        'F1100'
+    ]
+    
 
     ## add SNR as a feature
     bands = ['8', '12', '24', '70']
@@ -57,8 +75,11 @@ def main():
     X = phot.drop(columns=remove_properties)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
+    log_y_train = np.log(y_train)
+    log_y_test = np.log(y_test)
 
-    flux_cols = ['F1100', 'F870', 'F500', 'F350', 'F250', 'F160', 'F70', 'F24', 'F12', 'F8']
+    # other flux cols: 'F1100', 'F870', 'F500', 'F350', 'F250', 'F160'
+    flux_cols = ['F70', 'F24', 'F12', 'F8']
 
     with open(here("pipeline/spaces", "space_list.pkl"), "rb") as file:
         search_space_list = pickle.load(file)
@@ -74,8 +95,10 @@ def main():
     best_log_model_name = ""
     best_overall_score = float('inf')
     best_overall_log_score = float('inf')
-    skopt_plotting_info = None
-    skopt_log_plotting_info = None
+    best_overall_log_model = None
+    best_overall_model = None
+    # skopt_plotting_info = None
+    # skopt_log_plotting_info = None
 
 
     for model_num in range(len(model_list)):
@@ -113,8 +136,7 @@ def main():
             best_overall_score = -opt.best_score_
             skopt_plotting_info = opt.optimizer_results_[-1]
             best_model_name = current_model_name
-
-        log_y_train = np.log(y_train)
+            best_overall_model = opt.best_estimator_
 
         log_opt = BayesSearchCV(
             estimator=model_pipe,
@@ -132,47 +154,67 @@ def main():
             best_overall_log_score = -log_opt.best_score_
             skopt_log_plotting_info = log_opt.optimizer_results_[-1]
             best_log_model_name = current_model_name
+            best_overall_log_model = log_opt.best_estimator_
 
         results[f'{current_model_name}_CV'] = -opt.best_score_
         results[f'{current_model_name}_params'] = opt.best_params_
         results[f'{current_model_name}_log_CV'] = -log_opt.best_score_
         results[f'{current_model_name}_log_params'] = log_opt.best_params_
 
-
     results['best_model_name'] = best_model_name
     results['best_log_model_name'] = best_log_model_name
     results['best_CV'] = best_overall_score
     results['best_log_CV'] = best_overall_log_score
 
-    with open(here("pipeline/results", f"{args.response}_results.pkl"), "wb") as file:
+    if args.response == "TEMP" or args.response == "T_BOL":
+        results['best_model'] = best_overall_model
+        results['best_model_params'] = best_overall_model.best_params_
+        y_preds = best_overall_model.predict(X_test)
+        test_rmse = root_mean_squared_error(y_test, y_preds)
+        test_r2 = r2_score(y_test, y_preds)
+        results['test_rmse'] = test_rmse
+        results['test_r2'] = test_r2
+    else:
+        
+        results['best_model'] = best_overall_log_model
+        results['best_model_params'] = best_overall_log_model.best_params_
+        y_preds = best_overall_log_model.predict(X_test)
+        test_rmse = root_mean_squared_error(log_y_test, y_preds)
+        test_r2 = r2_score(log_y_test, y_preds)
+        results['test_rmse'] = test_rmse
+        results['test_r2'] = test_r2
+
+    results['y_preds'] = y_preds
+
+    with open(here("pipeline/results", f"{args.response}_mirionfluxes_results.pkl"), "wb") as file:
         pickle.dump(results, file)
 
-    skopt_plot = None
+    # skopt_plot = None
 
-    if args.response == "TEMP" or args.response == "T_BOL":
-        skopt_plot = skopt_plotting_info
-        best_model = best_model_name
-    else:
-        skopt_plot = skopt_log_plotting_info
-        best_model = best_log_model_name
+    # if args.response == "TEMP" or args.response == "T_BOL":
+    #     skopt_plot = skopt_plotting_info
+    #     best_model = best_model_name
+    # else:
+    #     skopt_plot = skopt_log_plotting_info
+    #     best_model = best_log_model_name
 
-    first_plot_path = here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")
-    first_plot_path.parent.mkdir(parents=True, exist_ok=True)
+    # first_plot_path = here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")
+    # first_plot_path.parent.mkdir(parents=True, exist_ok=True)
 
-    plt.figure(figsize=(8, 6))
-    plot_convergence(skopt_plot)
-    plt.title(f"{args.response} Convergence Plot: {best_model} model")
-    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
+    # plt.figure(figsize=(8, 6))
+    # plot_convergence(skopt_plot)
+    # plt.title(f"{args.response} Convergence Plot: {best_model} model")
+    # plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
 
-    #objective plot
-    plot_objective(skopt_plot, size=2)
-    plt.title(f"{args.response} Objective Plot: {best_model} model")
-    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
+    # #objective plot
+    # plot_objective(skopt_plot, size=2)
+    # plt.title(f"{args.response} Objective Plot: {best_model} model")
+    # plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
 
-    # evaluation plot
-    plot_evaluations(skopt_plot, size=2)
-    plt.title(f"{args.response} Evaluation Plot: {best_model} model")
-    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
+    # # evaluation plot
+    # plot_evaluations(skopt_plot, size=2)
+    # plt.title(f"{args.response} Evaluation Plot: {best_model} model")
+    # plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
 
 
 if __name__ == "__main__":

@@ -71,12 +71,15 @@ def main():
     for band in bands:
         phot[f'SNR_F{band}'] = phot[f'F{band}'] / phot[f'e_F{band}']
 
-    y = phot[args.response]
+
+    if args.response == "TEMP" or args.response == "T_BOL":
+        y = phot[args.response]
+    else:
+        y=np.log(phot[args.response])
+    
     X = phot.drop(columns=remove_properties)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
-    log_y_train = np.log(y_train)
-    log_y_test = np.log(y_test)
 
     # other flux cols: 'F1100', 'F870', 'F500', 'F350', 'F250', 'F160'
     flux_cols = ['F70', 'F24', 'F12', 'F8']
@@ -92,17 +95,11 @@ def main():
 
     ## best models for plotting and comparison
     best_model_name = ""
-    best_log_model_name = ""
     best_overall_score = float('inf')
-    best_overall_log_score = float('inf')
-    best_overall_log_model = None
     best_overall_model = None
     # skopt_plotting_info = None
-    # skopt_log_plotting_info = None
-
 
     for model_num in range(len(model_list)):
-        
         current_model_name = model_names[model_num]
 
         ## hard coding to change serach space to n_jobs = -1 if it's SVR because SVR can't multithread
@@ -134,56 +131,22 @@ def main():
 
         if -opt.best_score_ < best_overall_score:
             best_overall_score = -opt.best_score_
-            skopt_plotting_info = opt.optimizer_results_[-1]
+            # skopt_plotting_info = opt.optimizer_results_[-1]
             best_model_name = current_model_name
             best_overall_model = opt.best_estimator_
 
-        log_opt = BayesSearchCV(
-            estimator=model_pipe,
-            search_spaces=search_space_list[model_num],
-            n_iter=int(args.iters), 
-            cv=10,
-            scoring='neg_root_mean_squared_error',
-            n_jobs=search_jobs,
-            random_state=2026
-        )
-
-        log_opt.fit(X_train, log_y_train)
-
-        if -log_opt.best_score_ < best_overall_log_score:
-            best_overall_log_score = -log_opt.best_score_
-            skopt_log_plotting_info = log_opt.optimizer_results_[-1]
-            best_log_model_name = current_model_name
-            best_overall_log_model = log_opt.best_estimator_
-
         results[f'{current_model_name}_CV'] = -opt.best_score_
         results[f'{current_model_name}_params'] = opt.best_params_
-        results[f'{current_model_name}_log_CV'] = -log_opt.best_score_
-        results[f'{current_model_name}_log_params'] = log_opt.best_params_
+
 
     results['best_model_name'] = best_model_name
-    results['best_log_model_name'] = best_log_model_name
     results['best_CV'] = best_overall_score
-    results['best_log_CV'] = best_overall_log_score
-
-    if args.response == "TEMP" or args.response == "T_BOL":
-        results['best_model'] = best_overall_model
-        results['best_model_params'] = best_overall_model.best_params_
-        y_preds = best_overall_model.predict(X_test)
-        test_rmse = root_mean_squared_error(y_test, y_preds)
-        test_r2 = r2_score(y_test, y_preds)
-        results['test_rmse'] = test_rmse
-        results['test_r2'] = test_r2
-    else:
-        
-        results['best_model'] = best_overall_log_model
-        results['best_model_params'] = best_overall_log_model.best_params_
-        y_preds = best_overall_log_model.predict(X_test)
-        test_rmse = root_mean_squared_error(log_y_test, y_preds)
-        test_r2 = r2_score(log_y_test, y_preds)
-        results['test_rmse'] = test_rmse
-        results['test_r2'] = test_r2
-
+    results['best_model'] = best_overall_model
+    y_preds = best_overall_model.predict(X_test)
+    test_rmse = root_mean_squared_error(y_test, y_preds)
+    test_r2 = r2_score(y_test, y_preds)
+    results['test_rmse'] = test_rmse
+    results['test_r2'] = test_r2
     results['y_preds'] = y_preds
 
     with open(here("pipeline/results", f"{args.response}_mirionfluxes_results.pkl"), "wb") as file:

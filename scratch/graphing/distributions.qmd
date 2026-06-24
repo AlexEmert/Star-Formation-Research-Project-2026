@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from plotnine import *
 from pyhere import here
+import itertools
 ```
 
 ```{python}
@@ -31,7 +32,6 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 (
     ggplot(phot, aes(x='SURF_DENS')) +
     geom_histogram() +
-    scale_x_log10() +
     labs(title='Log Distribution of Yellowball Surface Densities', x='log Surface Density (g/cm^2)')
 )
 ```
@@ -147,6 +147,12 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
 
 ```{python}
 (
+    ggplot(phot, aes(x='e_F8')) +
+    geom_histogram()
+)
+```
+```{python}
+(
     ggplot(phot, aes(x='F8', y='e_F8')) +
     geom_point()
 )
@@ -186,6 +192,7 @@ print(phot['e_F24'].describe())
 ```
 
 
+# Signal-Noise ratios
 ```{python}
 bands = ['8', '12', '24', '70']
 for band in bands:
@@ -194,4 +201,43 @@ for band in bands:
 
 ```{python}
 phot['SNR_F70'].describe()
+```
+
+```{python}
+(
+    ggplot(phot, aes(x='SNR_F70')) +
+    geom_histogram() +
+    scale_x_log10()
+)
+```
+
+# Flux ratios
+
+```{python}
+flux_cols = ['F1100', 'F870', 'F500', 'F350', 'F250', 'F160', 'F70', 'F24', 'F12', 'F8']
+flux_cols = flux_cols [::-1]
+phot_ratios = phot.copy()
+for top, bottom in itertools.combinations(flux_cols, 2):
+    new_col_name = f"log_{top}_over_{bottom}"
+    phot_ratios[new_col_name] = np.log(phot_ratios[top] / phot_ratios[bottom])
+for top, bottom in itertools.combinations(flux_cols, 2):
+    new_col_name = f"{top}_over_{bottom}"
+    phot_ratios[new_col_name] = phot_ratios[top] / phot_ratios[bottom]
+(
+    ggplot(phot_ratios[phot_ratios['log_F160_over_F350'] >-4], aes(x='log_F160_over_F350', y='LM')) +
+    geom_point()
+)
+```
+
+```{python}
+(
+    ggplot(phot_ratios, aes(x='F160', y='LM')) +
+    geom_point()
+)
+```
+```{python}
+(
+    ggplot(phot_ratios, aes(x='F350', y='LM')) +
+    geom_point()
+)
 ```

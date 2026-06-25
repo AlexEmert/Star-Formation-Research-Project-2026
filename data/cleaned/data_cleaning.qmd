@@ -4,6 +4,8 @@ execute:
  jupyter: math4025
 ---
 
+## In this script, I take the data from the original text files that they were in, drop flux density photometry values based on their respective problematic flags (those being Saturation, no source, and poor confidence), and combine the photometry data with the cross matched longer wavelength fluxes. This extensive dataframe is save as `MIRION_cleaned_all_fluxes.csv`
+
 ```{python}
 import pandas as pd
 import numpy as np

@@ -4,6 +4,7 @@ import itertools
 from pyhere import here
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn import set_config
+from skopt.space import Real, Integer, Categorical
 
 # make it work with data frames
 set_config(transform_output="pandas")
@@ -94,3 +95,101 @@ class LogRatioGenerator(BaseEstimator, TransformerMixin):
 
         # IMPORTANT: include ALL original input features
         return np.array(input_features + ratio_features, dtype=object)
+    
+
+def check_and_expand_space(best_params, current_space, definitive_bounds, tolerance=0.05, expansion=0.5):
+    """
+    Checks if best_params are near the bounds of the current_space.
+    Returns a boolean indicating if expansion happened, and the new search space.
+    """
+    new_space = {}
+    bounds_expanded = False
+    
+    for param_name, skopt_obj in current_space.items():
+        best_val = best_params[param_name]
+        # declare possible bounds
+        if isinstance(skopt_obj, Real) or isinstance(skopt_obj, Integer):
+            def_low, def_high = definitive_bounds[param_name]
+
+        # Real Parameters
+        if isinstance(skopt_obj, Real):
+            # declare current bounds
+            low, high = skopt_obj.bounds
+            span = high - low
+            
+            if skopt_obj.prior == "uniform":
+                if best_val <= low + (span * tolerance):
+                    new_low = low - (span * expansion)
+                    bounds_expanded = True
+                    if new_low < def_low:
+                        new_low = low
+                        bounds_expanded = False
+                    new_space[param_name] = Real(new_low, high, prior="uniform")
+                    
+                    
+                elif best_val >= high - (span * tolerance):
+                    new_high = high + (span * expansion)
+                    bounds_expanded = True
+                    if new_high > def_high:
+                        new_high = high
+                        bounds_expanded = False
+                    new_space[param_name] = Real(low, new_high, prior="uniform")
+                    
+                    
+                else:
+                    new_space[param_name] = skopt_obj # Unchanged
+
+            if skopt_obj.prior == "log-uniform":
+                log_low, log_high = np.log10(low), np.log10(high)
+                log_span = log_high - log_low
+                log_best = np.log10(best_val)
+                
+                if log_best <= log_low + (log_span * tolerance):
+                    new_log_low = log_low - (log_span * expansion)
+                    new_low = 10 ** new_log_low
+                    new_low = min(new_low, def_low)
+                    if new_low < low:
+                        new_space[param_name] = Real(new_low, high, prior='log-uniform')
+                        bounds_expanded = True
+                    
+                elif log_best >= log_high - (log_span * tolerance):
+                    new_log_high = log_high + (log_span * expansion)
+                    new_high = 10 ** new_log_high
+                    new_high = min(new_high, def_low)
+                    if new_high > high:
+                        new_space[param_name] = Real(low, new_high, prior='log-uniform')
+                        bounds_expanded = True
+                    
+                else:
+                    new_space[param_name] = skopt_obj
+
+        # Integer Parameters
+        elif isinstance(skopt_obj, Integer):
+            low, high = skopt_obj.bounds
+            span = high - low
+            # Use max(1, ...) to ensure we always tolerate/expand by at least 1 unit
+            tol_val = max(1, int(span * tolerance))
+            exp_val = max(1, int(span * expansion))
+            
+            if best_val <= low + tol_val:
+                new_low = low - exp_val
+                if new_low < def_low:
+                    new_low = low
+                new_space[param_name] = Integer(new_low, high, prior=skopt_obj.prior)
+                bounds_expanded = True
+                
+            elif best_val >= high - tol_val:
+                new_high = high + exp_val
+                if new_high > def_high:
+                    new_high = high
+                new_space[param_name] = Integer(low, new_high, prior=skopt_obj.prior)
+                bounds_expanded = True
+                
+            else:
+                new_space[param_name] = skopt_obj # Unchanged
+                
+        # 3. Handle Categorical Parameters (Cannot be expanded)
+        else:
+            new_space[param_name] = skopt_obj
+            
+    return bounds_expanded, new_space

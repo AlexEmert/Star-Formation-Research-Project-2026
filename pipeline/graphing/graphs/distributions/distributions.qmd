@@ -15,7 +15,20 @@ import itertools
 
 ```{python}
 phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
+phot['e_F8'].describe()
 ```
+
+## uncertainties
+```{python}
+unc_df = phot.copy()
+ef8_df = unc_df[unc_df['e_F8'] < 2]
+(
+    ggplot(ef8_df, aes(x='e_F8')) +
+    geom_histogram()
+)
+```
+
+
 
 ## Physical properties
 
@@ -41,6 +54,15 @@ phot = pd.read_csv(here("data/cleaned", "MIRION_cleaned_everything.csv"))
     ggplot(phot, aes(x='T_BOL')) +
     geom_histogram() +
     labs(title ='Distribution of Yellowball Bolometric Temperatures', x='Bolometric Temperature (K)')
+)
+```
+
+```{python}
+tb_df = phot.copy()
+tb_df['f_MULTI'] = tb_df['f_MULTI'].astype('str')
+(
+    ggplot(tb_df, aes(x='f_MULTI', y='T_BOL')) +
+    geom_boxplot()
 )
 ```
 

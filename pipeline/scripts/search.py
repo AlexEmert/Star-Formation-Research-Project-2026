@@ -31,7 +31,7 @@ def add_parser_arguments():
     parser.add_argument('--response', '-r', type=str, required=True, help='The response variable to predict')
     parser.add_argument('--iters', '-n', type=int, default=50, help='Number of iterations to run the optimization for')
     parser.add_argument('--data', '-d', type=str, default= "MIRION_cleaned_everything.csv", help='Name of CSV file containing the data')
-    parser.add_argument('--threshold', '-t', type=float, default=1, help='Level of uncertainty over which fluxes are dropped')
+    parser.add_argument('--threshold', '-t', type=float, default=1.5, help='Level of uncertainty over which fluxes are dropped')
     return parser.parse_args()
 
 def main():
@@ -49,7 +49,7 @@ def main():
         'DIAM', 
         'SURF_DENS', 
         'YB', 
-        'TEMP' #, 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100'
+        'TEMP' , 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100', 'e_F160', 'e_F250', 'e_F350', 'e_F500', 'e_F870', 'e_F1100', 
     ]
 
     # remove tail from tbol
@@ -66,13 +66,16 @@ def main():
     X = phot.drop(columns=remove_properties)
 
     # drop over a certain relative uncertainty threshold
-    for wavelength in ['8', '12', '24', '70', '160', '250', '350', '500', '870', '1100']:
+    for wavelength in ['8', '12', '24', '70'
+                       #, '160', '250', '350', '500', '870', '1100'
+                       ]:
         X.loc[X[f'e_F{wavelength}'] > float(args.threshold), f'F{wavelength}'] = np.nan
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
 
-    # 
-    flux_cols = ['F8', 'F12', 'F24', 'F70', 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100']
+    flux_cols = ['F8', 'F12', 'F24', 'F70'
+                 #, 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100'
+                 ]
 
     model_pipe = Pipeline([
             ('impute', SimpleImputer()),
@@ -112,49 +115,51 @@ def main():
     results = {}
     number_expansions=0
 
-    # while True:
+    while True:
 
-    opt = BayesSearchCV(
-        estimator=model_pipe,
-        search_spaces=search_space,
-        n_iter=int(args.iters), 
-        cv=8,
-        scoring='neg_root_mean_squared_error',
-        n_jobs=-1,
-        n_points=4,
-        random_state=2026
-    )
+        opt = BayesSearchCV(
+            estimator=model_pipe,
+            search_spaces=search_space,
+            n_iter=int(args.iters), 
+            cv=8,
+            scoring='neg_root_mean_squared_error',
+            n_jobs=-1,
+            n_points=4,
+            random_state=2026
+        )
 
-    opt.fit(X_train, y_train)
+        opt.fit(X_train, y_train)
 
-    # expanded, search_space = check_and_expand_space(
-    #     best_params=opt.best_params_,
-    #     current_space=search_space,
-    #     definitive_bounds=possible_bounds,
-    #     tolerance=0.05, 
-    #     expansion=0.5
-    # )
+        expanded, search_space = check_and_expand_space(
+            best_params=opt.best_params_,
+            current_space=search_space,
+            definitive_bounds=possible_bounds,
+            tolerance=0.05, 
+            expansion=0.5
+        )
 
-    # number_expansions += 1
+        number_expansions += 1
 
-    #    if not expanded:
-    #        break
-    print(f"Testing thresholds for {args.response} at {args.iters} iterations")
-    print(f"Best cv score with xgboost with {args.threshold} threshold is {-opt.best_score_}")
-    # results['Xgb_CV'] = -opt.best_score_
-    # results['Xgb_params'] = opt.best_params_
-    # results['param_expansion'] = number_expansions
+        if number_expansions == 5:
+            break
+
+        if not expanded:
+            break
+
+    results['xgb_CV'] = -opt.best_score_
+    results['xgb_params'] = opt.best_params_
+    results['bounds_expanded_iters'] = number_expansions
 
 
-    # y_preds = opt.best_estimattor_.predict(X_test)
-    # test_rmse = root_mean_squared_error(y_test, y_preds)
-    # test_r2 = r2_score(y_test, y_preds)
-    # results['test_rmse'] = test_rmse
-    # results['test_r2'] = test_r2
-    # results['y_preds'] = y_preds
+    y_preds = opt.best_estimattor_.predict(X_test)
+    test_rmse = root_mean_squared_error(y_test, y_preds)
+    test_r2 = r2_score(y_test, y_preds)
+    results['test_rmse'] = test_rmse
+    results['test_r2'] = test_r2
+    results['y_preds'] = y_preds
 
-    # with open(here("pipeline/results", f"{args.response}_mirionfluxes_results.pkl"), "wb") as file:
-    #     pickle.dump(results, file)
+    with open(here("pipeline/results", f"{args.response}_lowflux_results6_30_26.pkl"), "wb") as file:
+        pickle.dump(results, file)
 
     # skopt_plot = opt.optimizer_results_[-1]
 

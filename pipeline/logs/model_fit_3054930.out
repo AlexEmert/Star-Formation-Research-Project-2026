@@ -1,0 +1,2 @@
+Testing thresholds for DIAM at 40 iterations
+Best cv score with xgboost with 2.0 threshold is 0.25727476869596566

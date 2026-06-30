@@ -12,8 +12,9 @@
 mamba activate starform-alex
 
 python search.py \
-    #--response "$RESPONSE" \
-    #--iters "$ITERS"
     --response "TEMP" \
     --iters "40" \
     --threshold "$THRESHOLD"
+
+    #--iters "$ITERS"
+    #--response "$RESPONSE" \

@@ -1,0 +1,2 @@
+Testing thresholds for TEMP at 40 iterations
+Best cv score with xgboost with 0.7 threshold is 1.2258031611242943

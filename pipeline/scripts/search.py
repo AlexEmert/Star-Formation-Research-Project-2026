@@ -52,16 +52,20 @@ def main():
         'TEMP' #, 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100'
     ]
 
+    # remove tail from tbol
     if args.response == "T_BOL":
         phot = phot[phot['T_BOL']<90]
 
+    # log only the ones with the better distribution logged
     if args.response == "TEMP" or args.response == "T_BOL":
         y = phot[args.response]
     else:
         y=np.log(phot[args.response])
     
+    # remove all of the response variables from the features
     X = phot.drop(columns=remove_properties)
 
+    # drop over a certain relative uncertainty threshold
     for wavelength in ['8', '12', '24', '70', '160', '250', '350', '500', '870', '1100']:
         X.loc[X[f'e_F{wavelength}'] > float(args.threshold), f'F{wavelength}'] = np.nan
 

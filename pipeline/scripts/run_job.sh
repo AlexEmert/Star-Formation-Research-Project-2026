@@ -12,7 +12,7 @@
 mamba activate starform-alex
 
 python search.py \
-    --response "TEMP" \
+    --response "DIAM" \
     --iters "40" \
     --threshold "$THRESHOLD"
 

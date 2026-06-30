@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RESPONSES=("LRATIO" "LM" "L_BOL" "MASS" "DIAM" "SURF_DENS" "TEMP" "T_BOL")
-THRESHOLDS=("0.1" "0.3" "0.5" "0.7" "1" "1.5")
+THRESHOLDS=("1.5" "2" "2.5" "5" "10")
 
 # just in case something goes wrong, automatically makes results and logs folders
 mkdir -p ../logs ../results

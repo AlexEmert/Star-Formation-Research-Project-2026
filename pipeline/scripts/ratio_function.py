@@ -109,7 +109,7 @@ def check_and_expand_space(best_params, current_space, definitive_bounds, tolera
         best_val = best_params[param_name]
         # declare possible bounds
         if isinstance(skopt_obj, Real) or isinstance(skopt_obj, Integer):
-            def_low, def_high = definitive_bounds[param_name]
+            abs_low, abs_high = definitive_bounds[param_name]
 
         # Real Parameters
         if isinstance(skopt_obj, Real):
@@ -121,7 +121,7 @@ def check_and_expand_space(best_params, current_space, definitive_bounds, tolera
                 if best_val <= low + (span * tolerance):
                     new_low = low - (span * expansion)
                     bounds_expanded = True
-                    if new_low < def_low:
+                    if new_low < abs_low:
                         new_low = low
                         bounds_expanded = False
                     new_space[param_name] = Real(new_low, high, prior="uniform")
@@ -130,7 +130,7 @@ def check_and_expand_space(best_params, current_space, definitive_bounds, tolera
                 elif best_val >= high - (span * tolerance):
                     new_high = high + (span * expansion)
                     bounds_expanded = True
-                    if new_high > def_high:
+                    if new_high > abs_high:
                         new_high = high
                         bounds_expanded = False
                     new_space[param_name] = Real(low, new_high, prior="uniform")
@@ -147,18 +147,16 @@ def check_and_expand_space(best_params, current_space, definitive_bounds, tolera
                 if log_best <= log_low + (log_span * tolerance):
                     new_log_low = log_low - (log_span * expansion)
                     new_low = 10 ** new_log_low
-                    new_low = min(new_low, def_low)
-                    if new_low < low:
-                        new_space[param_name] = Real(new_low, high, prior='log-uniform')
-                        bounds_expanded = True
+                    new_low = max(new_low, abs_low)
+                    new_space[param_name] = Real(new_low, high, prior='log-uniform')
+                    bounds_expanded = True
                     
                 elif log_best >= log_high - (log_span * tolerance):
                     new_log_high = log_high + (log_span * expansion)
                     new_high = 10 ** new_log_high
-                    new_high = min(new_high, def_low)
-                    if new_high > high:
-                        new_space[param_name] = Real(low, new_high, prior='log-uniform')
-                        bounds_expanded = True
+                    new_high = min(new_high, abs_high)
+                    new_space[param_name] = Real(low, new_high, prior='log-uniform')
+                    bounds_expanded = True
                     
                 else:
                     new_space[param_name] = skopt_obj
@@ -173,14 +171,14 @@ def check_and_expand_space(best_params, current_space, definitive_bounds, tolera
             
             if best_val <= low + tol_val:
                 new_low = low - exp_val
-                if new_low < def_low:
+                if new_low < abs_low:
                     new_low = low
                 new_space[param_name] = Integer(new_low, high, prior=skopt_obj.prior)
                 bounds_expanded = True
                 
             elif best_val >= high - tol_val:
                 new_high = high + exp_val
-                if new_high > def_high:
+                if new_high > abs_high:
                     new_high = high
                 new_space[param_name] = Integer(low, new_high, prior=skopt_obj.prior)
                 bounds_expanded = True

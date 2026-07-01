@@ -49,7 +49,7 @@ def main():
         'DIAM', 
         'SURF_DENS', 
         'YB', 
-        'TEMP' , 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100', 'e_F160', 'e_F250', 'e_F350', 'e_F500', 'e_F870', 'e_F1100', 
+        'TEMP' , 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100', 'e_F160', 'e_F250', 'e_F350', 'e_F500', 'e_F870', 'e_F1100' 
     ]
 
     # remove tail from tbol
@@ -102,7 +102,7 @@ def main():
 
     possible_bounds = {
         "model__n_estimators": (0,10000),
-        "model__learning_rate": (0,1),
+        "model__learning_rate": (0.001,1),
         "model__gamma":(0,np.inf),
         "model__max_depth": (0,np.inf),
         "model__min_child_weight": (0,np.inf),

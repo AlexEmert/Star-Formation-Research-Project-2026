@@ -103,14 +103,14 @@ def main():
     possible_bounds = {
         "model__n_estimators": (0,10000),
         "model__learning_rate": (0.001,1),
-        "model__gamma":(0,np.inf),
+        "model__gamma":(1e-20,np.inf),
         "model__max_depth": (0,np.inf),
         "model__min_child_weight": (0,np.inf),
         "model__subsample": (0,1),
         "model__colsample_bytree": (0.01, 1),
         "model__colsample_bylevel": (0.01, 1),
-        "model__reg_alpha": (0, np.inf),
-        "model__reg_lambda": (0, np.inf)
+        "model__reg_alpha": (1e-20, np.inf),
+        "model__reg_lambda": (1e-20, np.inf)
     }
 
     results = {}

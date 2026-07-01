@@ -101,6 +101,7 @@ def main():
     }
 
     possible_bounds = {
+        "model__n_estimators": (0,10000),
         "model__learning_rate": (0,1),
         "model__gamma":(0,np.inf),
         "model__max_depth": (0,np.inf),
@@ -138,7 +139,8 @@ def main():
             expansion=0.5
         )
 
-        number_expansions += 1
+        if expanded == True:
+            number_expansions += 1
 
         if number_expansions == 5:
             break

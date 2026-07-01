@@ -152,8 +152,7 @@ def main():
     results['xgb_params'] = opt.best_params_
     results['bounds_expanded_iters'] = number_expansions
 
-
-    y_preds = opt.best_estimattor_.predict(X_test)
+    y_preds = opt.best_estimator_.predict(X_test)
     test_rmse = root_mean_squared_error(y_test, y_preds)
     test_r2 = r2_score(y_test, y_preds)
     results['test_rmse'] = test_rmse

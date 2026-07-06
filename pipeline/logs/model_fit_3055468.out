@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 186, in <module>
+    main()
+    ~~~~^^
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 133, in main
+    expanded, search_space = check_and_expand_space(
+                             ~~~~~~~~~~~~~~~~~~~~~~^
+        best_params=opt.best_params_,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        expansion=0.5
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/ratio_function.py", line 112, in check_and_expand_space
+    def_low, def_high = definitive_bounds[param_name]
+                        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'model__n_estimators'

@@ -176,8 +176,8 @@ tb_df['f_MULTI'] = tb_df['f_MULTI'].astype('str')
 ```{python}
 (
     ggplot(phot, aes(x='F8', y='e_F8')) +
-    geom_point()
-)
+    geom_point() + scale_x_log10() +
+scale_y_log10())
 ```
 
 ```{python}
@@ -187,7 +187,9 @@ print(phot['e_F8'].describe())
 ```{python}
 (
     ggplot(phot, aes(x='F12', y='e_F12')) +
-    geom_point()
+    geom_point() +
+    scale_x_log10() +
+scale_y_log10()
 )
 ```
 
@@ -198,7 +200,9 @@ print(phot['e_F12'].describe())
 ```{python}
 (
     ggplot(phot, aes(x='F24', y='e_F24')) +
-    geom_point()
+    geom_point() +
+    scale_x_log10() +
+scale_y_log10()
 )
 ```
 
@@ -209,7 +213,9 @@ print(phot['e_F24'].describe())
 ```{python}
 (
     ggplot(phot, aes(x='F70', y='e_F70')) +
-    geom_point()
+    geom_point() + 
+    scale_x_log10() +
+scale_y_log10()
 )
 ```
 

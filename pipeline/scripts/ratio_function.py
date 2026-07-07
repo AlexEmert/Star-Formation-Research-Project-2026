@@ -191,3 +191,22 @@ def check_and_expand_space(best_params, current_space, definitive_bounds, tolera
             new_space[param_name] = skopt_obj
             
     return bounds_expanded, new_space
+
+def pinball_loss_function(y_true, y_pred, alphas=(0.025, 0.5, 0.975)):
+    '''custom loss function for multiple quantile regression that scores based on quantiles'''
+    y_true = np.asarray(y_true)
+    y_pred = np.asarray(y_pred)
+    
+    # Expand y_true to shape (n_samples, 1) so it broadcasts 
+    # correctly against y_pred of shape (n_samples, n_quantiles)
+    if y_true.ndim == 1:
+        y_true = y_true[:, np.newaxis]
+        
+    residuals = y_true - y_pred
+    alphas = np.array(alphas)
+    
+    # Apply the pinball loss formula across all quantiles simultaneously
+    loss = np.maximum(alphas * residuals, (alphas - 1.0) * residuals)
+    
+    # Return the mean loss across both samples and quantiles
+    return np.mean(loss)

@@ -1,13 +1,16 @@
 #!/bin/bash
 
 RESPONSES=("LRATIO" "LM" "L_BOL" "MASS" "DIAM" "SURF_DENS" "TEMP" "T_BOL")
+THRESHOLDS=("0.5" "1.5")
 
 # just in case something goes wrong, automatically makes results and logs folders
 mkdir -p ../logs ../results
 
 
 for r in "${RESPONSES[@]}"; do
-   sbatch --export=ALL,RESPONSE="$r",ITERS="300" run_job.sh
+   for t in "${THRESHOLDS[@]}"; do
 
-   sleep 0.1
+      sbatch --export=ALL,RESPONSE="$r",ITERS="300",THRESHOLD="$t" run_job.sh
+
+      sleep 0.1
 done

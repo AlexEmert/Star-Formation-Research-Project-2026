@@ -1,5 +1,5 @@
 import pandas as pd
-from ratio_function import RatioGenerator, LogRatioGenerator, check_and_expand_space
+from ratio_function import RatioGenerator, LogRatioGenerator, check_and_expand_space, pinball_loss_function
 import matplotlib.pyplot as plt
 import itertools
 import numpy as np
@@ -22,7 +22,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from skopt.plots import plot_convergence, plot_objective, plot_evaluations
-from sklearn.metrics import root_mean_squared_error, r2_score
+from sklearn.metrics import root_mean_squared_error, r2_score, make_scorer
 
 set_config(transform_output="pandas")
 
@@ -70,6 +70,7 @@ def main():
                        #, '160', '250', '350', '500', '870', '1100'
                        ]:
         X.loc[X[f'e_F{wavelength}'] > float(args.threshold), f'F{wavelength}'] = np.nan
+        X[f'se_F{wavelength}'] = X[f'e_F{wavelength}'] / np.sqrt(X[f'N{wavelength}'])
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
 
@@ -77,11 +78,13 @@ def main():
                  #, 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100'
                  ]
 
+    alphas = [0.025, 0.5, 0.975]
+
     model_pipe = Pipeline([
             ('impute', SimpleImputer()),
             ('ratio', RatioGenerator(cols=flux_cols)),
             ('scale', RobustScaler()),
-            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=1))
+            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=1, objective="reg:quantileerror", quantile_alpha=alphas))
         ])
     
     search_space = {
@@ -115,15 +118,22 @@ def main():
 
     results = {}
     number_expansions=0
+    iterations = int(args.iters)
+
+    pinball_scorer = make_scorer(
+    pinball_loss_function, 
+    greater_is_better=False, 
+    alphas=[0.025, 0.5, 0.975]
+    )
 
     while True:
 
         opt = BayesSearchCV(
             estimator=model_pipe,
             search_spaces=search_space,
-            n_iter=int(args.iters), 
+            n_iter=iterations, 
             cv=8,
-            scoring='neg_root_mean_squared_error',
+            scoring=pinball_scorer,
             n_jobs=-1,
             n_points=4,
             random_state=2026
@@ -141,46 +151,53 @@ def main():
 
         if expanded == True:
             number_expansions += 1
+            iterations += 100
 
-        if number_expansions == 5:
+        if number_expansions == 15:
             break
 
         if not expanded:
             break
 
-    results['xgb_CV'] = -opt.best_score_
+   
+    y_preds = opt.best_estimator_.predict(X_test)
+    test_rmse = root_mean_squared_error(y_test, y_preds[:, 1])
+    test_r2 = r2_score(y_test, y_preds[:, 1])
+
+    results['xgb_CV_pinball'] = -opt.best_score_
     results['xgb_params'] = opt.best_params_
     results['bounds_expanded_iters'] = number_expansions
-
-    y_preds = opt.best_estimator_.predict(X_test)
-    test_rmse = root_mean_squared_error(y_test, y_preds)
-    test_r2 = r2_score(y_test, y_preds)
     results['test_rmse'] = test_rmse
     results['test_r2'] = test_r2
-    results['y_preds'] = y_preds
+    results['0.025_y_preds'] = y_preds[:, 0]
+    results['y_preds'] = y_preds[:,1]
+    results['0.0975_y_preds'] = y_preds[:,2]
+    results['pinball_loss'] = pinball_loss_function(y_test, y_preds)
 
-    with open(here("pipeline/results", f"{args.response}_lowflux_results6_30_26.pkl"), "wb") as file:
+    with open(here("pipeline/results", f"{args.response}_predictive_results_t{args.threshold}.pkl"), "wb") as file:
         pickle.dump(results, file)
 
-    # skopt_plot = opt.optimizer_results_[-1]
 
-    # first_plot_path = here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")
-    # first_plot_path.parent.mkdir(parents=True, exist_ok=True)
+    if int(args.threshold) == 1.5:
+        skopt_plot = opt.optimizer_results_[-1]
 
-    # plt.figure(figsize=(8, 6))
-    # plot_convergence(skopt_plot)
-    # plt.title(f"{args.response} Convergence Plot: XGBoost model")
-    # plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
+        first_plot_path = here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")
+        first_plot_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # #objective plot
-    # plot_objective(skopt_plot, size=2)
-    # plt.title(f"{args.response} Objective Plot: XGBoost model")
-    # plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
+        plt.figure(figsize=(8, 6))
+        plot_convergence(skopt_plot)
+        plt.title(f"{args.response} Convergence Plot: XGBoost model")
+        plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
 
-    # # evaluation plot
-    # plot_evaluations(skopt_plot, size=2)
-    # plt.title(f"{args.response} Evaluation Plot: XGBoost model")
-    # plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
+        #objective plot
+        plot_objective(skopt_plot, size=2)
+        plt.title(f"{args.response} Objective Plot: XGBoost model")
+        plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
+
+        # evaluation plot
+        plot_evaluations(skopt_plot, size=2)
+        plt.title(f"{args.response} Evaluation Plot: XGBoost model")
+        plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
 
 
 if __name__ == "__main__":

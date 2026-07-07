@@ -4,7 +4,7 @@
 #SBATCH -c 48             # CPU cores per task
 #SBATCH -N 1              # number of nodes you want to run on
 #SBATCH -p bsudfq         # queue (partition)
-#SBATCH -t 1-00:00:00     # run time (hh:mm:ss)
+#SBATCH -t 1-12:00:00     # run time (hh:mm:ss)
 #SBATCH --output=../logs/%x_%j.out # output and error file name (%j expands to jobID)
 
 
@@ -14,3 +14,4 @@ mamba activate starform-alex
 python search.py \
     --iters "$ITERS" \
     --response "$RESPONSE" \
+    --threshold "$THRESHOLD" 

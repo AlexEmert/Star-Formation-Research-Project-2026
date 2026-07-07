@@ -13,4 +13,6 @@ for r in "${RESPONSES[@]}"; do
       sbatch --export=ALL,RESPONSE="$r",ITERS="300",THRESHOLD="$t" run_job.sh
 
       sleep 0.1
+
+   done
 done

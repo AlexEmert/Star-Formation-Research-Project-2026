@@ -29,8 +29,6 @@ from optuna.storages import JournalStorage
 from optuna.storages.journal import JournalFileBackend, JournalFileOpenLock
 
 set_config(transform_output="pandas")
-lock = JournalFileOpenLock("/bsuscratch/alexanderemert/")
-storage = JournalStorage(JournalFileBackend("/bsuscratch/alexanderemert/optuna_journal.log", lock_obj=lock))
 
 def add_parser_arguments():
     parser = argparse.ArgumentParser(description='Run Bayesian optimization for a model.')
@@ -44,6 +42,9 @@ def main():
     # load data
     args = add_parser_arguments()
     phot = pd.read_csv(here("data/cleaned", args.data))
+
+    lock = JournalFileOpenLock("/bsuscratch/alexanderemert/")
+    storage = JournalStorage(JournalFileBackend(f"/bsuscratch/alexanderemert/optuna_journal_res_model_{args.response}.log", lock_obj=lock))
 
     # split into X and y -- remove other physical properties
     remove_properties = [
@@ -204,11 +205,9 @@ def main():
 
         return score
 
+    study = optuna.create_study(direction='minimize', study_name=study_name, storage=storage, load_if_exists=True )
     if 'search_space' not in study.user_attrs:
         study.set_user_attr('search_space', initial_search_space)
-
-    study = optuna.create_study(direction='minimize', study_name=study_name, storage=storage_url, load_if_exists=True )
-
 
     max_expansions = 10
     number_expansions = 0

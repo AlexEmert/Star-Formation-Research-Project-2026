@@ -115,7 +115,7 @@ def main():
 
     # in order to save the history between trials
     study_name = "my-study"
-    storage_url = f"sqlite:///my-{args.response}-with-residuals-study.db"
+    storage = f"sqlite:///my-{args.response}-with-residuals-study.db"
 
 
     # contains the parameters input into the model. Updated using a custom function to expand search parameters
@@ -176,13 +176,13 @@ def main():
             imputer == 'passthrough'
 
         xgboost_params = {
-            "n_estimators": trial.suggest_int("n_estimators", space['n_estimators'][0], space['n_estimators'][1],step=100, log=True),
+            "n_estimators": trial.suggest_int("n_estimators", space['n_estimators'][0], space['n_estimators'][1],step=50),
             "learning_rate": trial.suggest_float("learning_rate", space['learning_rate'][0], space['learning_rate'][1], log=True),
             "max_depth": trial.suggest_int("max_depth", space['max_depth'][0], space['max_depth'][1], step=1),
-            "min_child_weight": trial.suggest_int("min_child_weight", space['min_child_weight'][0], space['min_child_weight'][1], 1),
+            "min_child_weight": trial.suggest_int("min_child_weight", space['min_child_weight'][0], space['min_child_weight'][1], step=1),
             "subsample": trial.suggest_float("subsample", space['subsample'][0], space['subsample'][1], step=0.1),
             "colsample_bytree": trial.suggest_float("colsample_bytree", space['colsample_bytree'][0], space['colsample_bytree'][1], step=0.1),
-            "colsample_bylevel": trial.suggest_float("colsample_bylevel", space['colsample_bylevel'][0], space['colsample_bylevel'][1], 0.1),
+            "colsample_bylevel": trial.suggest_float("colsample_bylevel", space['colsample_bylevel'][0], space['colsample_bylevel'][1], step=0.1),
             "reg_alpha": trial.suggest_float("reg_alpha", space['reg_alpha'][0], space['reg_alpha'][1], log=True),
             "reg_lambda": trial.suggest_float("reg_lambda", space['reg_lambda'][0], space['reg_lambda'][1], log=True),
             "gamma": trial.suggest_float("gamma", space['gamma'][0], space['gamma'][1], log=True),
@@ -236,7 +236,7 @@ def main():
     
 
 
-    with open(here("pipeline/results", f"{args.response}_predictive_results_t{args.threshold}.pkl"), "wb") as file:
+    with open(here("pipeline/results", f"{args.response}_t{args.threshold}-residual_model.pkl"), "wb") as file:
         pickle.dump(results, file)
 
 

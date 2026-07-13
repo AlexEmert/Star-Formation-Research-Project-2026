@@ -30,7 +30,7 @@ from optuna.storages.journal import JournalFileBackend, JournalFileOpenLock
 
 set_config(transform_output="pandas")
 lock = JournalFileOpenLock("/bsuscratch/alexanderemert/")
-storage = JournalStorage(JournalFileBackend("bsuscratch/alexanderemert/optuna_journal.log", lock_obj=lock))
+storage = JournalStorage(JournalFileBackend("/bsuscratch/alexanderemert/optuna_journal.log", lock_obj=lock))
 
 def add_parser_arguments():
     parser = argparse.ArgumentParser(description='Run Bayesian optimization for a model.')

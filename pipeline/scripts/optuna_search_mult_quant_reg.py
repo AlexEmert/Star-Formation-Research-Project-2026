@@ -178,7 +178,7 @@ def main():
 
         model_pipe = make_pipeline(imputer, ratio, scaler, xgboost_model)
 
-        scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+        scores = cross_val_score(model_pipe, X_train, y_train, scoring=pinball_scorer, cv=8, n_jobs=8)
 
         # score is the mean pinball error across cross validation folds
         score = sum(scores) / len(scores)

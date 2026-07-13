@@ -11,7 +11,11 @@
 . ~/.bashrc
 mamba activate starform-alex
 
-python search.py \
-    --iters "$ITERS" \
-    --response "$RESPONSE" \
-    --threshold "$THRESHOLD" 
+python optuna_search_mult_quant_reg.py \
+    --iters "1" \
+    --response "TEMP" 
+
+# python optuna_search_mult_quant_reg.py \
+#     --iters "$ITERS" \
+#     --response "$RESPONSE" \
+#     --threshold "$THRESHOLD" 

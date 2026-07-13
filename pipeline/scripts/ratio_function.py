@@ -5,6 +5,7 @@ from pyhere import here
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn import set_config
 from skopt.space import Real, Integer, Categorical
+import optuna
 
 # make it work with data frames
 set_config(transform_output="pandas")
@@ -97,6 +98,7 @@ class LogRatioGenerator(BaseEstimator, TransformerMixin):
         return np.array(input_features + ratio_features, dtype=object)
     
 
+# function only works for bayessearch cv, not for optuna
 def check_and_expand_space(best_params, current_space, definitive_bounds, tolerance=0.05, expansion=0.5):
     """
     Checks if best_params are near the bounds of the current_space.
@@ -210,3 +212,92 @@ def pinball_loss_function(y_true, y_pred, alphas=(0.025, 0.5, 0.975)):
     
     # Return the mean loss across both samples and quantiles
     return np.mean(loss)
+
+def check_and_expand_bounds_optuna(study, possible_bounds, tolerance=0.05, expansion=0.5):
+    """Function that checks the bounds of the optuna study object and returns a new objective function
+    with updated boundaries.
+    """
+    
+    new_param_space = {}
+    expanded = False
+
+    best_params = study.best_params
+    bounds = study.best_trial.distributions
+
+    for param in possible_bounds:
+        dist_object = bounds.get(param)
+
+        if isinstance(dist_object, optuna.distributions.FloatDistribution):
+            best_val = best_params.get(param)
+            abs_low, abs_high = possible_bounds.get(param)
+            low, high = dist_object.low, dist_object.high
+            span = high - low
+
+            if dist_object.log == False:
+                if best_val <= low + (span * tolerance):
+                    new_low = low - (span * expansion)
+                    bounds_expanded = True
+                    if new_low < abs_low:
+                        new_low = low
+                        bounds_expanded = False
+                    new_param_space[param] = (new_low, high)
+                    
+                    
+                elif best_val >= high - (span * tolerance):
+                    new_high = high + (span * expansion)
+                    bounds_expanded = True
+                    if new_high > abs_high:
+                        new_high = high
+                        bounds_expanded = False
+                    new_param_space[param] = (low, new_high)
+
+                else:
+                    new_param_space[param] = (low, high)
+
+            if dist_object.log == True:
+                log_low, log_high = np.log10(low), np.log10(high)
+                log_span = log_high - log_low
+                log_best = np.log10(best_val)
+                
+                if log_best <= log_low + (log_span * tolerance):
+                    new_log_low = log_low - (log_span * expansion)
+                    new_low = 10 ** new_log_low
+                    new_low = max(new_low, abs_low)
+                    new_param_space[param] = (new_low, high)
+                    bounds_expanded = True
+                    
+                elif log_best >= log_high - (log_span * tolerance):
+                    new_log_high = log_high + (log_span * expansion)
+                    new_high = 10 ** new_log_high
+                    new_high = min(new_high, abs_high)
+                    new_param_space[param] = (low, new_high)
+                    bounds_expanded = True
+                    
+                else:
+                   new_param_space[param] = (low, high)
+
+        
+        elif isinstance(dist_object, optuna.distributions.IntDistribution):
+            low, high = dist_object.low, dist_object.high
+            span = high - low
+            # Use max(1, ...) to ensure we always tolerate/expand by at least 1 unit
+            tol_val = max(1, int(span * tolerance))
+            exp_val = max(1, int(span * expansion))
+            
+            if best_val <= low + tol_val:
+                new_low = low - exp_val
+                if new_low < abs_low:
+                    new_low = low
+                new_param_space[param] = (new_low, high)
+                bounds_expanded = True
+                
+            elif best_val >= high - tol_val:
+                new_high = high + exp_val
+                if new_high > abs_high:
+                    new_high = high
+                new_param_space[param] = (low, new_high)
+                bounds_expanded = True
+
+    return bounds_expanded, new_param_space
+
+        

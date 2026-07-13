@@ -78,13 +78,12 @@ def main():
                  #, 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100'
                  ]
 
-    alphas = [0.025, 0.5, 0.975]
-
+    
     model_pipe = Pipeline([
             ('impute', SimpleImputer()),
             ('ratio', RatioGenerator(cols=flux_cols)),
             ('scale', RobustScaler()),
-            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=1, objective="reg:quantileerror", quantile_alpha=alphas))
+            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=1))
         ])
     
     search_space = {
@@ -133,7 +132,7 @@ def main():
             search_spaces=search_space,
             n_iter=iterations, 
             cv=8,
-            scoring=pinball_scorer,
+            scoring='neg_root_mean_squared_error',
             n_jobs=-1,
             n_points=4,
             random_state=2026
@@ -159,45 +158,94 @@ def main():
         if not expanded:
             break
 
-   
+    
     y_preds = opt.best_estimator_.predict(X_test)
-    test_rmse = root_mean_squared_error(y_test, y_preds[:, 1])
-    test_r2 = r2_score(y_test, y_preds[:, 1])
+    test_rmse = root_mean_squared_error(y_test, y_preds)
+    test_r2 = r2_score(y_test, y_preds)
 
-    results['xgb_CV_pinball'] = -opt.best_score_
-    results['xgb_params'] = opt.best_params_
+    results['primary_CV_rmse'] = -opt.best_score_
+    results['primary_params'] = opt.best_params_
     results['bounds_expanded_iters'] = number_expansions
     results['test_rmse'] = test_rmse
     results['test_r2'] = test_r2
-    results['0.025_y_preds'] = y_preds[:, 0]
-    results['y_preds'] = y_preds[:,1]
-    results['0.0975_y_preds'] = y_preds[:,2]
-    results['pinball_loss'] = pinball_loss_function(y_test, y_preds)
+    results['y_preds'] = y_preds
+
+    residuals = y_train - opt.best_estimator_.predict(X_train)
+    # now fit quantile model on the residuals to find the amount to add/subtract for confidence intervals
+    alphas = [0.025, 0.975]
+    model_pipe = Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=1, objective="reg:quantileerror", quantile_alpha=alphas))
+        ])
+
+    while True:
+
+        quant_opt = BayesSearchCV(
+            estimator=model_pipe,
+            search_spaces=search_space,
+            n_iter=iterations, 
+            cv=8,
+            scoring=pinball_scorer,
+            n_jobs=-1,
+            n_points=4,
+            random_state=2026
+        )
+
+        quant_opt.fit(X_train, y_train)
+
+        expanded, search_space = check_and_expand_space(
+            best_params=quant_opt.best_params_,
+            current_space=search_space,
+            definitive_bounds=possible_bounds,
+            tolerance=0.05, 
+            expansion=0.5
+        )
+
+        if expanded == True:
+            number_expansions += 1
+            iterations += 100
+
+        if number_expansions == 15:
+            break
+
+        if not expanded:
+            break
+
+
+    boundary_predictions = quant_opt.best_estimator_.predict(y_train)
+
+    results['0.025_y_preds'] = y_preds + boundary_predictions[:,0]
+    results['0.0975_y_preds'] = y_preds + boundary_predictions[:,1]
+    results['bounds'] = boundary_predictions
+    results['quantile_model_params'] = quant_opt.best_params_
+
 
     with open(here("pipeline/results", f"{args.response}_predictive_results_t{args.threshold}.pkl"), "wb") as file:
         pickle.dump(results, file)
 
 
-    if int(args.threshold) == 1.5:
-        skopt_plot = opt.optimizer_results_[-1]
+    # if int(args.threshold) == 1.5:
+    #     skopt_plot = opt.optimizer_results_[-1]
 
-        first_plot_path = here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")
-        first_plot_path.parent.mkdir(parents=True, exist_ok=True)
+    #     first_plot_path = here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")
+    #     first_plot_path.parent.mkdir(parents=True, exist_ok=True)
 
-        plt.figure(figsize=(8, 6))
-        plot_convergence(skopt_plot)
-        plt.title(f"{args.response} Convergence Plot: XGBoost model")
-        plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
+    #     plt.figure(figsize=(8, 6))
+    #     plot_convergence(skopt_plot)
+    #     plt.title(f"{args.response} Convergence Plot: XGBoost model")
+    #     plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
 
-        #objective plot
-        plot_objective(skopt_plot, size=2)
-        plt.title(f"{args.response} Objective Plot: XGBoost model")
-        plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
+    #     #objective plot
+    #     plot_objective(skopt_plot, size=2)
+    #     plt.title(f"{args.response} Objective Plot: XGBoost model")
+    #     plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
 
-        # evaluation plot
-        plot_evaluations(skopt_plot, size=2)
-        plt.title(f"{args.response} Evaluation Plot: XGBoost model")
-        plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
+    #     # evaluation plot
+    #     plot_evaluations(skopt_plot, size=2)
+    #     plt.title(f"{args.response} Evaluation Plot: XGBoost model")
+    #     plt.savefig(str(here('pipeline/graphing/graphs/skopt_graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
 
 
 if __name__ == "__main__":

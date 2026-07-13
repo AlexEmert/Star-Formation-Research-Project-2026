@@ -252,8 +252,11 @@ for top, bottom in itertools.combinations(flux_cols, 2):
     new_col_name = f"{top}_over_{bottom}"
     phot_ratios[new_col_name] = phot_ratios[top] / phot_ratios[bottom]
 (
-    ggplot(phot_ratios[phot_ratios['log_F160_over_F350'] >-4], aes(x='log_F160_over_F350', y='LM')) +
-    geom_point()
+    ggplot(phot_ratios, aes(x='F24_over_F70', y='F8_over_F12', color='LM')) +
+    geom_point() +
+    scale_x_log10()
+    +scale_y_log10() + 
+    scale_color_continuous(trans='log')
 )
 ```
 

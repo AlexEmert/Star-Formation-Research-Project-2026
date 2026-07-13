@@ -84,24 +84,7 @@ def main():
                  #, 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100'
                  ]
 
-    # get params from previously optimized models
-    with open(here("pipeline/results/old_results/late_june-early_july_results", f"{property}_lowflux_results6_30_26.pkl"), "rb") as file:
-        results = pickle.load(file) 
     
-    model_pipe_params = results['xgb_params']
-
-    # fit first model to fit residuals off of for quantiles
-    model_pipe = Pipeline([
-            ('impute', SimpleImputer()),
-            ('ratio', RatioGenerator(cols=flux_cols)),
-            ('scale', RobustScaler()),
-            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=1))
-        ])
-
-    model_pipe.set_params(**model_pipe_params)
-    model_pipe.fit(X_train, y_train)
-
-    residuals = y_train - model_pipe.predict(X_train)
 
     # which quantiles the model will predict
     alphas = [0.025, 0.975]
@@ -114,7 +97,7 @@ def main():
 
     # in order to save the history between trials
     study_name = "my-study"
-    storage_url = f"sqlite:///my-{args.response}-study.db"
+    storage_url = f"sqlite:///my-{args.response}-single_model-study.db"
 
 
     # contains the parameters input into the model. Updated using a custom function to expand search parameters
@@ -197,7 +180,7 @@ def main():
 
         model_pipe = make_pipeline(imputer, ratio, scaler, xgboost_model)
 
-        scores = cross_val_score(model_pipe, X_train, residuals, pinball_scorer, cv=8, n_jobs=8)
+        scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
 
         # score is the mean pinball error across cross validation folds
         score = sum(scores) / len(scores)
@@ -237,7 +220,7 @@ def main():
 
 
 
-    with open(here("pipeline/results", f"{args.response}_t{args.threshold}-residual_quantile_models.pkl"), "wb") as file:
+    with open(here("pipeline/results", f"{args.response}_t{args.threshold}-single_model.pkl"), "wb") as file:
         pickle.dump(results, file)
 
 

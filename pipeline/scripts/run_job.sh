@@ -4,7 +4,7 @@
 #SBATCH -c 48             # CPU cores per task
 #SBATCH -N 1              # number of nodes you want to run on
 #SBATCH -p bsudfq         # queue (partition)
-#SBATCH -t 1-12:00:00     # run time (hh:mm:ss)
+#SBATCH -t 2-00:00:00     # run time (hh:mm:ss)
 #SBATCH --output=../logs/%x_%j.out # output and error file name (%j expands to jobID)
 
 
@@ -12,7 +12,7 @@
 mamba activate starform-alex
 
 python optuna_search_mult_quant_reg.py \
-    --iters "1" \
+    --iters "10" \
     --response "TEMP" 
 
 # python optuna_search_mult_quant_reg.py \

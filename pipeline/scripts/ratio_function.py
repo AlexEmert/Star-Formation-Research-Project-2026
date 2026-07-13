@@ -236,19 +236,19 @@ def check_and_expand_bounds_optuna(study, possible_bounds, tolerance=0.05, expan
             if dist_object.log == False:
                 if best_val <= low + (span * tolerance):
                     new_low = low - (span * expansion)
-                    bounds_expanded = True
+                    expanded = True
                     if new_low < abs_low:
                         new_low = low
-                        bounds_expanded = False
+                        expanded = False
                     new_param_space[param] = (new_low, high)
                     
                     
                 elif best_val >= high - (span * tolerance):
                     new_high = high + (span * expansion)
-                    bounds_expanded = True
+                    expanded = True
                     if new_high > abs_high:
                         new_high = high
-                        bounds_expanded = False
+                        expanded = False
                     new_param_space[param] = (low, new_high)
 
                 else:
@@ -264,14 +264,14 @@ def check_and_expand_bounds_optuna(study, possible_bounds, tolerance=0.05, expan
                     new_low = 10 ** new_log_low
                     new_low = max(new_low, abs_low)
                     new_param_space[param] = (new_low, high)
-                    bounds_expanded = True
+                    expanded = True
                     
                 elif log_best >= log_high - (log_span * tolerance):
                     new_log_high = log_high + (log_span * expansion)
                     new_high = 10 ** new_log_high
                     new_high = min(new_high, abs_high)
                     new_param_space[param] = (low, new_high)
-                    bounds_expanded = True
+                    expanded = True
                     
                 else:
                    new_param_space[param] = (low, high)
@@ -289,15 +289,15 @@ def check_and_expand_bounds_optuna(study, possible_bounds, tolerance=0.05, expan
                 if new_low < abs_low:
                     new_low = low
                 new_param_space[param] = (new_low, high)
-                bounds_expanded = True
+                expanded = True
                 
             elif best_val >= high - tol_val:
                 new_high = high + exp_val
                 if new_high > abs_high:
                     new_high = high
                 new_param_space[param] = (low, new_high)
-                bounds_expanded = True
+                expanded = True
 
-    return bounds_expanded, new_param_space
+    return expanded, new_param_space
 
         

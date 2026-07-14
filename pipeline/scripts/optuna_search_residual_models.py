@@ -86,7 +86,7 @@ def main():
                  ]
 
     # get params from previously optimized models
-    with open(here("pipeline/results/old_results/late_june-early_july_results", f"{property}_lowflux_results6_30_26.pkl"), "rb") as file:
+    with open(here("pipeline/results/old_results/late_june-early_july_results", f"{args.response}_lowflux_results6_30_26.pkl"), "rb") as file:
         results = pickle.load(file) 
     
     model_pipe_params = results['xgb_params']

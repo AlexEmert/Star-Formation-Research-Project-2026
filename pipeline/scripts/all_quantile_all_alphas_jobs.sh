@@ -10,7 +10,7 @@ mkdir -p ../logs ../results
 for r in "${RESPONSES[@]}"; do
    for t in "${THRESHOLDS[@]}"; do
 
-      sbatch --export=ALL,RESPONSE="$r",ITERS="320",THRESHOLD="$t" run_job.sh
+      sbatch --export=ALL,RESPONSE="$r",ITERS="320",THRESHOLD="$t" run_residual_model.sh
 
       sleep 0.1
 

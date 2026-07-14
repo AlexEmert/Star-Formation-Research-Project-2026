@@ -12,8 +12,12 @@
 mamba activate starform-alex
 
 python optuna_search_mult_quant_reg.py \
-    --iters "10" \
+    --iters 10 \
     --response "TEMP" 
+
+python optuna_search_residual_models.py \
+    --iters 10 \
+    --response "TEMP"  
 
 # python optuna_search_mult_quant_reg.py \
 #     --iters "$ITERS" \

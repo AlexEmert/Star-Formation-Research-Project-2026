@@ -119,35 +119,35 @@ def main():
 
 
     # contains the parameters input into the model. Updated using a custom function to expand search parameters
-    initial_search_space = {
-            "n_estimators": (100,3000),
-            'learning_rate': (1e-4, 0.5),
-            'max_depth': (3,12),
-            "min_child_weight": (1,10),
-            'subsample': (0.5,1),
-            'colsample_bytree': (0.5, 1),
-            'colsample_bylevel': (0.5, 1),
-            'reg_alpha': (1e-6, 100),
-            'reg_lambda': ( 1e-6, 100),
-            'gamma': (1e-6, 100)
-            }
+    # initial_search_space = {
+    #         "n_estimators": (100,3000),
+    #         'learning_rate': (1e-4, 0.5),
+    #         'max_depth': (3,12),
+    #         "min_child_weight": (1,10),
+    #         'subsample': (0.5,1),
+    #         'colsample_bytree': (0.5, 1),
+    #         'colsample_bylevel': (0.5, 1),
+    #         'reg_alpha': (1e-6, 100),
+    #         'reg_lambda': ( 1e-6, 100),
+    #         'gamma': (1e-6, 100)
+    #         }
 
-    possible_bounds = {
-        "n_estimators": (0,10000),
-        "learning_rate": (0.001,1),
-        "max_depth": (0,np.inf),
-        "min_child_weight": (0,np.inf),
-        "subsample": (0,1),
-        "colsample_bytree": (0.01, 1),
-        "colsample_bylevel": (0.01, 1),
-        "reg_alpha": (1e-20, np.inf),
-        "reg_lambda": (1e-20, np.inf),
-        "gamma":(1e-20,np.inf)
-    }
+    # possible_bounds = {
+    #     "n_estimators": (0,10000),
+    #     "learning_rate": (0.001,1),
+    #     "max_depth": (0,np.inf),
+    #     "min_child_weight": (0,np.inf),
+    #     "subsample": (0,1),
+    #     "colsample_bytree": (0.01, 1),
+    #     "colsample_bylevel": (0.01, 1),
+    #     "reg_alpha": (1e-20, np.inf),
+    #     "reg_lambda": (1e-20, np.inf),
+    #     "gamma":(1e-20,np.inf)
+    # }
 
 
     def objective(trial):
-        space = trial.study.user_attrs['search_space']
+        # space = trial.study.user_attrs['search_space']
 
         scalers = trial.suggest_categorical("scalers", ['standard', 'robust', 'none'])
 
@@ -176,16 +176,16 @@ def main():
             imputer == 'passthrough'
 
         xgboost_params = {
-            "n_estimators": trial.suggest_int("n_estimators", space['n_estimators'][0], space['n_estimators'][1],step=50),
-            "learning_rate": trial.suggest_float("learning_rate", space['learning_rate'][0], space['learning_rate'][1], log=True),
-            "max_depth": trial.suggest_int("max_depth", space['max_depth'][0], space['max_depth'][1], step=1),
-            "min_child_weight": trial.suggest_int("min_child_weight", space['min_child_weight'][0], space['min_child_weight'][1], step=1),
-            "subsample": trial.suggest_float("subsample", space['subsample'][0], space['subsample'][1], step=0.1),
-            "colsample_bytree": trial.suggest_float("colsample_bytree", space['colsample_bytree'][0], space['colsample_bytree'][1], step=0.1),
-            "colsample_bylevel": trial.suggest_float("colsample_bylevel", space['colsample_bylevel'][0], space['colsample_bylevel'][1], step=0.1),
-            "reg_alpha": trial.suggest_float("reg_alpha", space['reg_alpha'][0], space['reg_alpha'][1], log=True),
-            "reg_lambda": trial.suggest_float("reg_lambda", space['reg_lambda'][0], space['reg_lambda'][1], log=True),
-            "gamma": trial.suggest_float("gamma", space['gamma'][0], space['gamma'][1], log=True),
+            "n_estimators": trial.suggest_int("n_estimators", 100,3000,step=50),
+            "learning_rate": trial.suggest_float("learning_rate", 1e-4, 0.5, log=True),
+            "max_depth": trial.suggest_int("max_depth", 3,12, step=1),
+            "min_child_weight": trial.suggest_int("min_child_weight", 1,10, step=1),
+            "subsample": trial.suggest_float("subsample", 0.5,1, step=0.1),
+            "colsample_bytree": trial.suggest_float("colsample_bytree", 0.5, 1, step=0.1),
+            "colsample_bylevel": trial.suggest_float("colsample_bylevel", 0.5, 1, step=0.1),
+            "reg_alpha": trial.suggest_float("reg_alpha", 1e-6, 100, log=True),
+            "reg_lambda": trial.suggest_float("reg_lambda", 1e-6, 100, log=True),
+            "gamma": trial.suggest_float("gamma", 1e-6, 100, log=True),
             'random_state': 2026,
             'verbosity': 0,
             'n_jobs': 1,
@@ -198,7 +198,7 @@ def main():
 
         model_pipe = make_pipeline(imputer, ratio, scaler, xgboost_model)
 
-        scores = cross_val_score(model_pipe, X_train, residuals, pinball_scorer, cv=8, n_jobs=8)
+        scores = cross_val_score(model_pipe, X_train, residuals, scoring=pinball_scorer, cv=8, n_jobs=8)
 
         # score is the mean pinball error across cross validation folds
         score = sum(scores) / len(scores)
@@ -206,32 +206,32 @@ def main():
         return score
 
     study = optuna.create_study(direction='minimize', study_name=study_name, storage=storage, load_if_exists=True )
-    if 'search_space' not in study.user_attrs:
-        study.set_user_attr('search_space', initial_search_space)
+    # if 'search_space' not in study.user_attrs:
+        # study.set_user_attr('search_space', initial_search_space)
 
     max_expansions = 10
     number_expansions = 0
 
-    while True and number_expansions <= max_expansions:
+    # while number_expansions <= max_expansions:
 
-        study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
+    study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
 
-        expanded, new_space = check_and_expand_bounds_optuna(
-            study, possible_bounds
-        )
+        # expanded, new_space = check_and_expand_bounds_optuna(
+        #     study, possible_bounds
+        # )
 
-        study.set_user_attr('search_space', new_space)
+        # study.set_user_attr('search_space', new_space)
 
-        if expanded == False:
-            break
-        else:
-            number_expansions +=1
+        # if expanded == False:
+        #     break
+        # else:
+        #     number_expansions +=1
         
 
     results = {}
     results['best_error'] = study.best_value
     results['best_params'] = study.best_params
-    results['num_expansions'] = number_expansions
+    # results['num_expansions'] = number_expansions
     results['threshold'] = args.threshold
     
 

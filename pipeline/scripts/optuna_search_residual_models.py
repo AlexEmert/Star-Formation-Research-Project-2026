@@ -115,7 +115,7 @@ def main():
 
     # in order to save the history between trials
     study_name = "my-study"
-    storage = f"sqlite:///my-{args.response}-with-residuals-study.db"
+    storage = f"sqlite:///my-{args.response}-t{args.threshold}-with-residuals-study.db"
 
 
     # contains the parameters input into the model. Updated using a custom function to expand search parameters

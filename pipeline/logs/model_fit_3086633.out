@@ -1,0 +1,43 @@
+[I 2026-07-13 14:42:38,711] A new study created in Journal with name: my-study
+[W 2026-07-13 14:42:38,757] Trial 0 failed with parameters: {'scalers': 'standard', 'ratios': 'norm_ratio', 'imputers': 'mean'} because of the following error: ValueError('Samplers and other components in Optuna only accept step is 1 when `log` argument is True.').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 159, in objective
+    "n_estimators": trial.suggest_int("n_estimators", space['n_estimators'][0], space['n_estimators'][1],step=100, log=True),
+                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/_convert_positional_args.py", line 127, in converter_wrapper
+    return func(**kwargs)  # type: ignore[call-arg]
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/trial/_trial.py", line 335, in suggest_int
+    distribution = IntDistribution(low=low, high=high, log=log, step=step)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/distributions.py", line 342, in __init__
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Samplers and other components in Optuna only accept step is 1 when `log` argument is True.
+[W 2026-07-13 14:42:38,806] Trial 0 failed with value None.
+Traceback (most recent call last):
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 222, in <module>
+    main()
+    ~~~~^^
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 200, in main
+    expanded, new_space = check_and_expand_bounds_optuna(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        study, possible_bounds
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/ratio_function.py", line 224, in check_and_expand_bounds_optuna
+    best_params = study.best_params
+                  ^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/study.py", line 120, in best_params
+    return self.best_trial.params
+           ^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/study.py", line 168, in best_trial
+    return self._get_best_trial(deepcopy=True)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/study.py", line 334, in _get_best_trial
+    best_trial = self._storage.get_best_trial(self._study_id)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/storages/_base.py", line 534, in get_best_trial
+    raise ValueError("No trials are completed yet.")
+ValueError: No trials are completed yet.

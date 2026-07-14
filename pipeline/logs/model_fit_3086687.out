@@ -1,0 +1,175 @@
+[I 2026-07-13 14:56:20,162] Using an existing study with name 'my-study' instead of creating a new one.
+[W 2026-07-13 14:56:21,098] Trial 9 failed with parameters: {'scalers': 'none', 'ratios': 'norm_ratio', 'imputers': 'mean', 'n_estimators': 1800, 'learning_rate': 0.0008662305804956481, 'max_depth': 11, 'min_child_weight': 10, 'subsample': 0.8, 'colsample_bytree': 0.9, 'colsample_bylevel': 0.8, 'reg_alpha': 8.23377559299876, 'reg_lambda': 10.559492998323137, 'gamma': 0.00018672716163436705} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,105] Trial 10 failed with parameters: {'scalers': 'none', 'ratios': 'log_ratio', 'imputers': 'median', 'n_estimators': 1700, 'learning_rate': 0.0011792686699557534, 'max_depth': 7, 'min_child_weight': 2, 'subsample': 0.8, 'colsample_bytree': 0.9, 'colsample_bylevel': 0.9, 'reg_alpha': 0.016296698269147505, 'reg_lambda': 0.0018425525534847406, 'gamma': 98.73690173090661} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,111] Trial 11 failed with parameters: {'scalers': 'standard', 'ratios': 'log_ratio', 'imputers': 'mean', 'n_estimators': 650, 'learning_rate': 0.00016545330014418425, 'max_depth': 9, 'min_child_weight': 2, 'subsample': 0.8, 'colsample_bytree': 0.7, 'colsample_bylevel': 0.6, 'reg_alpha': 0.000516472657374953, 'reg_lambda': 4.118897393291321e-05, 'gamma': 8.278504177028355e-05} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,117] Trial 12 failed with parameters: {'scalers': 'standard', 'ratios': 'norm_ratio', 'imputers': 'none', 'n_estimators': 1450, 'learning_rate': 0.000988061781097041, 'max_depth': 7, 'min_child_weight': 10, 'subsample': 1.0, 'colsample_bytree': 0.8, 'colsample_bylevel': 0.5, 'reg_alpha': 36.229134713491696, 'reg_lambda': 0.00013009158407142204, 'gamma': 68.54836367266041} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,122] Trial 9 failed with value None.
+[W 2026-07-13 14:56:21,123] Trial 10 failed with value None.
+[W 2026-07-13 14:56:21,123] Trial 13 failed with parameters: {'scalers': 'none', 'ratios': 'norm_ratio', 'imputers': 'none', 'n_estimators': 1000, 'learning_rate': 0.005676505768543651, 'max_depth': 5, 'min_child_weight': 4, 'subsample': 0.6, 'colsample_bytree': 0.6, 'colsample_bylevel': 0.5, 'reg_alpha': 0.00010858572760728049, 'reg_lambda': 3.149651829638575, 'gamma': 21.250151998975536} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,123] Trial 11 failed with value None.
+[W 2026-07-13 14:56:21,124] Trial 12 failed with value None.
+[W 2026-07-13 14:56:21,126] Trial 13 failed with value None.
+[W 2026-07-13 14:56:21,129] Trial 14 failed with parameters: {'scalers': 'standard', 'ratios': 'log_ratio', 'imputers': 'none', 'n_estimators': 1750, 'learning_rate': 0.0019804301635165246, 'max_depth': 7, 'min_child_weight': 7, 'subsample': 1.0, 'colsample_bytree': 0.5, 'colsample_bylevel': 0.7, 'reg_alpha': 0.110359715969031, 'reg_lambda': 1.4071821118357067e-06, 'gamma': 0.794225835768762} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,130] Trial 14 failed with value None.
+[W 2026-07-13 14:56:21,135] Trial 15 failed with parameters: {'scalers': 'standard', 'ratios': 'norm_ratio', 'imputers': 'mean', 'n_estimators': 2900, 'learning_rate': 0.009640071362711075, 'max_depth': 9, 'min_child_weight': 2, 'subsample': 1.0, 'colsample_bytree': 0.6, 'colsample_bylevel': 1.0, 'reg_alpha': 0.006821375662652167, 'reg_lambda': 0.005585692039490608, 'gamma': 0.512133901787884} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,135] Trial 15 failed with value None.
+[W 2026-07-13 14:56:21,162] Trial 16 failed with parameters: {'scalers': 'robust', 'ratios': 'log_ratio', 'imputers': 'mean', 'n_estimators': 300, 'learning_rate': 0.0060742020250898, 'max_depth': 7, 'min_child_weight': 2, 'subsample': 0.5, 'colsample_bytree': 0.7, 'colsample_bylevel': 0.6, 'reg_alpha': 2.180927765000779e-05, 'reg_lambda': 0.00020775549710336653, 'gamma': 21.76617396004734} because of the following error: TypeError('too many positional arguments').
+Traceback (most recent call last):
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments
+[W 2026-07-13 14:56:21,162] Trial 16 failed with value None.
+Traceback (most recent call last):
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 222, in <module>
+    main()
+    ~~~~^^
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 198, in main
+    study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/study.py", line 516, in optimize
+    _optimize(
+    ~~~~~~~~~^
+        study=self,
+        ^^^^^^^^^^^
+    ...<7 lines>...
+        show_progress_bar=show_progress_bar,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 105, in _optimize
+    f.result()
+    ~~~~~~~~^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/concurrent/futures/_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 165, in _optimize_sequential
+    frozen_trial_id = _run_trial(study, func, catch)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 263, in _run_trial
+    raise func_err
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/study/_optimize.py", line 206, in _run_trial
+    value_or_values = func(trial)
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 181, in objective
+    scores = cross_val_score(model_pipe, X_train, y_train, pinball_scorer, cv=8, n_jobs=8)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 196, in wrapper
+    params = func_sig.bind(*args, **kwargs)
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3236, in bind
+    return self._bind(args, kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/inspect.py", line 3160, in _bind
+    raise TypeError(
+        'too many positional arguments') from None
+TypeError: too many positional arguments

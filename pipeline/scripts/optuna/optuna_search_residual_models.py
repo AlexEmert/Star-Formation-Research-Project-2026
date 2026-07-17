@@ -44,7 +44,7 @@ def main():
     phot = pd.read_csv(here("data/cleaned", args.data))
 
     lock = JournalFileOpenLock("/bsuscratch/alexanderemert/")
-    storage = JournalStorage(JournalFileBackend(f"/bsuscratch/alexanderemert/optuna_journal_single_model{args.response}.log", lock_obj=lock))
+    storage = JournalStorage(JournalFileBackend(f"/bsuscratch/alexanderemert/optuna_journal_res_model_{args.response}.log", lock_obj=lock))
 
     # split into X and y -- remove other physical properties
     remove_properties = [
@@ -85,18 +85,38 @@ def main():
                  #, 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100'
                  ]
 
+    # get params from previously optimized models
+    with open(here("pipeline/results/old_results/late_june-early_july_results", f"{args.response}_lowflux_results6_30_26.pkl"), "rb") as file:
+        results = pickle.load(file) 
+    
+    model_pipe_params = results['xgb_params']
+
+    # fit first model to fit residuals off of for quantiles
+    model_pipe = Pipeline([
+            ('impute', SimpleImputer()),
+            ('ratio', RatioGenerator(cols=flux_cols)),
+            ('scale', RobustScaler()),
+            ('model', XGBRegressor(random_state=2026, verbosity=0, n_jobs=1))
+        ])
+
+    model_pipe.set_params(**model_pipe_params)
+    model_pipe.fit(X_train, y_train)
+
+    residuals = y_train - model_pipe.predict(X_train)
+
     # which quantiles the model will predict
-    alphas = [0.025, 0.5, 0.975]
+    alphas = [0.025, 0.975]
 
     pinball_scorer = make_scorer(
     pinball_loss_function, 
     greater_is_better=False, 
-    alphas=[0.025, 0.5, 0.975]
+    alphas=[0.025, 0.975]
     )
 
     # in order to save the history between trials
-    study_name = "my-study"
-    storage = f"sqlite:///my-{args.response}-t{args.threshold}-single_model-study.db"
+    study_name = "residual_study_v2"
+    storage = f"sqlite:///study_sql_files/my-{args.response}-t{args.threshold}-with-residuals-study.db"
+
 
     # contains the parameters input into the model. Updated using a custom function to expand search parameters
     # initial_search_space = {
@@ -178,17 +198,16 @@ def main():
 
         model_pipe = make_pipeline(imputer, ratio, scaler, xgboost_model)
 
-        scores = cross_val_score(model_pipe, X_train, y_train, scoring=pinball_scorer, cv=8, n_jobs=8)
+        scores = cross_val_score(model_pipe, X_train, residuals, scoring=pinball_scorer, cv=8, n_jobs=8)
 
         # score is the mean pinball error across cross validation folds
         score = sum(scores) / len(scores)
 
         return score
 
-    study = optuna.create_study(direction='minimize', study_name=study_name, storage=storage, load_if_exists=True)
-
+    study = optuna.create_study(direction='minimize', study_name=study_name, storage=storage, load_if_exists=True )
     # if 'search_space' not in study.user_attrs:
-    #     study.set_user_attr('search_space', initial_search_space)
+        # study.set_user_attr('search_space', initial_search_space)
 
     max_expansions = 10
     number_expansions = 0
@@ -208,13 +227,16 @@ def main():
         # else:
         #     number_expansions +=1
         
+
     results = {}
     results['best_error'] = study.best_value
     results['best_params'] = study.best_params
     # results['num_expansions'] = number_expansions
+    results['threshold'] = args.threshold
+    
 
 
-    with open(here("pipeline/results", f"{args.response}_t{args.threshold}-single_model.pkl"), "wb") as file:
+    with open(here("pipeline/results", f"{args.response}_t{args.threshold}-residual_model.pkl"), "wb") as file:
         pickle.dump(results, file)
 
 

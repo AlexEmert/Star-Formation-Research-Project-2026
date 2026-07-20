@@ -153,7 +153,7 @@ def main():
                 greater_is_better=False
             )
 
-            loss_scores = cross_val_score(model_pipe, X_train, y_train, scoring=pinball_scorer, cv=8, n_jobs=8)
+            loss_scores = cross_val_score(model_pipe, X_train, y_train, scoring=pinball_scorer, cv=6, n_jobs=6)
             score_list.append(np.mean(loss_scores))
 
             mean_overall_loss = np.mean(score_list)
@@ -224,7 +224,7 @@ def main():
         model_pipe = make_pipeline(imputer, ratio, scaler, xgboost_model)
         model_pipe.fit(X_train, y_train)
 
-        scores = cross_val_score(model_pipe, X_train, y_train, scoring='neg_root_mean_squared_error', cv=8, n_jobs=8)
+        scores = cross_val_score(model_pipe, X_train, y_train, scoring='neg_root_mean_squared_error', cv=6, n_jobs=6)
         score_list.append(np.mean(scores))
 
         mean_rmse = np.mean(score_list)

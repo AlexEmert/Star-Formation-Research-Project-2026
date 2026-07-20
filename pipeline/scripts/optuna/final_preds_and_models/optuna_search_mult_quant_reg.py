@@ -45,19 +45,6 @@ def main():
     lock = JournalFileOpenLock("/bsuscratch/alexanderemert/")
     storage = JournalStorage(JournalFileBackend(f"/bsuscratch/alexanderemert/final_optuna_journal_single_model{args.response}.log", lock_obj=lock))
 
-    # split into X and y -- remove other physical properties
-    remove_properties = [
-        'LRATIO', 
-        'T_BOL',  
-        'LM', 
-        'L_BOL', 
-        'MASS', 
-        'DIAM', 
-        'SURF_DENS', 
-        'YB', 
-        'TEMP' , 'F160', 'F250', 'F350', 'F500', 'F870', 'F1100', 'e_F160', 'e_F250', 'e_F350', 'e_F500', 'e_F870', 'e_F1100' 
-    ]
-
     # remove tail from tbol
     if args.response == "T_BOL":
         phot = phot[phot['T_BOL']<90]
@@ -69,23 +56,23 @@ def main():
         y=np.log(phot[args.response])
     
     # remove all of the response variables from the features
-    X = phot.drop(columns=remove_properties)
+    X = phot[['F8','e_F8','F12','e_F12','F24','e_F24','F70','e_F70','N8', 'N12', 'N24', "N70", "DIST", 'f_MULTI','f_CEXT']]
+
+    flux_cols = ['F8', 'F12', 'F24', 'F70']
 
     # drop over a certain relative uncertainty threshold
     for wavelength in ['8', '12', '24', '70']:
         X[f'se_F{wavelength}'] = X[f'e_F{wavelength}'] / np.sqrt(X[f'N{wavelength}'])
 
-    flux_cols = ['F8', 'F12', 'F24', 'F70']
-
     # which quantiles the model will predict
     alphas = [0.025, 0.5, 0.975]
 
     # in order to save the history between trials
-    study_name = "final_predictive_quantile_study"
+    study_name = "quantile_study_7_20_26"
 
     def objective(trial):
         # threshold for dropping values
-        error_threshold = trial.suggest_float("error_threshold", 0, 5, step=0.25)
+        error_threshold = trial.suggest_float("error_threshold", 0.1, 5, step=0.25)
 
         X_threshold = X.copy()
 
@@ -158,7 +145,7 @@ def main():
             loss_scores = cross_val_score(model_pipe, X_train, y_train, scoring=pinball_scorer, cv=6, n_jobs=6)
             score_list.append(np.mean(loss_scores))
 
-            mean_overall_loss = np.mean(score_list)
+        mean_overall_loss = np.mean(score_list)
     
         return mean_overall_loss
 
@@ -166,12 +153,12 @@ def main():
     study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
 
 
-    mean_study_name = "final_predictive_mean_study"
+    mean_study_name = "mean_study_7_20_26"
 
     # mean model (optimizing a single non-quantile regression model)
     def objective(trial):
         # threshold for dropping values
-        error_threshold = trial.suggest_float("error_threshold", 0, 5, step=0.25)
+        error_threshold = trial.suggest_float("error_threshold", 0.1, 5, step=0.25)
 
         X_threshold_mean = X.copy()
 
@@ -222,20 +209,16 @@ def main():
             'n_jobs': 1
         }
 
-        score_list = []
-
         xgboost_model = XGBRegressor(**xgboost_params_single_model)
         model_pipe = make_pipeline(imputer, ratio, scaler, xgboost_model)
         model_pipe.fit(X_train, y_train)
 
-        scores = cross_val_score(model_pipe, X_train, y_train, scoring='root_mean_squared_error', cv=6, n_jobs=6)
-        score_list.append(np.mean(scores))
-
-        mean_rmse = np.mean(score_list)
+        scores = cross_val_score(model_pipe, X_train, y_train, scoring='neg_root_mean_squared_error', cv=6, n_jobs=6)
+        mean_rmse = np.mean(scores)
     
         return mean_rmse
 
-    mean_study = optuna.create_study(direction='minimize', study_name=mean_study_name, storage=storage, load_if_exists=True)
+    mean_study = optuna.create_study(direction='maximize', study_name=mean_study_name, storage=storage, load_if_exists=True)
     mean_study.optimize(objective, n_trials=240, n_jobs=8)
 
     results = {}

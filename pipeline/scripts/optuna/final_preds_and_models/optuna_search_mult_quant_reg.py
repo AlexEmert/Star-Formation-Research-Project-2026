@@ -240,7 +240,7 @@ def main():
     results['best_mean_error'] = mean_study.best_value
     results['best_mean_params'] = mean_study.best_params
 
-    with open(here("pipeline/results", f"{args.response}_t{args.threshold}-single_model.pkl"), "wb") as file:
+    with open(here("pipeline/scripts/optuna/final_preds_and_models/results", f"{args.response}_t{args.threshold}-single_model.pkl"), "wb") as file:
         pickle.dump(results, file)
 
 

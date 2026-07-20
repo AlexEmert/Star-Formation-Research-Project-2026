@@ -3,7 +3,7 @@
 RESPONSES=("LRATIO" "LM" "L_BOL" "MASS" "DIAM" "SURF_DENS" "TEMP" "T_BOL")
 
 # just in case something goes wrong, automatically makes results and logs folders
-mkdir -p ../logs ../results
+mkdir -p ./logs ./results
 
 
 for r in "${RESPONSES[@]}"; do

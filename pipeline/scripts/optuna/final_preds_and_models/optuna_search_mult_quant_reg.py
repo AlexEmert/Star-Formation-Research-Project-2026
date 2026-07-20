@@ -81,7 +81,7 @@ def main():
     alphas = [0.025, 0.5, 0.975]
 
     # in order to save the history between trials
-    study_name = "final_predictive_study"
+    study_name = "final_predictive_quantile_study"
 
     def objective(trial):
         # threshold for dropping values
@@ -164,7 +164,7 @@ def main():
     study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
 
 
-    mean_study_name = "final_predictive_study_mean"
+    mean_study_name = "final_predictive_mean_study"
 
     # mean model (optimizing a single non-quantile regression model)
     def objective(trial):

@@ -87,8 +87,10 @@ def main():
         # threshold for dropping values
         error_threshold = trial.suggest_float("error_threshold", 0, 5, step=0.25)
 
-        X.loc[X[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
+        X_threshold = X.copy()
+
+        X_threshold.loc[X_threshold[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
+        X_train, X_test, y_train, y_test = train_test_split(X_threshold, y, test_size = 0.2, random_state=2026)
 
         # pipeline steps
         scalers = trial.suggest_categorical("scalers", ['standard', 'robust', 'none'])
@@ -171,8 +173,10 @@ def main():
         # threshold for dropping values
         error_threshold = trial.suggest_float("error_threshold", 0, 5, step=0.25)
 
-        X.loc[X[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
+        X_threshold_mean = X.copy()
+
+        X_threshold_mean.loc[X_threshold_mean[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
+        X_train, X_test, y_train, y_test = train_test_split(X_threshold_mean, y, test_size = 0.2, random_state=2026)
 
         # pipeline steps
         scalers = trial.suggest_categorical("scalers", ['standard', 'robust', 'none'])

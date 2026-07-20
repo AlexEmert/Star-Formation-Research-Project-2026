@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna/final_preds_and_models/optuna_search_mult_quant_reg.py", line 2, in <module>
+    from ratio_function import RatioGenerator, LogRatioGenerator, pinball_loss_function, check_and_expand_bounds_optuna
+ModuleNotFoundError: No module named 'ratio_function'

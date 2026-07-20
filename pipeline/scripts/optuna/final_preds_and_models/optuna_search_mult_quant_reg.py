@@ -85,7 +85,7 @@ def main():
 
     def objective(trial):
         # threshold for dropping values
-        error_threshold = trial.suggest_float("error_threshold", 0, 5)
+        error_threshold = trial.suggest_float("error_threshold", 0, 5, step=0.25)
 
         X.loc[X[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
@@ -169,7 +169,7 @@ def main():
     # mean model (optimizing a single non-quantile regression model)
     def objective(trial):
         # threshold for dropping values
-        error_threshold = trial.suggest_float("error_threshold", 0, 5)
+        error_threshold = trial.suggest_float("error_threshold", 0, 5, step=0.25)
 
         X.loc[X[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=2026)
@@ -240,7 +240,7 @@ def main():
     results['best_mean_error'] = mean_study.best_value
     results['best_mean_params'] = mean_study.best_params
 
-    with open(here("pipeline/scripts/optuna/final_preds_and_models/results", f"{args.response}_t{args.threshold}-single_model.pkl"), "wb") as file:
+    with open(here("pipeline/scripts/optuna/final_preds_and_models/results", f"{args.response}_final_predictive_models.pkl"), "wb") as file:
         pickle.dump(results, file)
 
 

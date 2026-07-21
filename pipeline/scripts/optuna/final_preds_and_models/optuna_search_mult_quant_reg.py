@@ -149,7 +149,7 @@ def main():
     
         return mean_overall_loss
 
-    study = optuna.create_study(direction='minimize', study_name=study_name, storage=storage, load_if_exists=True)
+    study = optuna.create_study(direction='maximize', study_name=study_name, storage=storage, load_if_exists=True)
     study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
 
 

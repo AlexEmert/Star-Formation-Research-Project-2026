@@ -68,7 +68,7 @@ def main():
     alphas = [0.025, 0.5, 0.975]
 
     # in order to save the history between trials
-    study_name = "quantile_study_7_20_26"
+    study_name = "quantile_study_7_21_26"
 
     def objective(trial):
         # threshold for dropping values

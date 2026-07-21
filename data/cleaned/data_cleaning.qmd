@@ -4,7 +4,16 @@ execute:
  jupyter: math4025
 ---
 
-## In this script, I take the data from the original text files that they were in, drop flux density photometry values based on their respective problematic flags (those being Saturation, no source, and poor confidence), and combine the photometry data with the cross matched longer wavelength fluxes. This extensive dataframe is save as `MIRION_cleaned_all_fluxes.csv`
+## In this script, I take the data from the original text files that they were in, 
+# drop flux density photometry values based on their respective problematic flags (those being Saturation, no source, and poor confidence) 
+# and combine the photometry data with the cross matched longer wavelength fluxes 
+# This extensive dataframe is save as `MIRION_cleaned_all_fluxes.csv`
+
+## then, the file MIRION_cleaned_everything.csv is created, which contains all of the relevant data to the project cleaned based on a few ideas:
+# first, relevant flags were used to remove uncertain data
+# secondly, additional uncertainties were added from data gained in the middle of the project
+
+# MIRION_cleaned_everything is used for the majority of the relevant project models
 
 ```{python}
 import pandas as pd
@@ -12,6 +21,7 @@ import numpy as np
 from pyhere import here
 ```
 
+# reads the original MIRION data
 ```{python}
 phot_colspecs = [
     (0, 4),    # YB
@@ -54,6 +64,9 @@ phot = pd.read_fwf(
 phot.head()
 ```
 
+# make corresponding new columns for each one the flags that i want to drop
+# these flags (the bad ones) consist of the saturation flag, the no source flag, and the poor confidence flag
+# the other two flags, multi source and extra round are fine to keep in the dataset
 ```{python}
 phot['f_SAT_F8'] = phot['f_SAT'].str[0].astype(int)
 phot['f_SAT_F12'] = phot['f_SAT'].str[1].astype(int)
@@ -74,6 +87,7 @@ phot.head()
 phot['e_F8'].describe()
 ```
 
+# then I make the corresponding value Nan if it is flagged there
 ```{python}
 phot.loc[phot['f_SAT_F8'] == 1, 'F8'] = np.nan
 phot.loc[phot['f_SAT_F12'] == 1, 'F12'] = np.nan
@@ -93,10 +107,7 @@ phot.loc[2318, 'F12'] = np.nan
 phot['F12'].describe()
 ```
 
-## added 6/25/26
-## looking at if dropping those columns correspond to negative uncertainties
-
-## if old MIRION_cleaned_everything.csv is needed, remove this cell
+# then, I also drop the corresponding uncertainty to the flag as well, because it is also untrustworthy
 ```{python}
 phot.loc[phot['f_SAT_F8'] == 1, 'e_F8'] = np.nan
 phot.loc[phot['f_SAT_F12'] == 1, 'e_F12'] = np.nan
@@ -114,7 +125,7 @@ phot.loc[559, 'e_F12'] = np.nan
 phot.loc[2318, 'e_F12'] = np.nan
 ```
 
-
+# now I remove those intermediate stage columns
 ```{python}
 phot = phot.drop(columns=[
     'f_SAT_F8',
@@ -140,36 +151,14 @@ phot = phot.drop(columns=[
 print(phot.columns.tolist())
 ```
 
+# cleaned mirion flux data
 ```{python}
 phot.to_csv('MIRION_phot_cleaned.csv', index=False)
 ```
 
-```{python}
-phot_extra_cleaned = phot.drop(columns = [
-    'e_F8',
-    'e_F12',
-    'e_F24',
-    'e_F70',
-    'N8', 
-    'N12', 
-    'N24', 
-    'N70', 
-    'f_SAT', 
-    'f_MULTI', 
-    'f_NOSRC', 
-    'f_PCONF', 
-    'f_CEXT'
-])
-```
 
-```{python}
-phot_extra_cleaned.to_csv('MIRION_phot_fluxes.csv', index=False)
-```
-
-
-
-
-## making final "master" dataset for final models that can be trimmed within scripts
+# now, I add the cross-matched longer wavelengths, distance, and physical properties
+# to make a final "master" dataset for final models that can be trimmed within scripts
 
 ```{python}
 dist_colspecs = [
@@ -191,7 +180,7 @@ dist_colspecs = [
   (93, 98)     #ARM_R2
 ]
 dist_colnames = ['YB', 'DIST', 'e_DIST', 'DIST_C', 'DIST_M', 'e_DIST_M', 'STAT_M', 'PFAR', 'DIST_R1', 'e_DIST_R1', 'PINT_R1', 'ARM_R1', 'DIST_R2', 'e_DIST_R2', 'PINT_R2', 'ARM_R2']
-print(len(dist_colnames), len(dist_colspecs))
+
 dist = pd.read_fwf(
     here("data/uncleaned", "MRT-dist.txt"),
     colspecs=dist_colspecs,
@@ -200,14 +189,17 @@ dist = pd.read_fwf(
     encoding='utf-8-sig',
     na_values=[999.0000]
 )
-dist.head()
+
 dist = dist.drop(columns = ['e_DIST', 'DIST_C', 'DIST_M', 'e_DIST_M', 'STAT_M', 'PFAR', 'DIST_R1', 'e_DIST_R1', 'PINT_R1', 'ARM_R1', 'DIST_R2', 'e_DIST_R2', 'PINT_R2', 'ARM_R2'])
 ```
 
 ```{python}
+# load in previously made data to join
 mirion = pd.read_csv(here('data/cleaned', 'MIRION_cleaned_all_fluxes.csv'))
 mirion = mirion.drop(columns = ['F8', 'F12', 'F24', 'F70'])
+
 phot_read = pd.read_csv(here('data/cleaned', 'MIRION_phot_cleaned.csv'))
+# drop the flags that were already used up above
 phot_read = phot_read.drop(columns=['f_SAT', 'f_NOSRC', 'f_PCONF'])
 ```
 
@@ -226,7 +218,9 @@ total_data.to_csv(here('data/cleaned', 'MIRION_cleaned_everything.csv'), index=F
 
 # changes to `MIRION_cleaned_everything`
 
-## loading uncertainties from wades csv
+# as of about 7/10/26, I was then given a dataset containing additional uncertainties for the longer wavelengths
+# this is contained in `data/uncleaned/PlotMaster-10fluxes-GWC.csv`
+# below, i will add this to the master dataset, `MIRION_cleaned_everything.csv`
 
 ```{python}
 phot = pd.read_csv(here('data/cleaned', 'MIRION_cleaned_everything.csv'))
@@ -235,7 +229,7 @@ uncertainties = pd.read_csv(here('data/uncleaned', 'PlotMaster-10fluxes-GWC.csv'
 
 ```{python}
 new_uncertainties = uncertainties[['e_F160', 'e_F250', 'e_F350', 'e_F500', 'e_F870', 'e_F1100', 'YB']]
-phot_with_unc = pd.merge(phot, new_uncertainties, on='YB', how='inner')
+phot_with_unc = pd.merge(phot,  new_uncertainties, on='YB', how='inner')
 ```
 
 ```{python}

@@ -1,0 +1,2 @@
+After discussing with the physicists (Dr. Charles Kerton and Dr. Grace Wolf-Chase),
+the possiblity of logging temp as a response variable was found to be not optimal.

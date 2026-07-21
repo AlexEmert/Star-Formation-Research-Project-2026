@@ -5,8 +5,9 @@ This repo contains all of my work relating to predicting physical properties of 
 
 `pipeline`: contains the scripts and other files that send modelling jobs to the Borah cluster
   - `/scripts`: contains the scripts that sends jobs to Borah HPC cluster, and fits models using Bayesian Optimization with sk-optimize
-  - `/graphing`: contains a variety of graphs derived from bayesian optimization, and will be updated to include feature importances, response variable distributions, and more
   - `/results` and results-related Jupyter notebook files: contains my results and statistical analysis of them
+
+  - `/graphing`: contains a variety of graphs derived from bayesian optimization, and will be updated to include feature importances, response variable distributions, and more
   - `/spaces`: while not the most readable in pkl files (dictionaries found in `scratch/notebooks`), contain the search space of parameters and preprocessing being optimized in search script
 
 `data`: contains all of the cleaned and uncleaned data that will be used, including photometry, distance, cross-matched sources, and anything related to work done on the MIRION catalog

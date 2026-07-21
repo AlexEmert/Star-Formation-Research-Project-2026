@@ -10,4 +10,4 @@
 . ~/.bashrc
 mamba activate starform-alex
 
-python graph_skopt.py --response $RESP --space $SPACE --iters "200"
+python graph_skopt.py --response "$RESPONSE" --space "$SPACE" --iters "200"

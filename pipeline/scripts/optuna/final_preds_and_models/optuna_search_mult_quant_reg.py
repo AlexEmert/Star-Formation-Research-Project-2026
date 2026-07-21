@@ -68,7 +68,7 @@ def main():
     alphas = [0.025, 0.5, 0.975]
 
     # in order to save the history between trials
-    study_name = "quantile_study_7_21_26"
+    study_name = "quantile_study_7_21_26_final"
 
     def objective(trial):
         # threshold for dropping values
@@ -76,7 +76,8 @@ def main():
 
         X_threshold = X.copy()
 
-        X_threshold.loc[X_threshold[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
+        for wavelength in ['8', '12', '24', '70']:
+            X_threshold.loc[X_threshold[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
         X_train, X_test, y_train, y_test = train_test_split(X_threshold, y, test_size = 0.2, random_state=2026)
 
         # pipeline steps
@@ -153,7 +154,7 @@ def main():
     study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
 
 
-    mean_study_name = "mean_study_7_20_26"
+    mean_study_name = "mean_study_7_21_26"
 
     # mean model (optimizing a single non-quantile regression model)
     def objective(trial):
@@ -162,7 +163,8 @@ def main():
 
         X_threshold_mean = X.copy()
 
-        X_threshold_mean.loc[X_threshold_mean[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
+        for wavelength in ['8', '12', '24', '70']:
+            X_threshold_mean.loc[X_threshold_mean[f'se_F{wavelength}'] > error_threshold, f'F{wavelength}'] = np.nan
         X_train, X_test, y_train, y_test = train_test_split(X_threshold_mean, y, test_size = 0.2, random_state=2026)
 
         # pipeline steps

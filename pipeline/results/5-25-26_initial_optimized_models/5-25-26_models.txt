@@ -1,0 +1,5 @@
+This folder contains the very first models that were used with the pipeline. 
+By pipeline, I mean the script that ran multiple jobs on Borah, one for each model.
+These models are probably not very good. 
+Each file contains a unique combination of response variable, model method, and feature engineering (ratio vs. log ratio)
+These are probably not relevant, but they contain past models that can be viewed as intermediate between completely optimized and baseline models.

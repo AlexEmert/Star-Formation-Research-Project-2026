@@ -51,7 +51,7 @@ def main():
     flux_cols = ['F1100', 'F870', 'F500', 'F350', 'F250', 'F160', 'F70', 'F24', 'F12', 'F8']
 
     # reads the space that contains a pipe with preprocessing/model, and a search space created for that model
-    with open(here("pipeline/spaces", args.space), "rb") as file:
+    with open(here("graphing/skopt_graphs/spaces/old_spaces", args.space), "rb") as file:
         search_space = pickle.load(file)
 
     opt = BayesSearchCV(
@@ -66,23 +66,23 @@ def main():
 
     opt.fit(X_train, y_train)
 
-    first_plot_path = here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")
+    first_plot_path = here('graphing/skopt_graphs/graphs', f"{args.response}_convergence_plot.png")
     first_plot_path.parent.mkdir(parents=True, exist_ok=True)
 
     plt.figure(figsize=(8, 6))
     plot_convergence(opt.optimizer_results_[-1])
     plt.title(f"Convergence Plot: Best {args.response} Model Optimization")
-    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
+    plt.savefig(str(here('graphing/skopt_graphs/graphs', f"{args.response}_convergence_plot.png")), dpi=300, bbox_inches='tight')
 
     #objective plot
     plot_objective(opt.optimizer_results_[-1], size=2)
     plt.title(f"Objective Plot: Best {args.response} Model Optimization")
-    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
+    plt.savefig(str(here('graphing/skopt_graphs/graphs', f"{args.response}_objective_plot.png")), dpi=300, bbox_inches='tight')
 
     # evaluation plot
     plot_evaluations(opt.optimizer_results_[-1], size=2)
     plt.title(f"Evaluation Plot: Best {args.response} Model Optimization")
-    plt.savefig(str(here('pipeline/graphing/graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
+    plt.savefig(str(here('graphing/skopt_graphs/graphs', f"{args.response}_evaluation_plot.png")), dpi=300, bbox_inches='tight')
 
 if __name__ == "__main__":
     main()

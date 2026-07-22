@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 188, in <module>
-    main()
-    ~~~~^^
-  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 156, in main
-    y_preds = opt.best_estimattor_.predict(X_test)
-              ^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'BayesSearchCV' object has no attribute 'best_estimattor_'. Did you mean: 'best_estimator_'?

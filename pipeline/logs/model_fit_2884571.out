@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 104, in <module>
-    main()
-    ~~~~^^
-  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/search.py", line 92, in main
-    space_name = os.path.splitext(os.path.basename(args.space_file))[0]
-                                                   ^^^^^^^^^^^^^^^
-AttributeError: 'Namespace' object has no attribute 'space_file'

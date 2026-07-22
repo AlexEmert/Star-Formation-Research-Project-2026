@@ -1,4 +1,0 @@
-usage: search.py [-h] --response RESPONSE [--iters ITERS] [--data DATA]
-                 [--threshold THRESHOLD]
-search.py: error: the following arguments are required: --response/-r
-bash: --response: command not found

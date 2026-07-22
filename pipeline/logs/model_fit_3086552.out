@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 33, in <module>
-    storage = JournalStorage(JournalFileBackend("bsuscratch/alexanderemert/optuna_journal.log", lock_obj=lock))
-                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/bsuscratch/alexanderemert/miniforge3/envs/starform-alex/lib/python3.14/site-packages/optuna/storages/journal/_file.py", line 63, in __init__
-    open(self._file_path, "ab").close()  # Create a file if it does not exist.
-    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'bsuscratch/alexanderemert/optuna_journal.log'

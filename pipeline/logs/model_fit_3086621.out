@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 228, in <module>
-    main()
-    ~~~~^^
-  File "/bsuhome/alexanderemert/Research/Star-Formation-Research-Project-2026/pipeline/scripts/optuna_search_mult_quant_reg.py", line 190, in main
-    if 'search_space' not in study.user_attrs:
-                             ^^^^^
-UnboundLocalError: cannot access local variable 'study' where it is not associated with a value

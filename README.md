@@ -1,19 +1,20 @@
 # Star-Formation-Research-Project-2026
-This repo contains all of my work relating to predicting physical properties of yellowballs for my research with Dr. Friedlander and Dr. Devine at the College of Idaho.
+This repo contains all of my work relating to predicting physical properties of yellowballs for my research with Dr. Friedlander and Dr. Devine at the College of Idaho during the summer of 2026.
 
 ----------Important Information---------
 
-`pipeline`: contains the scripts and other files that send modelling jobs to the Borah cluster
-  - `/scripts`: contains the scripts that sends jobs to Borah HPC cluster, and fits models using Bayesian Optimization with sk-optimize
-  - `/results` and results-related Jupyter notebook files: contains my results and statistical analysis of them
+`models`: contains the majority of the relevant scripts and modeling information, split into 3 folders.
+  - `full_models`: contains the scripts that created the optimized models containing ALL available wavlengths, up to 1100 microns. Note, these include cross matched sources. The results from these models is contained in `results_final_6-25-26.csv` in the above directory. These models were created using BayesSearchCV in skopt.
+  - `predictive_models`: contains the scripts that created the optimized models for ONLY the 4 MIRION fluxes, which were used to predict the properties for the rest of the yellowballs in the catalog. These predictions are stored in the folder `predictions`. These models were created near the end of summer after learning the syntax for Optuna, a more flexible optimization package. 
+  - `old_models`: contains a variety of not very organized intermediate models that are not the most optimized given the overall information. Within the old models directory, there are the following subdirectories:
+      - `5-25-26_intial_optimized_models`: the success of these models occured due to an error in which the response variable was included in the model as a feature.
+      - `first_optuna_models`: includes all of the scripts used to learn the syntax for optuna. A variety of options and pipelines were tested, with the best one used for the predictive models. Options tested included an expanding boundary function that did not end up working in the `ratio_function.py` file, and more.
+      - other subdirectories consist of inefficient models and other scratch testing that was reworked before creating the final full and predictive models.
+   
+`graphing`: contains a variety of graphing scripts
 
-  - `/graphing`: contains a variety of graphs derived from bayesian optimization, and will be updated to include feature importances, response variable distributions, and more
-  - `/spaces`: while not the most readable in pkl files (dictionaries found in `scratch/notebooks`), contain the search space of parameters and preprocessing being optimized in search script
+`data`: contains both clean and unclean data, along with the main script used to the clean said data. The most used csv that contains all the relevant information is `MIRION_cleaned_everything.csv`.
 
-`data`: contains all of the cleaned and uncleaned data that will be used, including photometry, distance, cross-matched sources, and anything related to work done on the MIRION catalog
+`predictions`: contains the predicted intervals for the remainder of the yellowballs in the MIRION catalog unable to be crossmatched. Each csv corresponds to a different physical property. 
 
-`jobs_and_scripts` (old): first iteration of jobs for borah cluster. inefficient and clunky, which is why it was replaced with pipeline-style scripting
-
-`scratch`: contains various exploratory files, including data cleaning, exploratory data anlysis, and some PCA experimentation
-
-.vscode and catboost_info folders can be ignored
+`scratch`: contains a variety of testing and other work, incuding PCA, SVR, initial Catboost models, and more. 

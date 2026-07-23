@@ -84,6 +84,7 @@ def main():
     # other flux cols: 'F1100', 'F870', 'F500', 'F350', 'F250', 'F160'
     flux_cols = ['F70', 'F24', 'F12', 'F8']
 
+    # load the search space params and model pipeline from elsewhere (file paths not correct anymore)
     with open(here("pipeline/spaces", "space_list.pkl"), "rb") as file:
         search_space_list = pickle.load(file)
 

@@ -187,6 +187,10 @@ def main():
         imputers = trial.suggest_categorical("imputers", ['mean', 'median', 'none'])
         imputer = None
 
+        # note as of 11/1/26:
+        # the below code has a bug in which imputer is assigned incorrectly to a certain imputer strategy
+        # not much can be done now, but clearly this could have an impact on the mean predictions
+
         if imputers == 'mean':
             imputer == SimpleImputer(strategy='mean')
         elif imputers == 'median': 

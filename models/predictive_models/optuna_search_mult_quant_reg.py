@@ -68,7 +68,7 @@ def main():
     alphas = [0.025, 0.5, 0.975]
 
     # in order to save the history between trials
-    study_name = "quantile_study_7_21_26_final"
+    study_name = "quantile_study_11_8_26_revisited_after_bug"
 
     def objective(trial):
         # threshold for dropping values
@@ -101,11 +101,11 @@ def main():
         imputer = None
 
         if imputers == 'mean':
-            imputer == SimpleImputer(strategy='mean')
+            imputer = SimpleImputer(strategy='mean')
         elif imputers == 'median': 
-            imputer == SimpleImputer(strategy='median')
+            imputer = SimpleImputer(strategy='median')
         else:
-            imputer == 'passthrough'
+            imputer = 'passthrough'
 
         # xgboost parameters
         xgboost_params = {
@@ -154,7 +154,7 @@ def main():
     study.optimize(objective, n_trials=int(args.iters), n_jobs=8)
 
 
-    mean_study_name = "mean_study_7_21_26"
+    mean_study_name = "mean_study_11_8_26_revisited_after_bug"
 
     # mean model (optimizing a single non-quantile regression model)
     def objective(trial):
@@ -192,11 +192,11 @@ def main():
         # not much can be done now, but clearly this could have an impact on the mean predictions
 
         if imputers == 'mean':
-            imputer == SimpleImputer(strategy='mean')
+            imputer = SimpleImputer(strategy='mean')
         elif imputers == 'median': 
-            imputer == SimpleImputer(strategy='median')
+            imputer = SimpleImputer(strategy='median')
         else:
-            imputer == 'passthrough'
+            imputer = 'passthrough'
 
         # xgboost parameters
         xgboost_params_single_model = {
@@ -233,7 +233,7 @@ def main():
     results['best_mean_error'] = mean_study.best_value
     results['best_mean_params'] = mean_study.best_params
 
-    with open(here("pipeline/scripts/optuna/final_preds_and_models/results", f"{args.response}_final_predictive_models.pkl"), "wb") as file:
+    with open(here("pipeline/models/predictive_models/results", f"{args.response}_predictive_models_11_8_26.pkl"), "wb") as file:
         pickle.dump(results, file)
 
 
